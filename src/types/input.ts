@@ -1,7 +1,7 @@
 import { InputValidationRule } from './input-rules';
 import { InputOptionsInterface } from './options';
 
-export type ComposedOptionsConfigSource = {
+export type OptionsConfigSource = {
   collection: string;
   model?: string;
 };
@@ -14,7 +14,7 @@ export type OptionsConfigDefinition = {
 };
 
 export type OptionsConfig = {
-  source: ComposedOptionsConfigSource;
+  source: OptionsConfigSource;
   definitions?: OptionsConfigDefinition;
 };
 

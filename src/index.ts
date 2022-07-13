@@ -18,6 +18,8 @@ export {
   TextAreaInput,
   FileInput,
   InputGroup,
+  OptionsConfig,
+  OptionsConfigDefinition
 } from './types';
 
 //

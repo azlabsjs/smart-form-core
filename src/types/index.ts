@@ -20,7 +20,7 @@ export {
   OptionsInputConfigInterface,
   InputConfigInterface,
   InputRequireIfConfig,
-  ComposedOptionsConfigSource,
+  OptionsConfigSource,
   OptionsConfigDefinition,
   OptionsConfig,
   InputGroup,

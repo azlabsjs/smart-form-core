@@ -2,7 +2,7 @@ import { buildBase } from './base';
 import { ControlInterface } from '../compact';
 import { buildRequiredIfConfig } from '../helpers/builders';
 import {
-  ComposedOptionsConfigSource,
+  OptionsConfigSource,
   OptionsConfigDefinition,
   OptionsInputConfigInterface as OptionsInput,
   OptionsConfig,
@@ -111,7 +111,7 @@ function createOptionsConfigFromDefinitions(definition: string) {
     source: {
       collection,
       model,
-    } as ComposedOptionsConfigSource,
+    } as OptionsConfigSource,
   } as OptionsConfig;
 }
 
