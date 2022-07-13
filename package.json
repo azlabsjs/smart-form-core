@@ -1,9 +1,11 @@
 {
-    "version": "0.1.10",
+    "version": "0.1.11",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/types/index.d.ts",
-    "files": ["dist/**/*"],
+    "files": [
+        "dist/**/*"
+    ],
     "engines": {
         "node": ">=14"
     },
@@ -38,13 +40,16 @@
     "name": "@azlabsjs/smart-form-core",
     "author": "azandrew-sidoine",
     "module": "dist/esm/index.js",
-    "size-limit": [{
-        "path": "dist/cjs/index.js",
-        "limit": "10 KB"
-    }, {
-        "path": "dist/esm/index.js",
-        "limit": "10 KB"
-    }],
+    "size-limit": [
+        {
+            "path": "dist/cjs/index.js",
+            "limit": "10 KB"
+        },
+        {
+            "path": "dist/esm/index.js",
+            "limit": "10 KB"
+        }
+    ],
     "devDependencies": {
         "@azlabsjs/ts-build": "^0.1.14",
         "@betterer/cli": "^5.3.6",
@@ -71,6 +76,6 @@
         "url": "https://github.com/azlabsjs/smart-form-core.git"
     },
     "publishConfig": {
-      "registry": "https://npm.pkg.github.com/@azlabsjs"
+        "registry": "https://npm.pkg.github.com/@azlabsjs"
     }
 }
