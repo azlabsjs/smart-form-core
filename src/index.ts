@@ -2,8 +2,6 @@
 export {
   FormConfigInterface,
   InputTypes,
-  CheckboxInputOption,
-  RadioInputOption,
   InputOption,
   FormsClient,
   FormsLoader,
@@ -11,7 +9,7 @@ export {
   InputValidationRule,
   InputConfigInterface,
   InputRequireIfConfig,
-  InputOptionInterface,
+  InputOptionsInterface,
   SelectOptionsClient,
   OptionsInputConfigInterface,
   TextInput,

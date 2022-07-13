@@ -1,5 +1,5 @@
 import { ObservableInput } from '../compact';
-import { InputOptionInterface } from './options';
+import { InputOptionsInterface } from './options';
 
 export interface SelectOptionsClient {
   //
@@ -7,5 +7,5 @@ export interface SelectOptionsClient {
    * @description Query list of select options from forms provider database
    *
    */
-  request(params: string | any[]): ObservableInput<InputOptionInterface>;
+  request(params: string | any[]): ObservableInput<InputOptionsInterface>;
 }

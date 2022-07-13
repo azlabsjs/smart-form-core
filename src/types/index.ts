@@ -11,10 +11,8 @@ export { FormConfigInterface, FormsClient } from './form';
 
 //
 export {
-  CheckboxInputOption,
-  RadioInputOption,
   InputOption,
-  InputOptionInterface,
+  InputOptionsInterface,
 } from './options';
 
 // Input interface

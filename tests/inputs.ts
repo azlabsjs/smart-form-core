@@ -14,7 +14,7 @@ export const userSelect = {
   type: 'select',
   classes: 'clr-input',
   optionsConfig:
-    'table:https://auth.lik.tg/api/v2/users|keyfield:id|groupfield:id|valuefield:label',
+    'table:https://auth.lik.tg/api/v2/users|keyfield:id|groupfield:id|valuefield:name',
   multiple: false,
   options: [],
 };

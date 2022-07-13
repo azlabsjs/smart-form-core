@@ -1,5 +1,5 @@
 import { InputValidationRule } from './input-rules';
-import { InputOptionInterface } from './options';
+import { InputOptionsInterface } from './options';
 
 export type ComposedOptionsConfigSource = {
   collection: string;
@@ -14,14 +14,14 @@ export type OptionsConfigDefinition = {
 };
 
 export type OptionsConfig = {
-  source: string | ComposedOptionsConfigSource;
+  source: ComposedOptionsConfigSource;
   definitions?: OptionsConfigDefinition;
 };
 
 // @internal
 export interface OptionsInputConfigInterface extends InputConfigInterface {
   optionsConfig?: OptionsConfig;
-  options: InputOptionInterface;
+  options: InputOptionsInterface;
 }
 
 /**

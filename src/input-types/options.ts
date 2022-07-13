@@ -12,6 +12,15 @@ import {
 } from '../types';
 import { getObjectProperty } from '@azlabsjs/js-object';
 
+function isValidHttpUrl(uri: string) {
+  try {
+    const url = new URL(uri);
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  } catch (_) {
+    return false;
+  }
+}
+
 /**
  * @internal
  * @description Build checkbox options from generic object returned by
@@ -19,71 +28,22 @@ import { getObjectProperty } from '@azlabsjs/js-object';
  *
  * @param values
  */
-function checkboxInputOptions(values: string[]) {
-  return values?.map((current, index) => {
+export function basicInputOptions(values: string[] | string) {
+  const _values =
+    typeof values === 'string' ? values.split('|') : (values as string[]);
+  return _values?.map((current) => {
     if (current.indexOf(':') !== -1) {
       const state = current.split(':');
       return {
         value: state[0].trim(),
-        checked: index === 0,
         description: state[1].trim(),
-      };
-    } else {
-      return {
-        value: isNaN(+current.trim()) ? current.trim() : +current.trim(),
-        checked: index === 0,
-        description: current.trim(),
-      };
-    }
-  });
-}
-
-// @internal
-/**
- * @description Build a radio input configuration from a list of options
- *
- * @param values
- */
-function radioInputOptions(values: string[]) {
-  return values.map((current, index) => {
-    if (current.indexOf(':') !== -1) {
-      const state = current.split(':');
-      return {
-        value: state[0].trim(),
-        checked: index === 0,
-        description: state[1].trim(),
-      };
-    } else {
-      return {
-        value: isNaN(+current.trim()) ? current.trim() : +current.trim(),
-        checked: index === 0,
-        description: current.trim(),
-      };
-    }
-  });
-}
-
-// @internal
-/**
- * @description Build select option config from generic option configuration
- * returned the option values configuration loader loader
- *
- * @param values
- */
-function selectInputOptions(values: string[]) {
-  return values.map((current: string) => {
-    if (current.indexOf(':') !== -1) {
-      const state = current.split(':');
-      return {
-        value: state[0].trim(),
         name: state[1].trim(),
-        description: state[1].trim(),
       } as InputOption;
     } else {
       return {
         value: isNaN(+current.trim()) ? current.trim() : +current.trim(),
-        name: current.trim(),
         description: current.trim(),
+        name: current.trim(),
       } as InputOption;
     }
   });
@@ -91,15 +51,13 @@ function selectInputOptions(values: string[]) {
 
 export function createInputOptionsFromList(
   input: InputConfigInterface,
-  source: string[]
+  source: string[] | string
 ) {
   switch (input.type) {
     case InputTypes.CHECKBOX_INPUT:
-      return checkboxInputOptions(source);
     case InputTypes.RADIO_INPUT:
-      return radioInputOptions(source);
     case InputTypes.SELECT_INPUT:
-      return selectInputOptions(source);
+      return basicInputOptions(source);
     default:
       return [];
   }
@@ -141,6 +99,7 @@ export function createInputOptionsFromQueryResult(
     : [];
 }
 
+// @internal
 function createOptionsConfigFromDefinitions(definition: string) {
   const components = definition.split('|') || [];
   //#region Initialize components
@@ -185,30 +144,43 @@ function createOptionsConfigFromDefinitions(definition: string) {
   } as OptionsConfig;
 }
 
-function createOptionsConfig(source: Partial<ControlInterface>) {
-  // Compile for deprecated properties definition
-  if (
-    typeof source.selectableModel !== 'undefined' &&
-    source.selectableModel !== null
-  ) {
-    return createOptionsConfigFromDefinitions(source.selectableModel ?? '');
-  }
-
-  if (
-    typeof source.optionsConfig !== 'undefined' &&
-    source.optionsConfig !== null
-  ) {
-    return createOptionsConfigFromDefinitions(source.optionsConfig ?? '');
-  }
-
+function createOptionsConfigFromDefault(definition: string) {
   return {
     definitions: {
       groupBy: 'id',
       valueBy: 'label',
       keyBy: 'id',
     },
-    source: source.selectableValues,
+    source: {
+      collection: definition,
+    },
   } as OptionsConfig;
+}
+
+export function createOptionsConfig(source: Partial<ControlInterface>) {
+  // Compile for deprecated properties definition
+
+  const optionsConfig =
+    source.selectableModel ??
+    source.optionsConfig ??
+    source.selectableValues ??
+    undefined;
+  if (typeof optionsConfig === 'undefined' || optionsConfig === null) {
+    return undefined;
+  }
+
+  // Case an HTTP url is configured as option config definition
+  if (isValidHttpUrl(optionsConfig)) {
+    return createOptionsConfigFromDefault(optionsConfig);
+  }
+
+  // Case option configuration is configured on a model based configuration
+  if (optionsConfig.match(/table:/) && optionsConfig.match(/keyfield:/)) {
+    return createOptionsConfigFromDefinitions(optionsConfig);
+  }
+
+  // Default case
+  return createOptionsConfigFromDefault(optionsConfig);
 }
 
 /**
