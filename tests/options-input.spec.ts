@@ -1,8 +1,8 @@
 import {
   basicInputOptions,
   buildSelectableInput,
-  createInputOptionsFromList,
-  createInputOptionsFromQueryResult,
+  mapStringListToInputOptions,
+  mapIntoInputOptions,
   createOptionsConfig,
 } from '../src/input-types/options';
 import { buildTextInput } from '../src/input-types/text';
@@ -26,16 +26,16 @@ describe('Test option input builder and helperr functions', () => {
     expect(values[1].description).toBe('Non');
   });
 
-  it('createInputOptionsFromList should empty array if input type neither checkbox, nor select nor radio', () => {
-    const values = createInputOptionsFromList(
+  it('basicListToInputOptions should empty array if input type neither checkbox, nor select nor radio', () => {
+    const values = mapStringListToInputOptions(
       buildTextInput(descriptionText),
       'Oui|Non'
     );
     expect(values).toEqual([]);
   });
 
-  it('createInputOptionsFromList should return an array of input config if input type is checkbox, select or radio', () => {
-    const values = createInputOptionsFromList(
+  it('basicListToInputOptions should return an array of input config if input type is checkbox, select or radio', () => {
+    const values = mapStringListToInputOptions(
       {
         label: '',
         formControlName: '',
@@ -48,7 +48,7 @@ describe('Test option input builder and helperr functions', () => {
   });
 
   it('createInputOptionsFromQueryResult should return an array of input config if input type is checkbox, select or radio', () => {
-    const values = createInputOptionsFromQueryResult(
+    const values = mapIntoInputOptions(
       buildSelectableInput(userSelect),
       [
         {

@@ -17,6 +17,7 @@ export {
   NumberInput,
   TextAreaInput,
   FileInput,
+  InputGroup,
 } from './types';
 
 //
@@ -28,6 +29,7 @@ export {
   copyform,
   groupControlsBy,
   setControlChildren,
+  isValidHttpUrl
 } from './helpers';
 
 //
@@ -38,3 +40,12 @@ export {
   Form,
   Option,
 } from './models';
+
+export {
+  FormInterface,
+  ControlGroupInterface,
+  ControlInterface,
+  ObservableInput,
+} from './compact';
+
+export { mapIntoInputOptions } from './input-types/options';
