@@ -1,3 +1,5 @@
+import { OptionsConfig } from '../types';
+
 /**
  * // @internal
  * Type definition of API forms structure
@@ -39,7 +41,7 @@ export interface ControlInterface {
   maxDate?: string;
   selectableValues?: string;
   selectableModel?: string;
-  optionsConfig?: string;
+  optionsConfig?: string | OptionsConfig;
   modelFilters?: string;
   multiple: number | boolean;
   controlGroupKey?: string | number;

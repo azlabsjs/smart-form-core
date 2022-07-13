@@ -53,15 +53,15 @@ describe('Test option input builder and helperr functions', () => {
       [
         {
           id: 1,
-          label: 'ayiek18',
+          name: 'ayiek18',
         },
         {
           id: 10,
-          label: 'asmyns14',
+          name: 'asmyns14',
         },
         {
           id: 11,
-          label: 'benji20',
+          name: 'benji20',
         },
       ]
     );
@@ -93,9 +93,42 @@ describe('Test option input builder and helperr functions', () => {
     expect(config?.source.model).toEqual(undefined);
   });
 
+  it('createOptionsConfig should return an Option Config type when called on option model configurations', () => {
+    const config = createOptionsConfig({
+      selectableModel:
+        'table:users|model:\\App\\Models\\Users|keyfield:id|valuefield:name',
+    });
+    expect(config?.definitions?.groupBy).toEqual(undefined);
+    expect(config?.definitions?.keyBy).toEqual('id');
+    expect(config?.definitions?.valueBy).toEqual('name');
+    expect(config?.source?.collection).toEqual('users');
+    expect(config?.source.model).toEqual('\\App\\Models\\Users');
+  });
+
   it('createOptionsConfig should return an Option Config type when called on an inline list configuration', () => {
     const config = createOptionsConfig({
       selectableValues: 'table:Table|chair:Chair',
+    });
+    expect(config?.definitions?.groupBy).toEqual('id');
+    expect(config?.definitions?.keyBy).toEqual('id');
+    expect(config?.definitions?.valueBy).toEqual('label');
+    expect(config?.source?.collection).toEqual('table:Table|chair:Chair');
+    expect(config?.source.model).toEqual(undefined);
+  });
+
+  it('createOptionsConfig should return an Option Config type when called on a pre-build option config object', () => {
+    const config = createOptionsConfig({
+      optionsConfig: {
+        definitions: {
+          keyBy: 'id',
+          groupBy: 'id',
+          valueBy: 'label',
+          filters: undefined,
+        },
+        source: {
+          collection: 'table:Table|chair:Chair',
+        },
+      },
     });
     expect(config?.definitions?.groupBy).toEqual('id');
     expect(config?.definitions?.keyBy).toEqual('id');

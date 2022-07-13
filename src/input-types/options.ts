@@ -108,6 +108,7 @@ function createOptionsConfigFromDefinitions(definition: string) {
   let valueBy!: string;
   let collection!: string;
   let model!: string;
+  let filters!: string;
   //#endregion Initialiaze components
   for (const component of components) {
     if (component.match(/keyfield:/)) {
@@ -121,14 +122,21 @@ function createOptionsConfigFromDefinitions(definition: string) {
 
     if (component.match(/groupfield:/)) {
       groupBy = component.replace('groupfield:', '');
+      continue;
     }
 
     if (component.match(/table:/)) {
       collection = component.replace('table:', '');
+      continue;
     }
 
     if (component.match(/model:/)) {
       model = component.replace('model:', '');
+      continue;
+    } //
+    if (component.match(/filters:/)) {
+      filters = component.replace('filters:', '');
+      continue;
     }
   }
   return {
@@ -136,6 +144,7 @@ function createOptionsConfigFromDefinitions(definition: string) {
       keyBy,
       valueBy,
       groupBy,
+      filters,
     } as OptionsConfigDefinition,
     source: {
       collection,
@@ -165,6 +174,11 @@ export function createOptionsConfig(source: Partial<ControlInterface>) {
     source.optionsConfig ??
     source.selectableValues ??
     undefined;
+
+  if (typeof optionsConfig === 'object' && optionsConfig !== null) {
+    return optionsConfig as OptionsConfig;
+  }
+
   if (typeof optionsConfig === 'undefined' || optionsConfig === null) {
     return undefined;
   }
