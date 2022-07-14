@@ -39,36 +39,34 @@ export interface OptionsInputConfigInterface extends InputConfigInterface {
 export interface InputConfigInterface {
   label: string;
   type: string;
-  formControlName: string;
+  name: string;
   classes: string;
-  requiredIf?: InputRequireIfConfig;
-  rules?: InputValidationRule;
   placeholder?: string;
-  value?: string | any;
+  value?: any;
   disabled?: boolean;
   readOnly?: boolean;
-  descriptionText?: string;
-  formControlGroupKey?: string | number;
-  formControlIndex?: number;
+  description?: string;
+  group?: string | number;
+  index?: number;
   hidden?: boolean;
   isRepeatable: boolean;
-  uniqueCondition?: string;
+  unique?: string;
   containerClass: string;
   multiple?: boolean;
+  rules?: InputValidationRule;
+  requiredIf?: InputRequireIfConfig;
 }
 
 // @internal
 export interface InputRequireIfConfig {
-  formControlName: string;
+  name: string;
   values: any[];
 }
-
 
 // @internal
 export interface InputGroup extends InputConfigInterface {
   children: InputConfigInterface[];
 }
-
 
 // @internal
 export interface DateInput extends InputConfigInterface {
@@ -78,7 +76,6 @@ export interface DateInput extends InputConfigInterface {
   inputFormat?: string;
 }
 
-
 // @internal
 export interface FileInput extends InputConfigInterface {
   uploadUrl?: string;
@@ -87,13 +84,11 @@ export interface FileInput extends InputConfigInterface {
   maxFileSize: number;
 }
 
-
 // @internal
 export interface NumberInput extends InputConfigInterface {
   min: number;
   max?: number;
 }
-
 
 // @internal
 export interface TextInput extends InputConfigInterface {
@@ -101,8 +96,6 @@ export interface TextInput extends InputConfigInterface {
   pattern?: string;
   minLength?: number;
 }
-
-
 
 // @internal
 export interface TextAreaInput extends InputConfigInterface {

@@ -56,7 +56,7 @@ export function buildRequiredIfConfig(config: string) {
     values = [...values, part];
   }
   return {
-    formControlName: parts[0].trim(),
+    name: parts[0].trim(),
     values,
   };
 }

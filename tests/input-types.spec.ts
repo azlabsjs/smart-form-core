@@ -13,21 +13,21 @@ describe('Test input types builder functions', () => {
   it('should test build base type function', () => {
     const input = buildBase(userSelect);
     expect(input.classes).toEqual('clr-input');
-    expect(input.formControlIndex).toEqual(1);
-    expect(input.formControlName).toBe('user');
+    expect(input.index).toEqual(1);
+    expect(input.name).toBe('user');
     expect(input.isRepeatable).toEqual(false);
     expect(input.multiple).toEqual(false);
     expect(input.placeholder).toBe('...');
     expect(input.hidden).toEqual(false);
     expect(input.disabled).toEqual(false);
-    expect(input.descriptionText).toEqual(undefined);
+    expect(input.description).toEqual(undefined);
   });
 
   it('should test build date input', () => {
     const input = buildDateInput(birthDate);
     expect(input.classes).toEqual('clr-input');
-    expect(input.formControlIndex).toEqual(3);
-    expect(input.formControlName).toBe('birthdate');
+    expect(input.index).toEqual(3);
+    expect(input.name).toBe('birthdate');
     expect(input.containerClass).toEqual('clr-col-sm-12 clr-col-md-6');
     expect(input.minDate).toEqual('1994-05-10');
     expect(input.maxDate).toBe(

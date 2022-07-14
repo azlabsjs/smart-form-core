@@ -3,24 +3,26 @@ import { InputConfigInterface, InputTypes } from '../types';
 
 // @internal
 export function buildBase(source: Partial<ControlInterface>) {
-  const index = source.controlIndex;
+  const index =
+    typeof source.controlIndex === 'undefined' || source.controlIndex === null
+      ? source.controlIndex
+      : +source.controlIndex;
   return {
     label: source.label,
     type: source.type,
-    formControlName: source.controlName,
+    name: source.controlName,
     value: source.value,
     classes: source.classes,
-    uniqueCondition: source.uniqueOn,
+    unique: source.uniqueOn,
     isRepeatable: Boolean(source.isRepeatable),
     containerClass: source.containerClass,
     placeholder: source.placeholder,
     disabled: Boolean(source.disabled),
     readOnly: Boolean(source.readonly),
-    descriptionText: source.description,
-    formControlIndex:
-      typeof index === 'undefined' || index === null ? index : +index,
-    formControlGroupKey: source.controlGroupKey,
+    description: source.description,
+    index,
+    group: source.controlGroupKey,
     multiple: Boolean(source.multiple),
-    hidden: source.type === InputTypes.HIDDEN_INPUT
+    hidden: source.type === InputTypes.HIDDEN_INPUT,
   } as InputConfigInterface;
 }

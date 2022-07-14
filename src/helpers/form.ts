@@ -6,31 +6,21 @@ import { JSArray } from '@azlabsjs/collections';
 
 // @internal
 // Helper function for creating form objects from a server object definition
-export function buildFormSync(form: FormInterface) {
-  const generatorFn = function (instance: FormInterface) {
-    const hasControls =
-      Array.isArray(instance?.controls) && instance?.controls?.length !== 0;
-    return createform({
-      id: instance.id,
-      title: instance.title,
-      description: instance.description,
-      endpointURL: instance.url,
-      controlConfigs: hasControls
-        ? JSArray.sort(
-            instance.controls
-              ?.map((control) => {
-                const config = createInput(control);
-                // tslint:disable-next-line: max-line-length
-                return { ...config };
-              })
-              .filter((value) => value ?? false),
-            'formControlIndex',
-            1
-          )
+export function buildFormSync(instance: FormInterface) {
+  if (typeof instance === 'undefined' || instance === null) {
+    return undefined;
+  }
+  const { id, title, description, controls, url } = instance;
+  return {
+    id,
+    title,
+    description,
+    endpointURL: url,
+    controlConfigs:
+      Array.isArray(controls) && controls?.length !== 0
+        ? JSArray.sort(controls.map(createInput), 'index', 1)
         : [],
-    });
   };
-  return generatorFn(form);
 }
 
 // # Forms Creators

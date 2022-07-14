@@ -38,7 +38,7 @@ describe('Test option input builder and helperr functions', () => {
     const values = mapStringListToInputOptions(
       {
         label: '',
-        formControlName: '',
+        name: '',
         type: InputTypes.CHECKBOX_INPUT,
       } as OptionsInputConfigInterface,
       'Oui|Non'

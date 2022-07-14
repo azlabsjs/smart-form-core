@@ -10,7 +10,7 @@ export {
   InputConfigInterface,
   InputRequireIfConfig,
   InputOptionsInterface,
-  SelectOptionsClient,
+  InputOptionsClient,
   OptionsInputConfigInterface,
   TextInput,
   DateInput,

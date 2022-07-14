@@ -4,10 +4,15 @@ export { InputTypes } from './input-types';
 export { InputValidationRule } from './input-rules';
 
 // Options provider client
-export { SelectOptionsClient } from './client';
+export { InputOptionsClient } from './client';
 
 // Form interface
-export { FormConfigInterface, FormsClient } from './form';
+export {
+  FormConfigInterface,
+  FormsClient,
+  FormsLoader,
+  CacheProvider,
+} from './form';
 
 //
 export { InputOption, InputOptionsInterface } from './options';
@@ -28,6 +33,3 @@ export {
   TextAreaInput,
   TimeInput,
 } from './input';
-
-// Forms provider
-export { FormsLoader, CacheProvider } from './providers';
