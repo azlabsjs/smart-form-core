@@ -3,6 +3,7 @@ import {
   ControlInterface,
   FormInterface,
 } from '../compact/types';
+import { OptionsConfig } from '../types';
 
 // Class representing structure of control configuration
 // returned by API Server
@@ -28,6 +29,7 @@ export class Control implements ControlInterface {
   maxDate!: string;
   selectableValues!: string;
   selectableModel!: string;
+  optionsConfig!: string | OptionsConfig;
   modelFilters!: string;
   multiple!: number;
   controlGroupKey!: string;
@@ -72,6 +74,7 @@ export class Control implements ControlInterface {
       maxDate: 'maxDate',
       selectableValues: 'selectableValues',
       selectableModel: 'selectableModel',
+      optionsConfig: 'optionsConfig',
       multiple: 'multiple',
       controlGroupKey: 'controlGroupKey',
       controlName: 'controlName',
@@ -202,7 +205,6 @@ export class FormControlRequest {
   }
 }
 
-
 // Class representing API server form instance
 export class Form implements FormInterface {
   id!: number;
@@ -230,7 +232,6 @@ export class Form implements FormInterface {
     };
   }
 }
-
 
 // Class representing API server option instance
 export class Option implements OptionInterface {
