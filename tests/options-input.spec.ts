@@ -136,7 +136,5 @@ describe('Test option input builder and helperr functions', () => {
     expect(config?.params?.valueBy).toEqual('label');
     expect(config?.source?.resource).toEqual('table:Table|chair:Chair');
     expect(config?.source.type).toEqual(undefined);
-
-    console.log(buildSelectableInput(userSelect));
   });
 });

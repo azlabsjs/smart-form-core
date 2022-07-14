@@ -23,18 +23,20 @@ export interface FormInterface {
 export interface ControlInterface {
   id: number;
   label: string;
-  placeholder?: string;
   type: string;
-  classes?: string;
-  requiredIf?: string;
-  required: number | boolean;
-  disabled: number | boolean;
-  readonly: number | boolean;
-  unique: number | boolean;
+  controlName: string;
+  required?: number | boolean;
+  disabled?: number | boolean;
+  readonly?: number | boolean;
+  unique?: number | boolean;
+  controlIndex: number;
+  description?: string;
   pattern?: string;
-  description: string;
   maxLength?: number | string;
   minLength?: number | string;
+  placeholder?: string;
+  classes?: string;
+  requiredIf?: string;
   min?: number | string;
   max?: number | string;
   minDate?: string;
@@ -45,8 +47,6 @@ export interface ControlInterface {
   modelFilters?: string;
   multiple: number | boolean;
   controlGroupKey?: string | number;
-  controlName: string;
-  controlIndex: number;
   options?: { [index: string]: any }[];
   rows?: number;
   columns?: number;
