@@ -7,59 +7,10 @@ import {
   OptionsInputConfigInterface as OptionsInput,
   OptionsConfig,
   InputOption,
-  InputTypes,
-  InputConfigInterface,
 } from '../types';
 import { getObjectProperty } from '@azlabsjs/js-object';
 import { isValidHttpUrl } from '../helpers/http';
 
-/**
- * @internal
- * @description Build checkbox options from generic object returned by
- * the options configuration loader
- *
- * @param values
- */
-export function basicInputOptions(values: string[] | string) {
-  const _values =
-    typeof values === 'string' ? values.split('|') : (values as string[]);
-  return _values?.map((current) => {
-    if (current.indexOf(':') !== -1) {
-      const state = current.split(':');
-      return {
-        value: state[0].trim(),
-        description: state[1].trim(),
-        name: state[1].trim(),
-      } as InputOption;
-    } else {
-      return {
-        value: isNaN(+current.trim()) ? current.trim() : +current.trim(),
-        description: current.trim(),
-        name: current.trim(),
-      } as InputOption;
-    }
-  });
-}
-
-/**
- * @internal
- *
- * @param input
- * @param source
- */
-export function mapStringListToInputOptions(
-  input: InputConfigInterface,
-  source: string[] | string
-) {
-  switch (input.type) {
-    case InputTypes.CHECKBOX_INPUT:
-    case InputTypes.RADIO_INPUT:
-    case InputTypes.SELECT_INPUT:
-      return basicInputOptions(source);
-    default:
-      return [];
-  }
-}
 
 // @internal
 function createOptionsConfigFromDefinitions(raw: string) {
@@ -117,7 +68,7 @@ function createOptionsConfigFromDefault(raw: string) {
     },
     source: {
       resource: raw,
-      raw: raw
+      raw: raw,
     },
   } as OptionsConfig;
 }
@@ -175,20 +126,11 @@ export function buildSelectableInput(source: Partial<ControlInterface>) {
   } as OptionsInput;
 }
 
-/**
- * @description Map list of record of string to any into an input option object type
- *
- * @param input
- * @param values
- */
+// @internal
 export function mapIntoInputOptions(
-  input: OptionsInput,
+  optionsConfig: OptionsConfig,
   values: Record<string, any>[]
 ) {
-  const optionsConfig = input.optionsConfig;
-  if (typeof optionsConfig === 'undefined' || optionsConfig === null) {
-    return [];
-  }
   return values
     ? values.map((current) => {
         return {
@@ -207,4 +149,26 @@ export function mapIntoInputOptions(
         } as InputOption;
       })
     : [];
+}
+
+//@internal
+export function mapStringListToInputOptions(values: string[] | string) {
+  const _values =
+    typeof values === 'string' ? values.split('|') : (values as string[]);
+  return _values?.map((current) => {
+    if (current.indexOf(':') !== -1) {
+      const state = current.split(':');
+      return {
+        value: state[0].trim(),
+        description: state[1].trim(),
+        name: state[1].trim(),
+      } as InputOption;
+    } else {
+      return {
+        value: isNaN(+current.trim()) ? current.trim() : +current.trim(),
+        description: current.trim(),
+        name: current.trim(),
+      } as InputOption;
+    }
+  });
 }

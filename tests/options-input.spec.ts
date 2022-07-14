@@ -1,17 +1,15 @@
 import {
-  basicInputOptions,
   buildSelectableInput,
   mapStringListToInputOptions,
   mapIntoInputOptions,
   createOptionsConfig,
 } from '../src/input-types/options';
-import { buildTextInput } from '../src/input-types/text';
-import { InputTypes, OptionsInputConfigInterface } from '../src/types';
-import { descriptionText, userSelect } from './inputs';
+import { OptionsConfig } from '../src/types';
+import { userSelect } from './inputs';
 
 describe('Test option input builder and helperr functions', () => {
   it('basicInputOptions should create list of InputOption', () => {
-    const values = basicInputOptions('1:Oui|0:Non');
+    const values = mapStringListToInputOptions('1:Oui|0:Non');
     expect(values[0].value).toBe('1');
     expect(values[0].description).toBe('Oui');
     expect(values[1].value).toBe('0');
@@ -19,49 +17,37 @@ describe('Test option input builder and helperr functions', () => {
   });
 
   it('basicInputOptions should create list of InputOption if simple values are passed as parameters', () => {
-    const values = basicInputOptions('Oui|Non');
+    const values = mapStringListToInputOptions('Oui|Non');
     expect(values[0].value).toBe('Oui');
     expect(values[0].description).toBe('Oui');
     expect(values[1].value).toBe('Non');
     expect(values[1].description).toBe('Non');
   });
 
-  it('basicListToInputOptions should empty array if input type neither checkbox, nor select nor radio', () => {
-    const values = mapStringListToInputOptions(
-      buildTextInput(descriptionText),
-      'Oui|Non'
-    );
-    expect(values).toEqual([]);
-  });
-
   it('basicListToInputOptions should return an array of input config if input type is checkbox, select or radio', () => {
-    const values = mapStringListToInputOptions(
-      {
-        label: '',
-        name: '',
-        type: InputTypes.CHECKBOX_INPUT,
-      } as OptionsInputConfigInterface,
-      'Oui|Non'
-    );
+    const values = mapStringListToInputOptions('Oui|Non');
     expect(values[0].name).toEqual('Oui');
     expect(values[1].name).toEqual('Non');
   });
 
   it('createInputOptionsFromQueryResult should return an array of input config if input type is checkbox, select or radio', () => {
-    const values = mapIntoInputOptions(buildSelectableInput(userSelect), [
-      {
-        id: 1,
-        name: 'ayiek18',
-      },
-      {
-        id: 10,
-        name: 'asmyns14',
-      },
-      {
-        id: 11,
-        name: 'benji20',
-      },
-    ]);
+    const values = mapIntoInputOptions(
+      buildSelectableInput(userSelect).optionsConfig ?? ({} as OptionsConfig),
+      [
+        {
+          id: 1,
+          name: 'ayiek18',
+        },
+        {
+          id: 10,
+          name: 'asmyns14',
+        },
+        {
+          id: 11,
+          name: 'benji20',
+        },
+      ]
+    );
     expect(values[0].name).toEqual('ayiek18');
     expect(values[1].name).toEqual('asmyns14');
   }); //
