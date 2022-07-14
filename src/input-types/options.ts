@@ -69,7 +69,6 @@ function createOptionsConfigFromDefinitions(raw: string) {
   let groupBy!: string;
   let valueBy!: string;
   let resource!: string;
-  let type!: string;
   let filters!: string;
   //#endregion Initialiaze components
   for (const component of components) {
@@ -81,21 +80,14 @@ function createOptionsConfigFromDefinitions(raw: string) {
       valueBy = component.replace('valuefield:', '');
       continue;
     }
-
     if (component.match(/groupfield:/)) {
       groupBy = component.replace('groupfield:', '');
       continue;
     }
-
     if (component.match(/table:/)) {
       resource = component.replace('table:', '');
       continue;
     }
-
-    if (component.match(/model:/)) {
-      type = component.replace('model:', '');
-      continue;
-    } //
     if (component.match(/filters:/)) {
       filters = component.replace('filters:', '');
       continue;
@@ -110,14 +102,13 @@ function createOptionsConfigFromDefinitions(raw: string) {
     } as OptionsConfigParams,
     source: {
       resource,
-      type,
       raw,
     } as OptionsConfigSource,
   } as OptionsConfig;
 }
 
 // @internal
-function createOptionsConfigFromDefault(definition: string) {
+function createOptionsConfigFromDefault(raw: string) {
   return {
     params: {
       groupBy: 'id',
@@ -125,7 +116,8 @@ function createOptionsConfigFromDefault(definition: string) {
       keyBy: 'id',
     },
     source: {
-      resource: definition,
+      resource: raw,
+      raw: raw
     },
   } as OptionsConfig;
 }

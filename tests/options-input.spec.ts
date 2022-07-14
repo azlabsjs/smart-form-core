@@ -48,23 +48,20 @@ describe('Test option input builder and helperr functions', () => {
   });
 
   it('createInputOptionsFromQueryResult should return an array of input config if input type is checkbox, select or radio', () => {
-    const values = mapIntoInputOptions(
-      buildSelectableInput(userSelect),
-      [
-        {
-          id: 1,
-          name: 'ayiek18',
-        },
-        {
-          id: 10,
-          name: 'asmyns14',
-        },
-        {
-          id: 11,
-          name: 'benji20',
-        },
-      ]
-    );
+    const values = mapIntoInputOptions(buildSelectableInput(userSelect), [
+      {
+        id: 1,
+        name: 'ayiek18',
+      },
+      {
+        id: 10,
+        name: 'asmyns14',
+      },
+      {
+        id: 11,
+        name: 'benji20',
+      },
+    ]);
     expect(values[0].name).toEqual('ayiek18');
     expect(values[1].name).toEqual('asmyns14');
   }); //
@@ -77,7 +74,6 @@ describe('Test option input builder and helperr functions', () => {
     expect(config?.source?.resource).toEqual(
       'https://auth.lik.tg/api/v2/users'
     );
-    expect(config?.source?.type).toEqual(undefined);
   });
 
   it('createOptionsConfig should return an Option Config type when called on url', () => {
@@ -90,7 +86,6 @@ describe('Test option input builder and helperr functions', () => {
     expect(config?.source?.resource).toEqual(
       'https://auth.lik.tg/api/v2/users'
     );
-    expect(config?.source.type).toEqual(undefined);
   });
 
   it('createOptionsConfig should return an Option Config type when called on option model configurations', () => {
@@ -102,7 +97,6 @@ describe('Test option input builder and helperr functions', () => {
     expect(config?.params?.keyBy).toEqual('id');
     expect(config?.params?.valueBy).toEqual('name');
     expect(config?.source?.resource).toEqual('users');
-    expect(config?.source.type).toEqual('\\App\\Models\\Users');
   });
 
   it('createOptionsConfig should return an Option Config type when called on an inline list configuration', () => {
@@ -113,7 +107,6 @@ describe('Test option input builder and helperr functions', () => {
     expect(config?.params?.keyBy).toEqual('id');
     expect(config?.params?.valueBy).toEqual('label');
     expect(config?.source?.resource).toEqual('table:Table|chair:Chair');
-    expect(config?.source.type).toEqual(undefined);
   });
 
   it('createOptionsConfig should return an Option Config type when called on a pre-build option config object', () => {
@@ -135,6 +128,5 @@ describe('Test option input builder and helperr functions', () => {
     expect(config?.params?.keyBy).toEqual('id');
     expect(config?.params?.valueBy).toEqual('label');
     expect(config?.source?.resource).toEqual('table:Table|chair:Chair');
-    expect(config?.source.type).toEqual(undefined);
   });
 });

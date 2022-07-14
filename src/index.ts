@@ -50,4 +50,7 @@ export {
   ObservableInput,
 } from './compact';
 
-export { mapIntoInputOptions } from './input-types/options';
+export {
+  mapIntoInputOptions,
+  mapStringListToInputOptions,
+} from './input-types/options';

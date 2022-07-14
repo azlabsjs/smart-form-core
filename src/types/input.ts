@@ -5,7 +5,6 @@ import { InputOptionsInterface } from './options';
 // Internal type definition of an options config source object
 export type OptionsConfigSource = {
   resource: string;
-  type?: string;
   raw: string;
 };
 
