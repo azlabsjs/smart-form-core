@@ -9,6 +9,7 @@ import { buildNumberInput } from '../input-types/number';
 import { buildSelectableInput } from '../input-types/options';
 import { buildTextInput } from '../input-types/text';
 import { buildTextAreaInput } from '../input-types/textarea';
+import { buildTimeInput } from '../input-types/time';
 import { InputConfigInterface, InputGroup, InputTypes } from '../types';
 
 // @internal
@@ -43,6 +44,8 @@ export function createInput(model: ControlType): InputConfigInterface {
       return buildFileInput(model);
     case InputTypes.HTML_INPUT:
       return buildHTMLInput(model);
+    case InputTypes.TIME_INPUT:
+      return buildTimeInput(model);
     case InputTypes.CONTROL_GROUP:
       return buildInputGroup(model as ControlGroupInterface);
     default:

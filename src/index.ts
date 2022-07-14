@@ -17,6 +17,7 @@ export {
   NumberInput,
   TextAreaInput,
   FileInput,
+  TimeInput,
   InputGroup,
   OptionsConfig,
   OptionsConfigParams,
