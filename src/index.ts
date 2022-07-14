@@ -19,7 +19,7 @@ export {
   FileInput,
   InputGroup,
   OptionsConfig,
-  OptionsConfigDefinition
+  OptionsConfigParams,
 } from './types';
 
 //
@@ -31,7 +31,7 @@ export {
   copyform,
   groupControlsBy,
   setControlChildren,
-  isValidHttpUrl
+  isValidHttpUrl,
 } from './helpers';
 
 //

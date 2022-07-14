@@ -10,10 +10,7 @@ export { SelectOptionsClient } from './client';
 export { FormConfigInterface, FormsClient } from './form';
 
 //
-export {
-  InputOption,
-  InputOptionsInterface,
-} from './options';
+export { InputOption, InputOptionsInterface } from './options';
 
 // Input interface
 export {
@@ -21,7 +18,7 @@ export {
   InputConfigInterface,
   InputRequireIfConfig,
   OptionsConfigSource,
-  OptionsConfigDefinition,
+  OptionsConfigParams,
   OptionsConfig,
   InputGroup,
   DateInput,

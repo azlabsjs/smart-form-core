@@ -1,12 +1,17 @@
 import { InputValidationRule } from './input-rules';
 import { InputOptionsInterface } from './options';
 
+// @internal
+// Internal type definition of an options config source object
 export type OptionsConfigSource = {
-  collection: string;
-  model?: string;
+  resource: string;
+  type?: string;
+  raw: string;
 };
 
-export type OptionsConfigDefinition = {
+// @internal
+// internal type definition of an options config parameter object
+export type OptionsConfigParams = {
   groupBy?: string;
   keyBy: string;
   valueBy: string;
@@ -15,7 +20,7 @@ export type OptionsConfigDefinition = {
 
 export type OptionsConfig = {
   source: OptionsConfigSource;
-  definitions?: OptionsConfigDefinition;
+  params?: OptionsConfigParams;
 };
 
 // @internal

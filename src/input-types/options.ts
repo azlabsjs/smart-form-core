@@ -3,7 +3,7 @@ import { ControlInterface } from '../compact';
 import { buildRequiredIfConfig } from '../helpers/builders';
 import {
   OptionsConfigSource,
-  OptionsConfigDefinition,
+  OptionsConfigParams,
   OptionsInputConfigInterface as OptionsInput,
   OptionsConfig,
   InputOption,
@@ -43,9 +43,9 @@ export function basicInputOptions(values: string[] | string) {
 
 /**
  * @internal
- * 
- * @param input 
- * @param source 
+ *
+ * @param input
+ * @param source
  */
 export function mapStringListToInputOptions(
   input: InputConfigInterface,
@@ -62,14 +62,14 @@ export function mapStringListToInputOptions(
 }
 
 // @internal
-function createOptionsConfigFromDefinitions(definition: string) {
-  const components = definition.split('|') || [];
+function createOptionsConfigFromDefinitions(raw: string) {
+  const components = raw.split('|') || [];
   //#region Initialize components
   let keyBy!: string;
   let groupBy!: string;
   let valueBy!: string;
-  let collection!: string;
-  let model!: string;
+  let resource!: string;
+  let type!: string;
   let filters!: string;
   //#endregion Initialiaze components
   for (const component of components) {
@@ -88,12 +88,12 @@ function createOptionsConfigFromDefinitions(definition: string) {
     }
 
     if (component.match(/table:/)) {
-      collection = component.replace('table:', '');
+      resource = component.replace('table:', '');
       continue;
     }
 
     if (component.match(/model:/)) {
-      model = component.replace('model:', '');
+      type = component.replace('model:', '');
       continue;
     } //
     if (component.match(/filters:/)) {
@@ -102,15 +102,16 @@ function createOptionsConfigFromDefinitions(definition: string) {
     }
   }
   return {
-    definitions: {
+    params: {
       keyBy,
       valueBy,
       groupBy,
       filters,
-    } as OptionsConfigDefinition,
+    } as OptionsConfigParams,
     source: {
-      collection,
-      model,
+      resource,
+      type,
+      raw,
     } as OptionsConfigSource,
   } as OptionsConfig;
 }
@@ -118,13 +119,13 @@ function createOptionsConfigFromDefinitions(definition: string) {
 // @internal
 function createOptionsConfigFromDefault(definition: string) {
   return {
-    definitions: {
+    params: {
       groupBy: 'id',
       valueBy: 'label',
       keyBy: 'id',
     },
     source: {
-      collection: definition,
+      resource: definition,
     },
   } as OptionsConfig;
 }
@@ -163,7 +164,7 @@ export function createOptionsConfig(source: Partial<ControlInterface>) {
 
 /**
  * @internal
- * 
+ *
  * Creates an instance of {@see OptionsInputConfigInterface} interface
  *
  * @param source
@@ -182,14 +183,13 @@ export function buildSelectableInput(source: Partial<ControlInterface>) {
   } as OptionsInput;
 }
 
-
 /**
  * @description Map list of record of string to any into an input option object type
  *
  * @param input
  * @param values
  */
- export function mapIntoInputOptions(
+export function mapIntoInputOptions(
   input: OptionsInput,
   values: Record<string, any>[]
 ) {
@@ -200,25 +200,17 @@ export function buildSelectableInput(source: Partial<ControlInterface>) {
   return values
     ? values.map((current) => {
         return {
-          value: getObjectProperty(
-            current,
-            optionsConfig.definitions?.keyBy || ''
-          ),
+          value: getObjectProperty(current, optionsConfig.params?.keyBy || ''),
           description: getObjectProperty(
             current,
-            optionsConfig.definitions?.valueBy || ''
+            optionsConfig.params?.valueBy || ''
           ),
-          name: getObjectProperty(
-            current,
-            optionsConfig.definitions?.valueBy || ''
-          ),
+          name: getObjectProperty(current, optionsConfig.params?.valueBy || ''),
           type:
-            optionsConfig.definitions?.groupBy &&
-            optionsConfig.definitions?.keyBy !==
-              optionsConfig.definitions?.groupBy &&
-            optionsConfig.definitions?.valueBy !==
-              optionsConfig.definitions?.groupBy
-              ? current[optionsConfig.definitions?.groupBy]
+            optionsConfig.params?.groupBy &&
+            optionsConfig.params?.keyBy !== optionsConfig.params?.groupBy &&
+            optionsConfig.params?.valueBy !== optionsConfig.params?.groupBy
+              ? current[optionsConfig.params?.groupBy]
               : undefined,
         } as InputOption;
       })
