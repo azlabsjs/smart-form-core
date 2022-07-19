@@ -18,5 +18,7 @@ export function buildFileInput(source: Partial<ControlInterface>) {
     uploadUrl: source.uploadURL,
     pattern: source.pattern,
     maxFileSize: source.max ?? undefined,
+    autoupload: source.autoupload || false,
+    uploadAs: source.uploadAs || 'file',
   } as FileInput;
 }

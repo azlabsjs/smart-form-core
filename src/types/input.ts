@@ -81,6 +81,8 @@ export interface FileInput extends InputConfigInterface {
   pattern?: string;
   multiple: boolean;
   maxFileSize: number;
+  autoupload?: boolean;
+  uploadAs?: string;
 }
 
 // @internal

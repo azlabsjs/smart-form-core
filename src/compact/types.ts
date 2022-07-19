@@ -31,31 +31,51 @@ export interface ControlInterface {
   unique?: number | boolean;
   controlIndex: number;
   description?: string;
-  pattern?: string;
-  maxLength?: number | string;
-  minLength?: number | string;
   placeholder?: string;
   classes?: string;
   requiredIf?: string;
-  min?: number | string;
-  max?: number | string;
+  controlGroupKey?: string | number;
+  value?: string;
+  children?: ControlInterface[];
+  uniqueOn?: string;
+  containerClass?: string;
+
+  //#region Date input properties
   minDate?: string;
   maxDate?: string;
+  //#endregion Date input properties
+  
+  //#region Textarea inputs properties
+  rows?: number;
+  columns?: number;
+  //#endregion Textarea input properties
+
+  //#region Text inputs properties
+  pattern?: string;
+  maxLength?: number | string;
+  minLength?: number | string;
+  //#endregion Text inputs properties
+
+  //#region Options inputs properties
   selectableValues?: string;
   selectableModel?: string;
   optionsConfig?: string | OptionsConfig;
   modelFilters?: string;
-  multiple: number | boolean;
-  controlGroupKey?: string | number;
   options?: { [index: string]: any }[];
-  rows?: number;
-  columns?: number;
-  value?: string;
-  uploadURL?: string;
+  multiple: number | boolean;
   isRepeatable?: number | boolean;
-  children?: ControlInterface[];
-  uniqueOn?: string;
-  containerClass?: string;
+  //#endregion Options inputs properties
+
+  //#region Number & Time input properties
+  min?: number | string;
+  max?: number | string;
+  //#endregion Number & Time input properties
+
+  //#region File input properties
+  uploadURL?: string;
+  autoupload?: boolean;
+  uploadAs?: string;
+  //#endregion File input properties
 }
 
 /**
