@@ -19,35 +19,55 @@ export class Control implements ControlInterface {
   disabled!: number;
   readonly!: number;
   unique!: number;
-  pattern!: string;
   description!: string;
-  maxLength!: number;
-  minLength!: number;
-  min!: number;
-  max!: number;
-  minDate!: string;
-  maxDate!: string;
-  selectableValues!: string;
-  selectableModel!: string;
-  optionsConfig!: string | OptionsConfig;
-  modelFilters!: string;
-  multiple!: number;
   controlGroupKey!: string;
   controlName!: string;
   controlIndex!: number;
-  options!: object[];
-  rows!: number;
-  columns!: number;
   value!: string;
   requiredIf!: string;
-  uploadURL!: string;
-  isRepeatable!: number;
   children!: ControlInterface[];
   uniqueOn!: string;
   containerClass!: string;
   valuefield!: string;
   groupfield!: string;
   keyfield!: string;
+
+  //#region Date input properties
+  minDate!: string;
+  maxDate!: string;
+  //#endregion Date input properties
+
+  //#region Textarea inputs properties
+  rows!: number;
+  columns!: number;
+  //#endregion Textarea input properties
+
+  //#region Text inputs properties
+  pattern!: string;
+  maxLength!: number | string;
+  minLength!: number | string;
+  //#endregion Text inputs properties
+
+  //#region Options inputs properties
+  selectableValues!: string;
+  selectableModel!: string;
+  optionsConfig!: string | OptionsConfig;
+  modelFilters!: string;
+  options!: { [index: string]: any }[];
+  multiple!: number | boolean;
+  isRepeatable!: number | boolean;
+  //#endregion Options inputs properties
+
+  //#region Number & Time input properties
+  min!: number | string;
+  max!: number | string;
+  //#endregion Number & Time input properties
+
+  //#region File input properties
+  uploadURL!: string;
+  autoupload!: boolean;
+  uploadAs!: string;
+  //#endregion File input properties
 
   public static getJsonableProperties(): {
     [index: string]: keyof Control | { name: string; type: any };
@@ -85,6 +105,8 @@ export class Control implements ControlInterface {
       value: 'value',
       requiredIf: 'requiredIf',
       uploadURL: 'uploadURL',
+      autoupload: 'autoupload',
+      uploadAs: 'uploadAs',
       isRepeatable: 'isRepeatable',
       children: { name: 'children', type: Control },
       uniqueOn: 'uniqueOn',
