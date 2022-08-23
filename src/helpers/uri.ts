@@ -67,7 +67,7 @@ export function urlHost(uri: string) {
  * @publicApi
  */
 export function customToResourceURL(uri: string, host: string) {
-  let path = uri.replace(/^uri:/, '').replace(/^url:/, '');
+  let path = uri.replace(/^uri:\//, '').replace(/^url:\//, '');
   path = path[0] === '/' ? path.substring(1) : path;
   return `${urlHost(host)}/${path}`;
 }
