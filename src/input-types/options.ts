@@ -9,7 +9,7 @@ import {
   InputOption,
 } from '../types';
 import { getObjectProperty } from '@azlabsjs/js-object';
-import { isValidHttpUrl } from '../helpers/http';
+import { isValidHttpUrl } from '../helpers';
 
 
 // @internal

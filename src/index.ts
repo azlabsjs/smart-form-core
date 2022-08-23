@@ -33,6 +33,8 @@ export {
   groupControlsBy,
   setControlChildren,
   isValidHttpUrl,
+  isCustomURL,
+  customToResourceURL
 } from './helpers';
 
 //

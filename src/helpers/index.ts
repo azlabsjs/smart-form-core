@@ -15,4 +15,4 @@ export { buildRequiredIfConfig } from './builders';
 export { createInput } from './input-types';
 
 // Http URI validation helper function
-export { isValidHttpUrl } from './http';
+export { isValidHttpUrl, customToResourceURL, isCustomURL } from './uri';
