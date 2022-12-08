@@ -13,6 +13,13 @@ import { buildBase } from './base';
 
 type UIPropertiesType = { keyBy: string; groupBy?: string; valueBy: string };
 
+function defaultIfEmpty<T>(str: T | undefined, default$?: any) {
+  if (typeof str === 'string' && str.length === 0) {
+    return default$;
+  }
+  return str ?? default$;
+}
+
 // @internal
 function createOptionsConfigFromDefinitions(
   raw: string,
@@ -82,15 +89,17 @@ export function createOptionsConfig(source: Partial<ControlInterface>) {
   // Compile for deprecated properties definition
 
   //#region Variables initialization
-  const optionsConfig =
-    source.selectableModel ??
-    source.optionsConfig ??
-    source.selectableValues ??
-    undefined;
+  const optionsConfig = defaultIfEmpty(
+    source.selectableModel,
+    defaultIfEmpty(
+      source.optionsConfig,
+      defaultIfEmpty(source.selectableValues)
+    )
+  );
   const uiProperties = {
-    keyBy: source?.keyfield ?? 'id',
-    groupBy: source.groupfield,
-    valueBy: source?.valuefield ?? 'label',
+    keyBy: defaultIfEmpty(source?.keyfield, 'id'),
+    groupBy: defaultIfEmpty(source.groupfield),
+    valueBy: defaultIfEmpty(source?.valuefield, 'label'),
   };
   //#endregion Variables initialization
 
