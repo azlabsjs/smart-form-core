@@ -8,7 +8,9 @@ import { buildBase } from './base';
  *
  * @param source
  */
-export function buildDateInput(source: Partial<ControlInterface>) {
+export function buildDateInput(source: ControlInterface) {
+  const max = source?.max ?? source.maxDate;
+  const min = source?.min ?? source.minDate;
   const today = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: '2-digit',
@@ -19,17 +21,17 @@ export function buildDateInput(source: Partial<ControlInterface>) {
     requiredIf: buildRequiredIfConfig(source.requiredIf ?? ''),
     rules: {
       isRequired: Boolean(source.required),
-      maxDate: Boolean(source.maxDate),
-      minDate: Boolean(source.minDate),
+      maxDate: Boolean(max),
+      minDate: Boolean(min),
     },
     minDate:
       ['now', 'today', 'TODAY', 'NOW'].indexOf(source.minDate ?? '') !== -1
         ? today
-        : source.minDate,
+        : min,
     maxDate:
       ['now', 'today', 'TODAY', 'NOW'].indexOf(source.maxDate ?? '') !== -1
         ? today
-        : source.maxDate,
+        : max,
     currentDate: '',
     inputFormat: 'dd/mm/yyyy',
   } as DateInput;

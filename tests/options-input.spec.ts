@@ -1,8 +1,5 @@
 import {
-  buildSelectableInput,
-  mapStringListToInputOptions,
-  mapIntoInputOptions,
-  createOptionsConfig,
+  buildSelectableInput, createOptionsConfig, mapIntoInputOptions, mapStringListToInputOptions
 } from '../src/input-types/options';
 import { OptionsConfig } from '../src/types';
 import { userSelect } from './inputs';
@@ -66,7 +63,7 @@ describe('Test option input builder and helperr functions', () => {
     const config = createOptionsConfig({
       selectableValues: 'https://auth.lik.tg/api/v2/users',
     });
-    expect(config?.params?.groupBy).toEqual('id');
+    expect(config?.params?.groupBy).toEqual(undefined);
     expect(config?.params?.keyBy).toEqual('id');
     expect(config?.params?.valueBy).toEqual('label');
     expect(config?.source?.resource).toEqual(
@@ -89,7 +86,7 @@ describe('Test option input builder and helperr functions', () => {
     const config = createOptionsConfig({
       selectableValues: 'table:Table|chair:Chair',
     });
-    expect(config?.params?.groupBy).toEqual('id');
+    expect(config?.params?.groupBy).toEqual(undefined);
     expect(config?.params?.keyBy).toEqual('id');
     expect(config?.params?.valueBy).toEqual('label');
     expect(config?.source?.resource).toEqual('table:Table|chair:Chair');

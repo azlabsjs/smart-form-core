@@ -1,6 +1,11 @@
-import { ControlInterface } from '../compact/types';
-import { InputConfigInterface } from '../types';
+import {
+  BaseControlType,
+  ConditionableControlType,
+  ControlInterface,
+  HasAttributesType
+} from '../compact/types';
 import { buildRequiredIfConfig } from '../helpers/builders';
+import { InputConfigInterface } from '../types';
 import { buildBase } from './base';
 
 /**
@@ -8,9 +13,13 @@ import { buildBase } from './base';
  *
  * @param source
  */
-export function buildHiddenInput(source: Partial<ControlInterface>) {
+export function buildHiddenInput(
+  source: BaseControlType &
+    ConditionableControlType &
+    Partial<HasAttributesType>
+) {
   return {
-    ...buildBase(source),
+    ...buildBase(source as ControlInterface),
     requiredIf: buildRequiredIfConfig(source.requiredIf ?? ''),
     rules: {
       isRequired: Boolean(source.required),

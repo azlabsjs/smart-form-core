@@ -1,24 +1,27 @@
-import { buildBase } from './base';
+import { getObjectProperty } from '@azlabsjs/js-object';
 import { ControlInterface } from '../compact';
+import { isValidHttpUrl } from '../helpers';
 import { buildRequiredIfConfig } from '../helpers/builders';
 import {
-  OptionsConfigSource,
-  OptionsConfigParams,
-  OptionsInputConfigInterface as OptionsInput,
-  OptionsConfig,
   InputOption,
+  OptionsConfig,
+  OptionsConfigParams,
+  OptionsConfigSource,
+  OptionsInputConfigInterface as OptionsInput
 } from '../types';
-import { getObjectProperty } from '@azlabsjs/js-object';
-import { isValidHttpUrl } from '../helpers';
+import { buildBase } from './base';
 
+type UIPropertiesType = { keyBy: string; groupBy?: string; valueBy: string };
 
 // @internal
-function createOptionsConfigFromDefinitions(raw: string) {
+function createOptionsConfigFromDefinitions(
+  raw: string,
+  properties: UIPropertiesType
+) {
   const components = raw.split('|') || [];
   //#region Initialize components
-  let keyBy!: string;
-  let groupBy!: string;
-  let valueBy!: string;
+  // By default we use id for item key property and label for their value property
+  let { keyBy, groupBy, valueBy } = properties;
   let resource!: string;
   let filters!: string;
   //#endregion Initialiaze components
@@ -58,14 +61,15 @@ function createOptionsConfigFromDefinitions(raw: string) {
   } as OptionsConfig;
 }
 
-// @internal
-function createOptionsConfigFromDefault(raw: string) {
+/**
+ * @internal
+ */
+function createOptionsConfigFromDefault(
+  raw: string,
+  properties: UIPropertiesType
+) {
   return {
-    params: {
-      groupBy: 'id',
-      valueBy: 'label',
-      keyBy: 'id',
-    },
+    params: properties,
     source: {
       resource: raw,
       raw: raw,
@@ -77,32 +81,35 @@ function createOptionsConfigFromDefault(raw: string) {
 export function createOptionsConfig(source: Partial<ControlInterface>) {
   // Compile for deprecated properties definition
 
+  //#region Variables initialization
   const optionsConfig =
     source.selectableModel ??
     source.optionsConfig ??
     source.selectableValues ??
     undefined;
+  const uiProperties = {
+    keyBy: source?.keyfield ?? 'id',
+    groupBy: source.groupfield,
+    valueBy: source?.valuefield ?? 'label',
+  };
+  //#endregion Variables initialization
 
   if (typeof optionsConfig === 'object' && optionsConfig !== null) {
     return optionsConfig as OptionsConfig;
   }
-
   if (typeof optionsConfig === 'undefined' || optionsConfig === null) {
     return undefined;
   }
-
   // Case an HTTP url is configured as option config definition
   if (isValidHttpUrl(optionsConfig)) {
-    return createOptionsConfigFromDefault(optionsConfig);
+    return createOptionsConfigFromDefault(optionsConfig, uiProperties);
   }
-
   // Case option configuration is configured on a model based configuration
   if (optionsConfig.match(/table:/) && optionsConfig.match(/keyfield:/)) {
-    return createOptionsConfigFromDefinitions(optionsConfig);
+    return createOptionsConfigFromDefinitions(optionsConfig, uiProperties);
   }
-
   // Default case
-  return createOptionsConfigFromDefault(optionsConfig);
+  return createOptionsConfigFromDefault(optionsConfig, uiProperties);
 }
 
 /**
@@ -112,7 +119,7 @@ export function createOptionsConfig(source: Partial<ControlInterface>) {
  *
  * @param source
  */
-export function buildSelectableInput(source: Partial<ControlInterface>) {
+export function buildSelectableInput(source: ControlInterface) {
   const options = source.options || [];
   const optionsConfig = createOptionsConfig(source);
   return {

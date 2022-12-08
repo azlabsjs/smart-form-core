@@ -7,6 +7,6 @@ import { buildBase } from './base';
  * @param source
  * @returns
  */
-export function buildHTMLInput(source: Partial<ControlInterface>) {
+export function buildHTMLInput(source: ControlInterface) {
   return buildBase(source);
 }

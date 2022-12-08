@@ -13,10 +13,12 @@ export const userSelect = {
   placeholder: '...',
   type: 'select',
   classes: 'clr-input',
-  optionsConfig:
-    'table:https://auth.lik.tg/api/v2/users|keyfield:id|groupfield:id|valuefield:name',
+  optionsConfig: 'https://auth.lik.tg/api/v2/users',
   multiple: false,
   options: [],
+  keyfield: 'id',
+  valuefield: 'name',
+  groupfield: 'id',
 };
 
 export const authorizationsSelectMultiple = {
@@ -222,7 +224,7 @@ export const profileImage = {
   classes: 'clr-input',
   multiple: false,
   options: [],
-  uploadURL: 'https://storage.lik.tg/api?name=cjhi783r2398h9r2yi2bccwhiuwc'
+  uploadURL: 'https://storage.lik.tg/api?name=cjhi783r2398h9r2yi2bccwhiuwc',
 };
 
 export const subscribeRadio = {

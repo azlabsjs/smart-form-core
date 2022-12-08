@@ -1,6 +1,6 @@
 import { ControlInterface } from '../compact/types';
-import { InputTypes, TextInput } from '../types';
 import { buildRequiredIfConfig } from '../helpers/builders';
+import { InputTypes, TextInput } from '../types';
 import { buildBase } from './base';
 
 /**
@@ -8,7 +8,7 @@ import { buildBase } from './base';
  *
  * @param source
  */
-export function buildTextInput(source: Partial<ControlInterface>) {
+export function buildTextInput(source: ControlInterface) {
   const min = source?.min ?? source?.minLength;
   const max = source?.max ?? source?.maxLength;
   return {

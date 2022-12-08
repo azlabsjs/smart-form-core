@@ -1,5 +1,4 @@
 import { buildBase } from '../src/input-types/base';
-import { birthDate, descriptionText, profileImage, startTime, totalNumber, userSelect } from './inputs';
 import { buildDateInput } from '../src/input-types/date';
 import { buildFileInput } from '../src/input-types/file';
 import { buildHiddenInput } from '../src/input-types/hidden';
@@ -7,6 +6,14 @@ import { buildNumberInput } from '../src/input-types/number';
 import { buildTextInput } from '../src/input-types/text';
 import { buildTimeInput } from '../src/input-types/time';
 import { InputTypes } from '../src/types';
+import {
+  birthDate,
+  descriptionText,
+  profileImage,
+  startTime,
+  totalNumber,
+  userSelect
+} from './inputs';
 
 // formId?: number;
 describe('Test input types builder functions', () => {
@@ -43,13 +50,17 @@ describe('Test input types builder functions', () => {
   it('should build a file input', () => {
     const input = buildFileInput(profileImage);
     expect(input.type).toBe(InputTypes.FILE_INPUT);
-    expect(input.uploadUrl).toEqual('https://storage.lik.tg/api?name=cjhi783r2398h9r2yi2bccwhiuwc');
+    expect(input.uploadUrl).toEqual(
+      'https://storage.lik.tg/api?name=cjhi783r2398h9r2yi2bccwhiuwc'
+    );
   });
 
   it('should build a hidden input', () => {
     const input = buildHiddenInput({
-        type: InputTypes.HIDDEN_INPUT,
-        value: 'Hello world'
+      id: 10,
+      controlName: 'hidden-control',
+      type: InputTypes.HIDDEN_INPUT,
+      value: 'Hello world',
     });
     expect(input.type).toBe(InputTypes.HIDDEN_INPUT);
     expect(input.hidden).toEqual(true);
@@ -77,7 +88,7 @@ describe('Test input types builder functions', () => {
     const input = buildTimeInput(startTime);
     expect(input.type).toEqual(InputTypes.TIME_INPUT);
     expect(input.min).toEqual('08:00'); //
-    expect(input.max).toEqual('10:00'); 
+    expect(input.max).toEqual('10:00');
     expect(input.rules?.min).toBe(true);
     expect(input.rules?.max).toBe(true);
   });

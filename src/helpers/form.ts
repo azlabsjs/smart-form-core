@@ -2,7 +2,45 @@ import { JSObject } from '@azlabsjs/js-object';
 import { ControlInterface, FormInterface } from '../compact/types';
 import { FormConfigInterface } from '../types';
 import { createInput } from './input-types';
-import { JSArray } from '@azlabsjs/collections';
+
+function sort<T>(
+  list: T[],
+  path?: string[] | string | ((a: T, b: T) => number),
+  order = 1
+) {
+  order = order ?? 1;
+  // Check if is not null
+  if (typeof list === 'undefined' || list === null) {
+    return [];
+  }
+  if (typeof path === 'function') {
+    return [...list].sort(path);
+  }
+
+  if (typeof path === 'undefined' || path === null) {
+    return [...list].sort((a, b) => (a > b ? order : order * -1));
+  }
+
+  return [...list].sort((a: any, b: any) => {
+    // We go for each property followed by path
+    if (path instanceof Array) {
+      path.forEach((property) => {
+        a = a[property];
+        b = b[property];
+      });
+    } else {
+      a = a[path];
+      b = b[path];
+    }
+    // order * (-1): We change our order
+    // Compare dates
+    if (Date.parse(a as string) && Date.parse(b as string)) {
+      a = new Date(a as string);
+      b = new Date(b as string);
+    }
+    return a > b ? order : order * -1;
+  });
+}
 
 // @internal
 // Helper function for creating form objects from a server object definition
@@ -18,7 +56,7 @@ export function buildFormSync(instance: FormInterface) {
     endpointURL: url,
     controlConfigs:
       Array.isArray(controls) && controls?.length !== 0
-        ? JSArray.sort(controls.map(createInput), 'index', 1)
+        ? sort(controls.map(createInput), 'index', 1)
         : [],
   };
 }
@@ -72,8 +110,9 @@ export function groupControlsBy(
   }, {} as { [index: string]: any });
 }
 
-// @internal
-// Set child controls of a given control group
+/**
+ * @internal
+ */
 export function setControlChildren(value: FormInterface) {
   return function (
     groupBy: (
@@ -102,12 +141,13 @@ export function setControlChildren(value: FormInterface) {
   };
 }
 
-// @internal
-// Sort form control by their index
+/**
+ * @internal
+ */
 export function sortControlsBy(
   controls: ControlInterface[],
   property: keyof ControlInterface,
   order = 1
 ) {
-  return JSArray.sort(controls, property, order);
+  return sort(controls, property, order);
 }

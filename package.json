@@ -68,7 +68,6 @@
         "typescript": "^4.7.4"
     },
     "dependencies": {
-        "@azlabsjs/collections": "^0.1.10",
         "@azlabsjs/js-object": "^0.1.10"
     },
     "repository": {

@@ -14,7 +14,7 @@ import { InputConfigInterface, InputGroup, InputTypes } from '../types';
 
 // @internal
 // Type definition of an input group or input object
-type ControlType = Partial<ControlInterface> | Partial<ControlGroupInterface>;
+type ControlType = ControlInterface | ControlGroupInterface;
 
 // @internal
 // Creates input types from server side configuration objects

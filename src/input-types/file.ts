@@ -8,7 +8,7 @@ import { buildBase } from './base';
  *
  * @param source
  */
-export function buildFileInput(source: Partial<ControlInterface>) {
+export function buildFileInput(source: ControlInterface) {
   return {
     ...buildBase(source),
     requiredIf: buildRequiredIfConfig(source.requiredIf ?? ''),

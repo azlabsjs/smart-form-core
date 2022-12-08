@@ -2,7 +2,7 @@ import { ControlInterface } from '../compact';
 import { InputConfigInterface, InputTypes } from '../types';
 
 // @internal
-export function buildBase(source: Partial<ControlInterface>) {
+export function buildBase(source: ControlInterface) {
   const index =
     typeof source.controlIndex === 'undefined' || source.controlIndex === null
       ? source.controlIndex

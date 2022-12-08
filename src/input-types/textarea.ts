@@ -8,7 +8,7 @@ import { buildBase } from './base';
  *
  * @param source
  */
-export function buildTextAreaInput(source: Partial<ControlInterface>) {
+export function buildTextAreaInput(source: ControlInterface) {
   const max = source?.max ?? source.maxLength;
   return {
     ...buildBase(source),

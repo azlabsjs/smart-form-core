@@ -9,7 +9,7 @@ import { buildBase } from './base';
  *
  * @param source
  */
-export function buildNumberInput(source: Partial<ControlInterface>) {
+export function buildNumberInput(source: ControlInterface) {
   const min = source?.min;
   const max = source?.max;
   return {
