@@ -1,59 +1,52 @@
 //
 export {
-  FormConfigInterface,
-  InputTypes,
-  InputOption,
-  FormsClient,
-  FormsLoader,
-  CacheProvider,
-  InputValidationRule,
-  InputConfigInterface,
-  InputRequireIfConfig,
-  InputOptionsInterface,
-  InputOptionsClient,
-  OptionsInputConfigInterface,
-  TextInput,
-  DateInput,
-  NumberInput,
-  TextAreaInput,
-  FileInput,
-  TimeInput,
-  InputGroup,
-  OptionsConfig,
-  OptionsConfigParams,
-} from './types';
-
-//
-export {
-  sortRawFormControls,
-  createInput,
-  buildFormSync,
-  createform,
-  copyform,
-  groupControlsBy,
-  setControlChildren,
-  isValidHttpUrl,
-  isCustomURL,
-  customToResourceURL
-} from './helpers';
-
-//
-export {
-  Control,
-  FormControlRequest,
-  ControlRequest,
-  Form,
-  Option,
-} from './models';
-
-export {
-  FormInterface,
   ControlGroupInterface,
   ControlInterface,
-  ObservableInput,
+  FormInterface,
+  ObservableInput
 } from './compact';
-
+// Form helpers
+export {
+  buildFormSync,
+  createform,
+  createInput,
+  customToResourceURL,
+  groupControlsBy,
+  isCustomURL,
+  isValidHttpUrl,
+  setControlChildren,
+  sortRawFormControls
+} from './helpers';
+// Options helpers
 export {
   mapIntoInputOptions,
-  mapStringListToInputOptions,
+  mapStringListToInputOptions
 } from './input-types/options';
+// Types exports
+export {
+  CacheProvider,
+  DateInput,
+  FileInput,
+  FormConfigInterface,
+  FormsClient,
+  FormsLoader,
+  InputConfigInterface,
+  InputGroup,
+  InputOption,
+  InputOptionsClient,
+  InputOptionsInterface,
+  InputRequireIfConfig,
+  InputTypes,
+  InputValidationRule,
+  NumberInput,
+  OptionsConfig,
+  OptionsConfigParams,
+  OptionsInputConfigInterface,
+  TextAreaInput,
+  TextInput,
+  TimeInput
+} from './types';
+
+
+
+

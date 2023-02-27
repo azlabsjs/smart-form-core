@@ -1,4 +1,3 @@
-import { JSObject } from '@azlabsjs/js-object';
 import { ControlInterface, FormInterface } from '../compact/types';
 import { FormConfigInterface } from '../types';
 import { createInput } from './input-types';
@@ -84,27 +83,6 @@ export function buildFormSync(instance: FormInterface) {
  */
 export function createform(form: FormConfigInterface) {
   return { ...form } as FormConfigInterface;
-}
-
-/**
- * @description Creates a deep copy of the dynamic form object
- *
- * @deprecated 0.1.2x There is no need to perfom a deep copy of the form configuration
- * as it does implementation currently use only prototype shapes instead of class types
- */
-export function cloneform(form: FormConfigInterface) {
-  return JSObject.cloneDeep(form) as FormConfigInterface;
-}
-
-/**
- * @description Creates a deep copy of the dynamic form object
-// @internal
- * 
- * @deprecated 0.1.2x There is no need to perfom a deep copy of the form configuration
- * as it does implementation currently use only prototype shapes instead of class types
- */
-export function copyform(form: FormConfigInterface) {
-  return JSObject.cloneDeep(form);
 }
 
 // #Forms Soring function

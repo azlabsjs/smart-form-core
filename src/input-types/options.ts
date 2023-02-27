@@ -1,7 +1,6 @@
-import { getObjectProperty } from '@azlabsjs/js-object';
 import { ControlInterface } from '../compact';
-import { isValidHttpUrl } from '../helpers';
 import { buildRequiredIfConfig } from '../helpers/builders';
+import { isValidHttpUrl } from '../helpers/uri';
 import {
   InputOption,
   OptionsConfig,
@@ -10,6 +9,42 @@ import {
   OptionsInputConfigInterface as OptionsInput
 } from '../types';
 import { buildBase } from './base';
+
+function getObjectProperty<T extends { [prop: string]: any }>(
+  source: T,
+  key: string,
+  seperator = '.'
+) {
+  if (
+    key === '' ||
+    typeof key === 'undefined' ||
+    key === null ||
+    typeof source === 'undefined' ||
+    source === null
+  ) {
+    return source ?? undefined;
+  }
+  if (key.includes(seperator ?? '.')) {
+    // Creates an array of inner properties
+    const properties = key.split(seperator ?? '.');
+    const current = source;
+    // Reduce the source object to a single value
+    return properties.reduce((carry, prop) => {
+      if (carry) {
+        carry =
+          current !== null &&
+          !Array.isArray(current) &&
+          typeof current === 'object' &&
+          carry[prop]
+            ? carry[prop] ?? undefined
+            : undefined;
+      }
+      return carry;
+    }, source);
+  } else {
+    return source ? source[key] : undefined;
+  }
+}
 
 type UIPropertiesType = { keyBy: string; groupBy?: string; valueBy: string };
 
