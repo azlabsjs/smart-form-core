@@ -42,8 +42,23 @@ function sort<T>(
   });
 }
 
-// @internal
-// Helper function for creating form objects from a server object definition
+/**
+ * @internal
+ */
+function sortBy(
+  controls: ControlInterface[],
+  property: keyof ControlInterface,
+  order = 1
+) {
+  return sort(controls, property, order);
+}
+
+/**
+ * Helper function for creating form objects from a server object definition
+ *
+ * @param instance
+ * @returns
+ */
 export function buildFormSync(instance: FormInterface) {
   if (typeof instance === 'undefined' || instance === null) {
     return undefined;
@@ -64,12 +79,6 @@ export function buildFormSync(instance: FormInterface) {
 // # Forms Creators
 
 /**
- * @description Creates a deep copy of the dynamic form object
- */
-export const cloneform = (form: FormConfigInterface) =>
-  JSObject.cloneDeep(form) as FormConfigInterface;
-
-/**
  * @description Helper method for creating a new dynmaic form
  * @param form Object with the shape of the FormConfigInterface interface
  */
@@ -77,8 +86,23 @@ export function createform(form: FormConfigInterface) {
   return { ...form } as FormConfigInterface;
 }
 
+/**
+ * @description Creates a deep copy of the dynamic form object
+ *
+ * @deprecated 0.1.2x There is no need to perfom a deep copy of the form configuration
+ * as it does implementation currently use only prototype shapes instead of class types
+ */
+export function cloneform(form: FormConfigInterface) {
+  return JSObject.cloneDeep(form) as FormConfigInterface;
+}
+
+/**
+ * @description Creates a deep copy of the dynamic form object
 // @internal
-// Create a new dynamic form from a copy of the user provided parameter
+ * 
+ * @deprecated 0.1.2x There is no need to perfom a deep copy of the form configuration
+ * as it does implementation currently use only prototype shapes instead of class types
+ */
 export function copyform(form: FormConfigInterface) {
   return JSObject.cloneDeep(form);
 }
@@ -90,12 +114,16 @@ export function copyform(form: FormConfigInterface) {
 export const sortRawFormControls = (value: FormInterface) => {
   return {
     ...value,
-    controls: sortControlsBy(value.controls ?? [], 'controlIndex', 1),
+    controls: sortBy(value.controls ?? [], 'controlIndex', 1),
   } as FormInterface;
 };
 
-//@internal
-// Group controls by property of the control interface type
+/**
+ * Group controls by property of the control interface type
+ *
+ * @param controls
+ * @param property
+ */
 export function groupControlsBy(
   controls: ControlInterface[],
   property: keyof ControlInterface
@@ -114,18 +142,18 @@ export function groupControlsBy(
  * @internal
  */
 export function setControlChildren(value: FormInterface) {
-  return function (
+  return (
     groupBy: (
       values: ControlInterface[],
       property: keyof ControlInterface
     ) => { [index: string]: ControlInterface[] }
-  ) {
+  ) => {
     const controls = groupBy(value.controls, 'controlGroupKey');
-    const values = sortControlsBy(controls['root'] ?? [], 'controlIndex').map(
+    const values = sortBy(controls['root'] ?? [], 'controlIndex').map(
       (current) => {
         return {
           ...current,
-          children: sortControlsBy(
+          children: sortBy(
             Array.from(
               new Set([
                 ...(current.children ?? []),
@@ -139,15 +167,4 @@ export function setControlChildren(value: FormInterface) {
     );
     return { ...value, controls: values };
   };
-}
-
-/**
- * @internal
- */
-export function sortControlsBy(
-  controls: ControlInterface[],
-  property: keyof ControlInterface,
-  order = 1
-) {
-  return sort(controls, property, order);
 }

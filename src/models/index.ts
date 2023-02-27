@@ -1,12 +1,14 @@
 import {
-  OptionInterface,
   ControlInterface,
-  FormInterface,
+  FormInterface, OptionInterface
 } from '../compact/types';
 import { OptionsConfig } from '../types';
 
 // Class representing structure of control configuration
 // returned by API Server
+/**
+ * @deprecated v0.1.2x Will be removed in future release
+ */
 export class Control implements ControlInterface {
   id!: number;
   formId!: number;
@@ -120,6 +122,9 @@ export class Control implements ControlInterface {
 }
 
 // Class representing structure of control request type
+/**
+ * @deprecated v0.1.2x Will be removed in future release
+ */
 export class ControlRequest {
   label!: string;
   placeholder!: string;
@@ -175,6 +180,9 @@ export class ControlRequest {
 }
 
 // Class representing form control request type
+/**
+ * @deprecated v0.1.2x Will be removed in future release
+ */
 export class FormControlRequest {
   formId!: number;
   formControlId!: number;
@@ -256,6 +264,9 @@ export class Form implements FormInterface {
 }
 
 // Class representing API server option instance
+/**
+ * @deprecated v0.1.2x Will be removed in future release
+ */
 export class Option implements OptionInterface {
   id!: number;
   table!: string;
