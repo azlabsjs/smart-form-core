@@ -1,23 +1,32 @@
 import { ControlInterface } from '../compact/types';
-import { buildRequiredIfConfig } from '../helpers/builders';
-import { TextAreaInput } from '../types';
+import { InputTypes, TextAreaInput } from '../types';
 import { buildBase } from './base';
 
 /**
+ * @internal
+ */
+function isNotDefined(value: unknown): value is undefined {
+  return typeof value === 'undefined' || value === null;
+}
+
+/**
  * Creates an instance of the {@see TextAreaInput} interface
- *
- * @param source
  */
 export function buildTextAreaInput(source: ControlInterface) {
-  const max = source?.max ?? source.maxLength;
+  const { max, maxLength, rows, columns, required } = source;
+  const _max = max ?? maxLength;
+  const _base = buildBase(source);
   return {
-    ...buildBase(source),
-    requiredIf: buildRequiredIfConfig(source.requiredIf ?? ''),
-    rules: {
-      isRequired: Boolean(source.required),
+    ..._base,
+    // TODO: Remove the rules constraint in version 0.3.x
+    rules: { isRequired: Boolean(required) },
+    rows: rows,
+    cols: columns,
+    maxLength: isNotDefined(_max) ? undefined : +_max,
+    type: InputTypes.TEXTAREA_INPUT,
+    constraints: {
+      ...(_base.constraints ?? {}),
+      max: isNotDefined(_max) ? undefined : +_max,
     },
-    rows: source.rows,
-    cols: source.columns,
-    maxLength: typeof max === 'undefined' || max === null ? undefined : +max,
   } as TextAreaInput;
 }

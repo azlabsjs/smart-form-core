@@ -1,15 +1,22 @@
 import { ControlInterface } from '../compact';
-import { buildRequiredIfConfig } from '../helpers/builders';
 import { isValidHttpUrl } from '../helpers/uri';
 import {
   InputOption,
   OptionsConfig,
   OptionsConfigParams,
   OptionsConfigSource,
-  OptionsInputConfigInterface as OptionsInput
+  OptionsInputConfigInterface as OptionsInput,
 } from '../types';
 import { buildBase } from './base';
 
+/**
+ * @internal
+ */
+type UIPropertiesType = { keyBy: string; groupBy?: string; valueBy: string };
+
+/**
+ * @internal
+ */
 function getObjectProperty<T extends { [prop: string]: any }>(
   source: T,
   key: string,
@@ -46,8 +53,9 @@ function getObjectProperty<T extends { [prop: string]: any }>(
   }
 }
 
-type UIPropertiesType = { keyBy: string; groupBy?: string; valueBy: string };
-
+/**
+ * @internal
+ */
 function defaultIfEmpty<T>(str: T | undefined, default$?: any) {
   if (typeof str === 'string' && str.length === 0) {
     return default$;
@@ -55,7 +63,9 @@ function defaultIfEmpty<T>(str: T | undefined, default$?: any) {
   return str ?? default$;
 }
 
-// @internal
+/**
+ * @internal
+ */
 function createOptionsConfigFromDefinitions(
   raw: string,
   properties: UIPropertiesType
@@ -119,7 +129,9 @@ function createOptionsConfigFromDefault(
   } as OptionsConfig;
 }
 
-// @internal
+/**
+ * @internal
+ */
 export function createOptionsConfig(source: Partial<ControlInterface>) {
   // Compile for deprecated properties definition
 
@@ -160,24 +172,29 @@ export function createOptionsConfig(source: Partial<ControlInterface>) {
  * @internal
  *
  * Creates an instance of {@see OptionsInputConfigInterface} interface
- *
- * @param source
  */
-export function buildSelectableInput(source: ControlInterface) {
-  const options = source.options || [];
+export function buildSelectableInput(
+  source: ControlInterface,
+  type: 'radio' | 'checkbox' | 'select'
+) {
+  const { options, multiple, required } = source;
+  const _options = options ?? [];
   const optionsConfig = createOptionsConfig(source);
+  const _base = buildBase(source);
   return {
-    ...buildBase(source),
-    optionsConfig: options.length > 0 ? undefined : optionsConfig,
-    requiredIf: buildRequiredIfConfig(source.requiredIf ?? ''),
-    rules: {
-      isRequired: Boolean(source.required),
-    },
-    options,
+    ..._base,
+    // TODO: Remove the rules constraint in version 0.3.x
+    rules: { isRequired: Boolean(required) },
+    multiple: Boolean(multiple),
+    type,
+    optionsConfig: _options.length > 0 ? undefined : optionsConfig,
+    options: _options,
   } as OptionsInput;
 }
 
-// @internal
+/**
+ * Map list of values to options input dictionary type declaration
+ */
 export function mapIntoInputOptions(
   optionsConfig: OptionsConfig,
   values: Record<string, any>[]
@@ -202,7 +219,9 @@ export function mapIntoInputOptions(
     : [];
 }
 
-//@internal
+/**
+ * Project string values to option input dictionary type declaration
+ */
 export function mapStringListToInputOptions(values: string[] | string) {
   const _values =
     typeof values === 'string' ? values.split('|') : (values as string[]);

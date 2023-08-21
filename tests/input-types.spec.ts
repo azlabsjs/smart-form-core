@@ -12,7 +12,7 @@ import {
   profileImage,
   startTime,
   totalNumber,
-  userSelect
+  userSelect,
 } from './inputs';
 
 // formId?: number;
@@ -23,7 +23,6 @@ describe('Test input types builder functions', () => {
     expect(input.index).toEqual(1);
     expect(input.name).toBe('user');
     expect(input.isRepeatable).toEqual(false);
-    expect(input.multiple).toEqual(false);
     expect(input.placeholder).toBe('...');
     expect(input.hidden).toEqual(false);
     expect(input.disabled).toEqual(false);

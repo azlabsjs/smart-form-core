@@ -1,5 +1,8 @@
 import {
-  buildSelectableInput, createOptionsConfig, mapIntoInputOptions, mapStringListToInputOptions
+  buildSelectableInput,
+  createOptionsConfig,
+  mapIntoInputOptions,
+  mapStringListToInputOptions,
 } from '../src/input-types/options';
 import { OptionsConfig } from '../src/types';
 import { userSelect } from './inputs';
@@ -29,7 +32,8 @@ describe('Test option input builder and helperr functions', () => {
 
   it('createInputOptionsFromQueryResult should return an array of input config if input type is checkbox, select or radio', () => {
     const values = mapIntoInputOptions(
-      buildSelectableInput(userSelect).optionsConfig ?? ({} as OptionsConfig),
+      buildSelectableInput(userSelect, 'select').optionsConfig ??
+        ({} as OptionsConfig),
       [
         {
           id: 1,

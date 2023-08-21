@@ -3,7 +3,6 @@ import { buildRequiredIfConfig } from '../helpers/builders';
 import { buildBase } from '../input-types/base';
 import { buildDateInput } from '../input-types/date';
 import { buildFileInput } from '../input-types/file';
-import { buildHTMLInput } from '../input-types/header';
 import { buildHiddenInput } from '../input-types/hidden';
 import { buildNumberInput } from '../input-types/number';
 import { buildSelectableInput } from '../input-types/options';
@@ -12,45 +11,49 @@ import { buildTextAreaInput } from '../input-types/textarea';
 import { buildTimeInput } from '../input-types/time';
 import { InputConfigInterface, InputGroup, InputTypes } from '../types';
 
-// @internal
-// Type definition of an input group or input object
+/**
+ * @internal
+ */
 type ControlType = ControlInterface | ControlGroupInterface;
+
+/**
+ * @internal
+ */
+type BuilderType = (model: any) => InputConfigInterface | InputGroup;
 
 // @internal
 // Creates input types from server side configuration objects
-export function createInput(model: ControlType): InputConfigInterface {
-  switch (model.type) {
-    case InputTypes.DATE_INPUT:
-      return buildDateInput(model);
-    case InputTypes.SELECT_INPUT:
-      return buildSelectableInput(model);
-    case InputTypes.TEXTAREA_INPUT:
-      return buildTextAreaInput(model);
-    case InputTypes.NUMBER_INPUT:
-      return buildNumberInput(model);
-    case InputTypes.PHONE_INPUT:
-      return buildTextInput(model);
-    case InputTypes.PASSWORD_INPUT:
-      return buildTextInput(model);
-    case InputTypes.CHECKBOX_INPUT:
-      return buildSelectableInput(model);
-    case InputTypes.RADIO_INPUT:
-      return buildSelectableInput(model);
-    case InputTypes.EMAIL_INPUT:
-      return buildTextInput(model);
-    case InputTypes.HIDDEN_INPUT:
-      return buildHiddenInput(model);
-    case InputTypes.FILE_INPUT:
-      return buildFileInput(model);
-    case InputTypes.HTML_INPUT:
-      return buildHTMLInput(model);
-    case InputTypes.TIME_INPUT:
-      return buildTimeInput(model);
-    case InputTypes.CONTROL_GROUP:
-      return buildInputGroup(model as ControlGroupInterface);
-    default:
-      return buildTextInput(model);
-  }
+export function createInput(model: ControlType) {
+  const _builders: Record<string, BuilderType> = {
+    [InputTypes.DATE_INPUT]: buildDateInput,
+    [InputTypes.SELECT_INPUT]: (model) =>
+      buildSelectableInput(model, InputTypes.SELECT_INPUT),
+    [InputTypes.TEXTAREA_INPUT]: buildTextAreaInput,
+    [InputTypes.NUMBER_INPUT]: buildNumberInput,
+    [InputTypes.PHONE_INPUT]: (model) =>
+      buildTextInput(model, InputTypes.PHONE_INPUT),
+    [InputTypes.PASSWORD_INPUT]: (model) =>
+      buildTextInput(model, InputTypes.PASSWORD_INPUT),
+    [InputTypes.CHECKBOX_INPUT]: (model) =>
+      buildSelectableInput(model, InputTypes.CHECKBOX_INPUT),
+    [InputTypes.RADIO_INPUT]: (model) =>
+      buildSelectableInput(model, InputTypes.RADIO_INPUT),
+    [InputTypes.EMAIL_INPUT]: (model) =>
+      buildTextInput(model, InputTypes.EMAIL_INPUT),
+    [InputTypes.HIDDEN_INPUT]: buildHiddenInput,
+    [InputTypes.FILE_INPUT]: buildFileInput,
+    [InputTypes.HTML_INPUT]: buildBase,
+    [InputTypes.TIME_INPUT]: buildTimeInput,
+    [InputTypes.CONTROL_GROUP]: buildInputGroup,
+  };
+
+  // We create a builder function variable from the model type or fallback to
+  // buildTextInput if the model type does not exists
+  const _builder =
+    _builders[model.type] ??
+    ((model) => buildTextInput(model, InputTypes.TEXT_INPUT));
+
+  return _builder(model) as InputConfigInterface;
 }
 
 /**

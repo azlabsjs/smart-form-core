@@ -1,3 +1,12 @@
+import {
+  DateConstraint,
+  InputConstraint,
+  IsMailConstraint,
+  NumberConstraint,
+  PatternConstraint,
+  TextLengthConstraint,
+  TimeConstraint,
+} from './constraints';
 import { InputValidationRule } from './input-rules';
 import { InputOptionsInterface } from './options';
 
@@ -26,6 +35,7 @@ export type OptionsConfig = {
 export interface OptionsInputConfigInterface extends InputConfigInterface {
   optionsConfig?: OptionsConfig;
   options: InputOptionsInterface;
+  multiple?: boolean;
 }
 
 /**
@@ -42,17 +52,36 @@ export interface InputConfigInterface {
   classes: string;
   placeholder?: string;
   value?: any;
-  disabled?: boolean;
-  readOnly?: boolean;
   description?: string;
   group?: string | number;
   index?: number;
-  hidden?: boolean;
   isRepeatable: boolean;
-  unique?: string;
   containerClass: string;
-  multiple?: boolean;
+  /**
+   * @deprecated
+   */
+  hidden?: boolean;
+  /**
+   * @deprecated
+   */
+  disabled?: boolean;
+  /**
+   * @deprecated
+   */
+  readOnly?: boolean;
+  /**
+   * @deprecated
+   */
+  unique?: string;
+  /**
+   * @deprecated
+   */
   rules?: InputValidationRule;
+  /**
+   * Constraint API provides a replacement alternative to
+   * validation API and limit the number of properties required by input config object
+   */
+  constraints?: InputConstraint;
   requiredIf?: InputRequireIfConfig;
 }
 
@@ -69,44 +98,107 @@ export interface InputGroup extends InputConfigInterface {
 
 // @internal
 export interface DateInput extends InputConfigInterface {
+  /**
+   * @deprecated
+   */
   minDate: string;
+  /**
+   * @deprecated
+   */
   maxDate: string;
   currentDate: string;
   inputFormat?: string;
+  /**
+   * Constraint API provides a replacement alternative to
+   * validation API and limit the number of properties required by input config object
+   */
+  constraints?: InputConstraint & DateConstraint;
 }
 
 // @internal
 export interface FileInput extends InputConfigInterface {
   uploadUrl?: string;
-  pattern?: string;
   multiple: boolean;
   maxFileSize: number;
   autoupload?: boolean;
   uploadAs?: string;
+  /**
+   * @deprecated
+   */
+  pattern?: string;
+  /**
+   * Constraint API provides a replacement alternative to
+   * validation API and limit the number of properties required by input config object
+   */
+  constraints?: InputConstraint & PatternConstraint;
 }
 
 // @internal
 export interface NumberInput extends InputConfigInterface {
+  /**
+   * @deprecated
+   */
   min: number;
+  /**
+   * @deprecated
+   */
   max?: number;
+  /**
+   * Constraint API provides a replacement alternative to
+   * validation API and limit the number of properties required by input config object
+   */
+  constraints?: InputConstraint & NumberConstraint;
 }
 
 // @internal
 export interface TextInput extends InputConfigInterface {
+  /**
+   * @deprecated
+   */
   maxLength?: number;
+  /**
+   * @deprecated
+   */
   pattern?: string;
+  /**
+   * @deprecated
+   */
   minLength?: number;
+  /**
+   * Constraint API provides a replacement alternative to
+   * validation API and limit the number of properties required by input config object
+   */
+  constraints?: InputConstraint & PatternConstraint & TextLengthConstraint & IsMailConstraint;
 }
 
 // @internal
 export interface TextAreaInput extends InputConfigInterface {
   cols: number;
   rows: number;
+  /**
+   * @deprecated
+   */
   maxLength: number;
+  /**
+   * Constraint API provides a replacement alternative to
+   * validation API and limit the number of properties required by input config object
+   */
+  constraints?: InputConstraint & TextLengthConstraint;
 }
 
 // @internal
 export interface TimeInput extends InputConfigInterface {
+  /**
+   * @deprecated
+   */
   min: string;
+  /**
+   * @deprecated
+   */
   max?: string;
+  /**
+   * Constraint API provides a replacement alternative to
+   * validation API and limit the number of properties required by input config object
+   */
+  constraints?: InputConstraint & TimeConstraint;
 }

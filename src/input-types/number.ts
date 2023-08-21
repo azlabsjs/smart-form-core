@@ -1,26 +1,35 @@
 import { ControlInterface } from '../compact/types';
-import { buildRequiredIfConfig } from '../helpers/builders';
-import { NumberInput } from '../types';
+import { InputTypes, NumberInput } from '../types';
 import { buildBase } from './base';
 
+/**
+ * @internal
+ */
+function isNotDefined(value: unknown): value is undefined {
+  return typeof value === 'undefined' || value === null;
+}
 
 /**
  * Creates an instance {@see NumberInput} interface
- *
- * @param source
  */
 export function buildNumberInput(source: ControlInterface) {
-  const min = source?.min;
-  const max = source?.max;
+  const { min, max } = source;
+  const _base = buildBase(source);
   return {
-    ...buildBase(source),
-    requiredIf: buildRequiredIfConfig(source.requiredIf ?? ''),
+    ..._base,
+    // TODO: Remove the rules constraint in version 0.3.x
     rules: {
       isRequired: Boolean(source.required),
       max: Boolean(max),
       min: Boolean(min),
     },
-    min: typeof min === 'undefined' || min === null ? undefined : +min,
-    max: typeof max === 'undefined' || max === null ? undefined : +max,
+    min: isNotDefined(min) ? undefined : +min,
+    max: isNotDefined(max) ? undefined : +max,
+    type: InputTypes.NUMBER_INPUT,
+    constraints: {
+      ...(_base.constraints ?? {}),
+      min: isNotDefined(min) ? undefined : +min,
+      max: isNotDefined(max) ? undefined : +max,
+    },
   } as NumberInput;
 }

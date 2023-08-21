@@ -1,20 +1,32 @@
 import { ControlInterface } from '../compact';
-import { buildRequiredIfConfig } from '../helpers/builders';
-import { TimeInput } from '../types';
+import { InputTypes, TimeInput } from '../types';
 import { buildBase } from './base';
 
+/**
+ * @internal
+ */
+function isNotDefined(value: unknown): value is undefined {
+  return typeof value === 'undefined' || value === null;
+}
+
 export function buildTimeInput(source: ControlInterface) {
-  const min = source?.min;
-  const max = source?.max;
+  const { min, max, required } = source;
+  const _base = buildBase(source);
   return {
-    ...buildBase(source),
-    requiredIf: buildRequiredIfConfig(source.requiredIf ?? ''),
+    ..._base,
+    // TODO: Remove the rules constraint in version 0.3.x
     rules: {
-      isRequired: Boolean(source.required),
+      isRequired: Boolean(required),
       max: Boolean(max),
       min: Boolean(min),
     },
-    min: min,
-    max: max,
+    min: isNotDefined(min) ? undefined : min,
+    max: isNotDefined(max) ? undefined : max,
+    type: InputTypes.TIME_INPUT,
+    constraints: {
+      ...(_base.constraints ?? {}),
+      min: isNotDefined(min) ? undefined : min,
+      max: isNotDefined(max) ? undefined : max,
+    },
   } as TimeInput;
 }

@@ -2,27 +2,27 @@ import {
   BaseControlType,
   ConditionableControlType,
   ControlInterface,
-  HasAttributesType
+  HasAttributesType,
 } from '../compact/types';
-import { buildRequiredIfConfig } from '../helpers/builders';
-import { InputConfigInterface } from '../types';
+import { InputConfigInterface, InputTypes } from '../types';
 import { buildBase } from './base';
 
 /**
- * Creates an instance of {@see InputConfigInterface} interface
- *
- * @param source
+ * @internal
  */
-export function buildHiddenInput(
-  source: BaseControlType &
-    ConditionableControlType &
-    Partial<HasAttributesType>
-) {
+type ArgType = BaseControlType &
+  ConditionableControlType &
+  Partial<HasAttributesType>;
+
+/**
+ * Creates an instance of {@see InputConfigInterface} interface
+ */
+export function buildHiddenInput(source: ArgType) {
+  const _base = buildBase(source as ControlInterface);
   return {
-    ...buildBase(source as ControlInterface),
-    requiredIf: buildRequiredIfConfig(source.requiredIf ?? ''),
-    rules: {
-      isRequired: Boolean(source.required),
-    },
+    ..._base,
+    // TODO: Remove the rules constraint in version 0.3.x
+    type: InputTypes.HIDDEN_INPUT,
+    rules: { isRequired: Boolean(source.required) },
   } as InputConfigInterface;
 }

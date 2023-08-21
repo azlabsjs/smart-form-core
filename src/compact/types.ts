@@ -152,7 +152,7 @@ export type ControlGroupType = {
  */
 export interface ControlInterface
   extends BaseControlType,
-    HasAttributesType,
+    Partial<HasAttributesType>,
     Partial<HasDateAttributesType>,
     Partial<HasSelectAttributesType>,
     Partial<HasUploadAttributesType>,
@@ -163,6 +163,10 @@ export interface ControlInterface
     Partial<BelongsToControlGroupType>,
     ConditionableControlType {
   containerClass?: string;
+  /**
+   * Added to support equality constraints
+   */
+  equals?: string;
 }
 
 /**

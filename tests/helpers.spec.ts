@@ -51,7 +51,7 @@ describe('Test helper global functions', () => {
 
     expect(result?.endpointURL).toEqual('http://127.0.0.1:9800');
     expect(result?.title).toEqual('CREATION DE COMPTE');
-    expect(result?.controlConfigs).toEqual([buildSelectableInput(userSelect)]);
+    expect(result?.controlConfigs).toEqual([buildSelectableInput(userSelect, 'select')]);
 
   });
 });
