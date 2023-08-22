@@ -39,9 +39,8 @@ export {
   NumberConstraint,
   TextLengthConstraint,
   PatternConstraint,
-  ExistsConstraint,
-  UniqueConstraint,
   EqualsConstaint,
   IsMailConstraint,
-  TimeConstraint
+  TimeConstraint,
+  AsyncConstraint
 } from './constraints';

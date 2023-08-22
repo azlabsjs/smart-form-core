@@ -18,8 +18,10 @@ export {
   sortRawFormControls,
   createLogicalAnd,
   createLogicalOr,
-  createUniqueQueryResultValidator,
-  createExistsQueryResultValidator,
+  createUniqueConstraint,
+  createExistsConstraint,
+  createPatternConstraint,
+  createEqualsConstraint
 } from './helpers';
 // Options helpers
 export {
@@ -49,4 +51,5 @@ export {
   TextAreaInput,
   TextInput,
   TimeInput,
+  AsyncConstraint
 } from './types';

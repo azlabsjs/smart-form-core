@@ -15,6 +15,8 @@ export { customToResourceURL, isCustomURL, isValidHttpUrl } from './uri';
 export { createLogicalAnd, createLogicalOr } from './eval';
 
 export {
-  createUniqueQueryResultValidator,
-  createExistsQueryResultValidator,
+  createUniqueConstraint,
+  createExistsConstraint,
+  createPatternConstraint,
+  createEqualsConstraint
 } from './constraints';

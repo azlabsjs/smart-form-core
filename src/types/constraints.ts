@@ -1,63 +1,14 @@
-/**
- * Unique constaint type declaration
- */
-export type UniqueConstraint = {
-  /**
-   * Constaint handler function
-   */
-  fn:
-    | string
-    | (<T = unknown>(
-        control: string,
-        value: T
-      ) => { unique: true } | undefined);
-  /**
-   * Provides the list of conditions applied on properties of the return value of the
-   * `fn` function.
-   *
-   * **Note** When using a function as condition, if the function returns true, we assume the
-   * value is not unique, else we assume the value does is unique
-   */
-  conditions?: string[] | (<T = unknown>(value: T) => boolean);
-  /**
-   * The on result if provided handles will be invoke on the result of the `fn` function.
-   * It must return true if the value exists in the data source and false if not
-   */
-  onResult?: <T = unknown>(
-    value: T,
-    constraint: UniqueConstraint
-  ) => { unique: true } | undefined;
-};
-
-/**
- * Exists constraint type declaration
- */
-export type ExistsConstraint = {
+export type AsyncConstraint<T = boolean> = {
+  query?: string;
   /**
    * Constraint handler function
    */
-  fn:
-    | string
-    | (<T = unknown>(
-        control: string,
-        value: T
-      ) => { exists: true } | undefined);
+  fn: string | ((control: string, value: unknown) => T | Promise<T>);
   /**
    * Provides the list of conditions applied on properties of the return value of the
    * `fn` function.
-   *
-   * **Note** When using a function as condition, if the function returns true, we assume the
-   * value exists, else we assume the value does not exists
    */
-  conditions?: string[] | (<T = unknown>(value: T) => boolean);
-  /**
-   * The on result if provided handles will be invoke on the result of the `fn` function.
-   * It must return true if the value exists in the data source and false if not
-   */
-  onResult?: <T = unknown>(
-    value: T,
-    constraint: ExistsConstraint
-  ) => { exists: true } | undefined;
+  conditions?: string[] | ((value: unknown) => boolean);
 };
 
 export type EqualsConstaint = {
@@ -140,7 +91,7 @@ export type IsMailConstraint = {
 export type InputConstraint = {
   required: boolean;
   disabled?: boolean;
-  unique?: UniqueConstraint;
-  exists?: ExistsConstraint;
+  unique?: AsyncConstraint<boolean>;
+  exists?: AsyncConstraint<boolean>;
   equals?: EqualsConstaint;
 };
