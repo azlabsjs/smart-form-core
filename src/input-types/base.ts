@@ -45,11 +45,9 @@ export function buildBase(source: ControlInterface) {
     description: description,
     index,
     group: controlGroupKey,
-
     disabled: Boolean(disabled),
     readOnly: Boolean(readonly),
     hidden: type === InputTypes.HIDDEN_INPUT,
-
     constraints: {
       exists: exists
         ? {

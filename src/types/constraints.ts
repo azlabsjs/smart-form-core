@@ -16,12 +16,7 @@ export type EqualsConstaint = {
    * Uses the equality function passed as parameter or a strict equality function
    * by default if only a string value is passed as parameter.
    */
-  fn:
-    | string
-    | (<T = unknown>(
-        control: string,
-        value: T
-      ) => { equals: true } | undefined);
+  fn: string;
 };
 
 /**
@@ -33,12 +28,7 @@ export type PatternConstraint = {
     /**
      * Pattern string or pattern verifier function
      */
-    fn:
-      | string
-      | (<T = unknown>(
-          value: T,
-          pattern: string
-        ) => { pattern: true } | undefined);
+    fn: string;
   };
 };
 

@@ -104,11 +104,16 @@ export function createPatternConstraint(pattern: string) {
 /**
  * Equality constraint factory
  */
-export function createEqualsConstraint() {
+export function createEqualsConstraint(equals?: (a: any, b: any) => boolean) {
   return (a: unknown, b: unknown) => {
     if (isNotDefined(a) && isNotDefined(b)) {
       return true;
     }
-    return JSON.stringify(a) === JSON.stringify(b);
+    const _equals = equals
+      ? equals
+      : (_a: any, _b: any) => {
+          return _a === _b;
+        };
+    return _equals(a, b);
   };
 }
