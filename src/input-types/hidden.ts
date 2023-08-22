@@ -1,6 +1,8 @@
 import {
   BaseControlType,
-  ConditionableControlType,
+  HasExistsConstraint,
+  HasUniqueConstraint,
+  HasRequiredIfConstraint,
   ControlInterface,
   HasAttributesType,
 } from '../compact/types';
@@ -11,7 +13,9 @@ import { buildBase } from './base';
  * @internal
  */
 type ArgType = BaseControlType &
-  ConditionableControlType &
+  Partial<HasExistsConstraint> &
+  Partial<HasUniqueConstraint> &
+  Partial<HasRequiredIfConstraint> &
   Partial<HasAttributesType>;
 
 /**

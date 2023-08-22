@@ -16,11 +16,34 @@ export interface FormInterface {
 }
 
 /**
- * Controls that are conditionable type definition
+ * Configuration for inputs with existance constraint
  */
-export type ConditionableControlType = {
-  requiredIf?: string;
-  uniqueOn?: string;
+export type HasExistsConstraint = {
+  exists:
+    | string
+    | {
+        url: string;
+        conditions?: string | string[];
+      };
+};
+
+/**
+ * Configuration for input with required if constraint
+ */
+export type HasRequiredIfConstraint = {
+  requiredIf: string;
+};
+
+/**
+ * Configuration for input with unique constraints
+ */
+export type HasUniqueConstraint = {
+  uniqueOn:
+    | string
+    | {
+        url: string;
+        conditions?: string | string[];
+      };
 };
 
 /**
@@ -161,7 +184,12 @@ export interface ControlInterface
     Partial<HasNumberAttributesType>,
     Partial<ControlGroupType>,
     Partial<BelongsToControlGroupType>,
-    ConditionableControlType {
+    Partial<HasExistsConstraint>,
+    Partial<HasRequiredIfConstraint>,
+    Partial<HasUniqueConstraint> {
+  /**
+   * Input container class configuration value
+   */
   containerClass?: string;
   /**
    * Added to support equality constraints

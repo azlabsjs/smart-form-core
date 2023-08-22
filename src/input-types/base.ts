@@ -25,6 +25,7 @@ export function buildBase(source: ControlInterface) {
     description,
     controlGroupKey,
     requiredIf,
+    exists,
   } = source;
   const _requiredIf = requiredIf
     ? buildRequiredIfConfig(requiredIf)
@@ -50,9 +51,22 @@ export function buildBase(source: ControlInterface) {
     hidden: type === InputTypes.HIDDEN_INPUT,
 
     constraints: {
+      exists: exists
+        ? {
+            fn: typeof exists === 'string' ? exists : exists['url'],
+            conditions: typeof exists === 'string' ? [] : exists['conditions'],
+          }
+        : undefined,
       required: Boolean(required),
       disabled: Boolean(disabled ?? readonly),
-      unique: unique && uniqueOn ? { fn: uniqueOn } : undefined,
+      unique:
+        unique && uniqueOn
+          ? {
+              fn: typeof uniqueOn === 'string' ? uniqueOn : uniqueOn['url'],
+              conditions:
+                typeof uniqueOn === 'string' ? [] : uniqueOn['conditions'],
+            }
+          : undefined,
       equals: equals ? { fn: equals } : undefined,
     },
   } as InputConfigInterface;

@@ -22,6 +22,20 @@ function isPromise<T>(value: unknown): value is Promise<T> {
   );
 }
 
+function mapInto<T = unknown>(value: T, _callback: (value: any) => boolean) {
+  if (!Array.isArray(value)) {
+    return _callback(value);
+  }
+  let _result = true;
+  for (const _v of value) {
+    if (false === _callback(_v)) {
+      _result = false;
+      break;
+    }
+  }
+  return _result;
+}
+
 /**
  * Creates an exists result validator which calls a condition evaluation function
  */
@@ -45,7 +59,8 @@ export function createExistsConstraint(conditions?: ConditionType) {
     const _value = isPromise(_result)
       ? _result
       : new Promise<T>((_resolve) => _resolve(_result));
-    return _fn((await _value) as any);
+    //
+    return mapInto(await _value, _fn);
   };
 }
 
@@ -72,7 +87,8 @@ export function createUniqueConstraint(conditions?: ConditionType) {
     const _value = isPromise(_result)
       ? _result
       : new Promise<T>((_resolve) => _resolve(_result));
-    return !_fn((await _value) as any);
+    //
+    return !mapInto(await _value, _fn);
   };
 }
 
