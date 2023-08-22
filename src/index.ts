@@ -3,7 +3,7 @@ export {
   ControlGroupInterface,
   ControlInterface,
   FormInterface,
-  ObservableInput
+  ObservableInput,
 } from './compact';
 // Form helpers
 export {
@@ -15,12 +15,16 @@ export {
   isCustomURL,
   isValidHttpUrl,
   setControlChildren,
-  sortRawFormControls
+  sortRawFormControls,
+  createLogicalAnd,
+  createLogicalOr,
+  createUniqueQueryResultValidator,
+  createExistsQueryResultValidator,
 } from './helpers';
 // Options helpers
 export {
   mapIntoInputOptions,
-  mapStringListToInputOptions
+  mapStringListToInputOptions,
 } from './input-types/options';
 // Types exports
 export {
@@ -44,9 +48,5 @@ export {
   OptionsInputConfigInterface,
   TextAreaInput,
   TextInput,
-  TimeInput
+  TimeInput,
 } from './types';
-
-
-
-

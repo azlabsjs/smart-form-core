@@ -1,7 +1,5 @@
 /**
  * @internal
- * 
- * @param config 
  */
 function getConfigValues(config: string) {
   // Split using | operator if it was used
@@ -24,8 +22,6 @@ function getConfigValues(config: string) {
 
 /**
  * @internal
- * 
- * @param values 
  */
 function transform(values: string[]) {
   // Map each value of the list and return a valid js value type
