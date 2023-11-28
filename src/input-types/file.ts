@@ -6,16 +6,25 @@ import { buildBase } from './base';
  * Creates an instance of {@see FileInput} interface
  */
 export function buildFileInput(source: ControlInterface) {
-  const { multiple, required, autoupload, pattern, uploadAs, uploadURL, max } =
-    source;
+  const {
+    multiple,
+    required,
+    autoupload,
+    pattern,
+    uploadAs,
+    uploadURL,
+    max,
+    read,
+  } = source;
   const _base = buildBase(source);
   return {
     ..._base,
     // TODO: Remove the rules constraint in version 0.3.x
     rules: { isRequired: Boolean(required) },
     multiple: Boolean(multiple),
+    read: read ?? 'id',
     uploadUrl: uploadURL,
-    pattern: pattern,
+    pattern,
     maxFileSize: max ?? undefined,
     autoupload: autoupload || false,
     uploadAs: uploadAs ?? 'file',

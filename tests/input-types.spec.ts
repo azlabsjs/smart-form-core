@@ -52,6 +52,7 @@ describe('Test input types builder functions', () => {
     expect(input.uploadUrl).toEqual(
       'https://storage.lik.tg/api?name=cjhi783r2398h9r2yi2bccwhiuwc'
     );
+    expect(input.read).toBe('id');
   });
 
   it('should build a hidden input', () => {

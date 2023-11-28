@@ -131,6 +131,14 @@ export type HasUploadAttributesType = {
 };
 
 /**
+ * Provides configuration about how file input value should
+ * be read when an record is resolved from remote source
+ */
+export type HasReadAttribute = {
+  read: 'id' | 'object';
+};
+
+/**
  * Text control type definition
  */
 export type HasTextAttributesType = {
@@ -186,7 +194,8 @@ export interface ControlInterface
     Partial<BelongsToControlGroupType>,
     Partial<HasExistsConstraint>,
     Partial<HasRequiredIfConstraint>,
-    Partial<HasUniqueConstraint> {
+    Partial<HasUniqueConstraint>,
+    Partial<HasReadAttribute> {
   /**
    * Input container class configuration value
    */

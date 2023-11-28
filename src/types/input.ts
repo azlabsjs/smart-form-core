@@ -123,6 +123,15 @@ export interface FileInput extends InputConfigInterface {
   autoupload?: boolean;
   uploadAs?: string;
   /**
+   * Property is added to allow input value reader to either
+   * read `id` property of the resolved object or entire object
+   * 
+   * By default the implementation will read the id property if 
+   * it exists on the object or resolve the entire object if id is
+   * not defined.
+   */
+  read?: 'id' | 'object';
+  /**
    * @deprecated
    */
   pattern?: string;
@@ -168,7 +177,10 @@ export interface TextInput extends InputConfigInterface {
    * Constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
-  constraints?: InputConstraint & PatternConstraint & TextLengthConstraint & IsMailConstraint;
+  constraints?: InputConstraint &
+    PatternConstraint &
+    TextLengthConstraint &
+    IsMailConstraint;
 }
 
 // @internal
