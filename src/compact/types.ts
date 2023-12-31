@@ -135,7 +135,7 @@ export type HasUploadAttributesType = {
  * be read when an record is resolved from remote source
  */
 export type HasReadAttribute = {
-  read: 'id' | 'object';
+  read: 'id' | 'object' | 'url';
 };
 
 /**

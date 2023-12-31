@@ -130,7 +130,7 @@ export interface FileInput extends InputConfigInterface {
    * it exists on the object or resolve the entire object if id is
    * not defined.
    */
-  read?: 'id' | 'object';
+  read?: 'id' | 'object' | 'url';
   /**
    * @deprecated
    */
