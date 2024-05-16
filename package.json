@@ -2,6 +2,7 @@
     "version": "0.2.12",
     "license": "MIT",
     "main": "dist/index.js",
+    "types": "dist/types/index.d.ts",
     "typings": "dist/types/index.d.ts",
     "files": [
         "dist/**/*"
@@ -31,9 +32,14 @@
     },
     "exports": {
         ".": {
-            "import": "./dist/esm/index.mjs",
-            "require": "./dist/cjs/index.cjs",
-            "default": "./dist/cjs/index.cjs"
+            "import": {
+                "types": "./dist/types/index.d.mts",
+                "default": "./dist/esm/index.mjs"
+            },
+            "require": {
+                "types": "./dist/types/index.d.ts",
+                "default": "./dist/cjs/index.cjs"
+            }
         }
     },
     "name": "@azlabsjs/smart-form-core",
@@ -50,7 +56,7 @@
         }
     ],
     "devDependencies": {
-        "@azlabsjs/ts-build": "^0.1.16",
+        "@azlabsjs/ts-build": "^0.4.6",
         "@size-limit/preset-small-lib": "^8.2.6",
         "@types/jest": "^28.1.5",
         "@typescript-eslint/eslint-plugin": "^5.30.6",
@@ -66,7 +72,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/azlabsjs/smart-form-core.git"
+        "url": "git+https://github.com/azlabsjs/smart-form-core.git"
     },
     "publishConfig": {
         "registry": "https://npm.pkg.github.com/@azlabsjs"
