@@ -1,5 +1,5 @@
 import { ControlInterface } from '../compact';
-import { buildRequiredIfConfig } from '../helpers';
+import { buildRequiredIfConfig } from '../helpers/builders';
 import { InputConfigInterface, InputTypes } from '../types';
 
 /**
