@@ -8,7 +8,7 @@ import {
   TimeConstraint,
 } from './constraints';
 import { InputValidationRule } from './input-rules';
-import { InputOptionsInterface } from './options';
+import { InputOptions } from './options';
 
 // @internal
 // Internal type definition of an options config source object
@@ -32,9 +32,27 @@ export type OptionsConfig = {
 };
 
 // @internal
+type TextInputConstraint = InputConstraint &
+  PatternConstraint &
+  TextLengthConstraint &
+  IsMailConstraint;
+
+// @internal
+type NumberInputConstraint = InputConstraint & NumberConstraint;
+
+// @internal
+type DateInputConstraint = InputConstraint & DateConstraint;
+
+// @internal
+type FileInputConstraint = InputConstraint & PatternConstraint;
+
+// @internal
+type TimeInputConstraint = InputConstraint & TimeConstraint;
+
+// @internal
 export interface OptionsInputConfigInterface extends InputConfigInterface {
   optionsConfig?: OptionsConfig;
-  options: InputOptionsInterface;
+  options: InputOptions;
   multiple?: boolean;
 }
 
@@ -81,7 +99,7 @@ export interface InputConfigInterface {
    * Constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
-  constraints?: InputConstraint;
+  constraints?: Partial<InputConstraint>;
   requiredIf?: InputRequireIfConfig;
 }
 
@@ -112,7 +130,7 @@ export interface DateInput extends InputConfigInterface {
    * Constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
-  constraints?: InputConstraint & DateConstraint;
+  constraints?: Partial<DateInputConstraint>;
 }
 
 // @internal
@@ -125,8 +143,8 @@ export interface FileInput extends InputConfigInterface {
   /**
    * Property is added to allow input value reader to either
    * read `id` property of the resolved object or entire object
-   * 
-   * By default the implementation will read the id property if 
+   *
+   * By default the implementation will read the id property if
    * it exists on the object or resolve the entire object if id is
    * not defined.
    */
@@ -139,7 +157,7 @@ export interface FileInput extends InputConfigInterface {
    * Constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
-  constraints?: InputConstraint & PatternConstraint;
+  constraints?: Partial<FileInputConstraint>;
 }
 
 // @internal
@@ -156,7 +174,7 @@ export interface NumberInput extends InputConfigInterface {
    * Constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
-  constraints?: InputConstraint & NumberConstraint;
+  constraints?: Partial<NumberInputConstraint>;
 }
 
 // @internal
@@ -177,10 +195,7 @@ export interface TextInput extends InputConfigInterface {
    * Constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
-  constraints?: InputConstraint &
-    PatternConstraint &
-    TextLengthConstraint &
-    IsMailConstraint;
+  constraints?: Partial<TextInputConstraint>;
 }
 
 // @internal
@@ -195,7 +210,7 @@ export interface TextAreaInput extends InputConfigInterface {
    * Constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
-  constraints?: InputConstraint & TextLengthConstraint;
+  constraints?: Partial<InputConstraint & TextLengthConstraint>;
 }
 
 // @internal
@@ -212,5 +227,5 @@ export interface TimeInput extends InputConfigInterface {
    * Constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
-  constraints?: InputConstraint & TimeConstraint;
+  constraints?: Partial<TimeInputConstraint>;
 }

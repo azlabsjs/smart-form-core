@@ -41,6 +41,7 @@ export {
   InputOption,
   InputOptionsClient,
   InputOptionsInterface,
+  InputOptions,
   InputRequireIfConfig,
   InputTypes,
   InputValidationRule,

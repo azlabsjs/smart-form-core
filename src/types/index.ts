@@ -15,7 +15,7 @@ export {
 } from './form';
 
 //
-export { InputOption, InputOptionsInterface } from './options';
+export { InputOption, InputOptions, InputOptionsInterface } from './options';
 
 // Input interface
 export {

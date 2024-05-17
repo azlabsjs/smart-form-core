@@ -1,15 +1,21 @@
 /**
  * @description Abstract representation of a checkbox, radio or combobox option
  */
-export interface InputOption {
-  value: any;
-  description?: string;
+export interface InputOption<T = any> {
+  value: T;
   name: string;
   type?: string;
   selected?: boolean;
+  description?: string;
 }
 
 /**
- * @description Union abstraction a checkbox, radio or combobox option on the native platform
+ * Exported list like type of input options
+ */
+export type InputOptions<T = any> = InputOption<T>[];
+
+/**
+ * @deprecated use @link {InputOptions}
+ * Exported list like type of input options
  */
 export type InputOptionsInterface = InputOption[];
