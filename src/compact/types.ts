@@ -172,7 +172,10 @@ export type HasNumberAttributesType = {
 /** @description Computed input type declaration */
 export type HasComputeAttribute = {
   compute:
-    | (<T, TReturn = any>(form: T) => TReturn)
+    | {
+        fn: <T, TReturn = any>(form: T) => TReturn;
+        deps: string[];
+      }
     | {
         fn: string;
         args: string[];
@@ -186,11 +189,7 @@ export type ControlGroupType = {
   children: ControlInterface[];
 };
 
-/**
- * @internal
- *
- * Type definition of API forms inputs/controls structure
- */
+/** @internal Type definition of API forms inputs/controls structure */
 export interface ControlInterface
   extends BaseControlType,
     Partial<HasAttributesType>,

@@ -98,7 +98,6 @@ describe('Test input types builder functions', () => {
     const input = buildNumberInput(computableInput);
     expect(input.type).toEqual(InputTypes.NUMBER_INPUT);
     expect(input.constraints?.disabled).toEqual(true);
-    expect(typeof input.compute !== 'function').toEqual(true);
     expect((input.compute as {fn: string, args: string[]}).fn).toEqual('avg');
     expect((input.compute as {fn: string, args: string[]}).args).toEqual(['[stakeholders.*.gpg]']);
   });

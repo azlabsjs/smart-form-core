@@ -12,7 +12,10 @@ import { InputOptions } from './options';
 
 /** @description Type declaration of input control which have value computed from other input values */
 export type ComputeConfigType =
-  | (<T, TReturn = any>(form: T) => TReturn)
+  | {
+      fn: <T, TReturn = any>(form: T) => TReturn;
+      deps: string[];
+    }
   | {
       fn: string;
       args: string[];
