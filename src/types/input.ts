@@ -10,6 +10,14 @@ import {
 import { InputValidationRule } from './input-rules';
 import { InputOptions } from './options';
 
+/** @description Type declaration of input control which have value computed from other input values */
+export type ComputeConfigType =
+  | (<T, TReturn = any>(form: T) => TReturn)
+  | {
+      fn: string;
+      args: string[];
+    };
+
 // @internal
 // Internal type definition of an options config source object
 export type OptionsConfigSource = {
@@ -75,32 +83,43 @@ export interface InputConfigInterface {
   index?: number;
   isRepeatable: boolean;
   containerClass: string;
+
   /**
    * @deprecated
    */
   hidden?: boolean;
+
   /**
    * @deprecated
    */
   disabled?: boolean;
+
   /**
    * @deprecated
    */
   readOnly?: boolean;
+
   /**
    * @deprecated
    */
   unique?: string;
+
   /**
    * @deprecated
    */
   rules?: InputValidationRule;
+
   /**
    * Constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
   constraints?: Partial<InputConstraint>;
+
+  /** @description This configuration hide or show the input on the UI base on another input value */
   requiredIf?: InputRequireIfConfig;
+
+  /** @description Use compute property to provide an automatic computation on the input value. This might make input disabled by default */
+  compute?: ComputeConfigType;
 }
 
 // @internal

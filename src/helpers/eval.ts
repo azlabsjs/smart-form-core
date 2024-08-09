@@ -1,6 +1,4 @@
-/**
- * Converts expression into a 1 dimensional list of expressions
- */
+/** @description Converts expression into a 1 dimensional list of expressions */
 function flattenExpression(expression: string | string[]) {
   const _expression = Array.isArray(expression) ? expression : [expression];
   return _expression.reduce((carry, current) => {
@@ -9,7 +7,7 @@ function flattenExpression(expression: string | string[]) {
 }
 
 /**
- * Create an evaluation function that join conditions using `and` operator.
+ * @description Create an evaluation function that join conditions using `and` operator.
  * The evaluation returns true if all conditions returns true
  */
 export function createLogicalAnd(expression: string | string[]) {
@@ -17,16 +15,14 @@ export function createLogicalAnd(expression: string | string[]) {
 }
 
 /**
- * Create an evaluation function that join conditions using `or` operator
- * The evaluation returns true if one of the conditions returns true
+ *  @description Create an evaluation function that join conditions using `or` operator
+ *  The evaluation returns true if one of the conditions returns true
  */
 export function createLogicalOr(expression: string | string[]) {
   return createEvalCall(expression, true);
 }
 
-/**
- * Create a condition evaluation function on object properties
- */
+/** @description Create a condition evaluation function on object properties */
 function createEvalCall(expression: string | string[], or = false) {
   return <T extends Record<string, unknown> = Record<string, unknown>>(
     memory: T,

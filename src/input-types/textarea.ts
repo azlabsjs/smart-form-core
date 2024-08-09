@@ -2,16 +2,12 @@ import { ControlInterface } from '../compact/types';
 import { InputTypes, TextAreaInput } from '../types';
 import { buildBase } from './base';
 
-/**
- * @internal
- */
+/** @internal */
 function isNotDefined(value: unknown): value is undefined {
   return typeof value === 'undefined' || value === null;
 }
 
-/**
- * Creates an instance of the {@see TextAreaInput} interface
- */
+/** @description Creates an instance of the {@see TextAreaInput} interface */
 export function buildTextAreaInput(source: ControlInterface) {
   const { max, maxLength, rows, columns, required } = source;
   const _max = max ?? maxLength;

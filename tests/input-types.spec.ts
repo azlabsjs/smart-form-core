@@ -8,6 +8,7 @@ import { buildTimeInput } from '../src/input-types/time';
 import { InputTypes } from '../src/types';
 import {
   birthDate,
+  computableInput,
   descriptionText,
   profileImage,
   startTime,
@@ -91,5 +92,14 @@ describe('Test input types builder functions', () => {
     expect(input.max).toEqual('10:00');
     expect(input.rules?.min).toBe(true);
     expect(input.rules?.max).toBe(true);
+  });
+
+  it('should build mark input as disabled if compte property is provided', () => {
+    const input = buildNumberInput(computableInput);
+    expect(input.type).toEqual(InputTypes.NUMBER_INPUT);
+    expect(input.constraints?.disabled).toEqual(true);
+    expect(typeof input.compute !== 'function').toEqual(true);
+    expect((input.compute as {fn: string, args: string[]}).fn).toEqual('avg');
+    expect((input.compute as {fn: string, args: string[]}).args).toEqual(['[stakeholders.*.gpg]']);
   });
 });

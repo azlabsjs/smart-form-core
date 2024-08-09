@@ -9,18 +9,14 @@ import {
 import { InputConfigInterface, InputTypes } from '../types';
 import { buildBase } from './base';
 
-/**
- * @internal
- */
+/** @internal */
 type ArgType = BaseControlType &
   Partial<HasExistsConstraint> &
   Partial<HasUniqueConstraint> &
   Partial<HasRequiredIfConstraint> &
   Partial<HasAttributesType>;
 
-/**
- * Creates an instance of {@see InputConfigInterface} interface
- */
+/** @description Creates an instance of {@see InputConfigInterface} interface */
 export function buildHiddenInput(source: ArgType) {
   const _base = buildBase(source as ControlInterface);
   return {

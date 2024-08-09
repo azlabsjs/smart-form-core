@@ -9,14 +9,10 @@ import {
 } from '../types';
 import { buildBase } from './base';
 
-/**
- * @internal
- */
+/** @internal */
 type UIPropertiesType = { keyBy: string; groupBy?: string; valueBy: string };
 
-/**
- * @internal
- */
+/** @internal */
 function getObjectProperty<T extends { [prop: string]: any }>(
   source: T,
   key: string,
@@ -53,9 +49,7 @@ function getObjectProperty<T extends { [prop: string]: any }>(
   }
 }
 
-/**
- * @internal
- */
+/** @internal */
 function defaultIfEmpty<T>(str: T | undefined, default$?: any) {
   if (typeof str === 'string' && str.length === 0) {
     return default$;
@@ -63,9 +57,7 @@ function defaultIfEmpty<T>(str: T | undefined, default$?: any) {
   return str ?? default$;
 }
 
-/**
- * @internal
- */
+/** @internal */
 function createOptionsConfigFromDefinitions(
   raw: string,
   properties: UIPropertiesType
@@ -113,9 +105,7 @@ function createOptionsConfigFromDefinitions(
   } as OptionsConfig;
 }
 
-/**
- * @internal
- */
+/** @internal */
 function createOptionsConfigFromDefault(
   raw: string,
   properties: UIPropertiesType
@@ -129,9 +119,7 @@ function createOptionsConfigFromDefault(
   } as OptionsConfig;
 }
 
-/**
- * @internal
- */
+/** @internal */
 export function createOptionsConfig(source: Partial<ControlInterface>) {
   // Compile for deprecated properties definition
 
@@ -168,11 +156,7 @@ export function createOptionsConfig(source: Partial<ControlInterface>) {
   return createOptionsConfigFromDefault(optionsConfig, uiProperties);
 }
 
-/**
- * @internal
- *
- * Creates an instance of {@see OptionsInputConfigInterface} interface
- */
+/**  @internal Creates an instance of {@see OptionsInputConfigInterface} interface */
 export function buildSelectableInput(
   source: ControlInterface,
   type: 'radio' | 'checkbox' | 'select'
@@ -192,9 +176,7 @@ export function buildSelectableInput(
   } as OptionsInput;
 }
 
-/**
- * Map list of values to options input dictionary type declaration
- */
+/** @description Map list of values to options input dictionary type declaration */
 export function mapIntoInputOptions(
   optionsConfig: OptionsConfig,
   values: Record<string, any>[]
@@ -219,9 +201,7 @@ export function mapIntoInputOptions(
     : [];
 }
 
-/**
- * Project string values to option input dictionary type declaration
- */
+/** @description Project string values to option input dictionary type declaration */
 export function mapStringListToInputOptions(values: string[] | string) {
   const _values =
     typeof values === 'string' ? values.split('|') : (values as string[]);

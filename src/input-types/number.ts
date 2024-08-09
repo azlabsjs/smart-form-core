@@ -2,16 +2,12 @@ import { ControlInterface } from '../compact/types';
 import { InputTypes, NumberInput } from '../types';
 import { buildBase } from './base';
 
-/**
- * @internal
- */
+/** @internal */
 function isNotDefined(value: unknown): value is undefined {
   return typeof value === 'undefined' || value === null;
 }
 
-/**
- * Creates an instance {@see NumberInput} interface
- */
+/** @description Creates an instance {@see NumberInput} interface */
 export function buildNumberInput(source: ControlInterface) {
   const { min, max } = source;
   const _base = buildBase(source);

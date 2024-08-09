@@ -2,9 +2,7 @@ import { ControlInterface } from '../compact/types';
 import { FileInput, InputTypes } from '../types';
 import { buildBase } from './base';
 
-/**
- * Creates an instance of {@see FileInput} interface
- */
+/** @description Creates an instance of {@see FileInput} interface */
 export function buildFileInput(source: ControlInterface) {
   const {
     multiple,

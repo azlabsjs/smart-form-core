@@ -93,7 +93,7 @@ describe('Constraints builder tests', () => {
     expect(input.constraints?.required).not.toBe(false);
     expect(input.constraints?.max).toBe(255);
     expect(input.constraints?.min).toBe(2);
-    expect(input.constraints?.pattern.fn).toBe('/d{1,}/');
+    expect(input.constraints?.pattern?.fn).toBe('/d{1,}/');
 
     const input2 = buildTextInput({
       id: 1,

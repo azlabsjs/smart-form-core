@@ -169,6 +169,16 @@ export type HasNumberAttributesType = {
   //#endregion Number & Time input properties
 };
 
+/** @description Computed input type declaration */
+export type HasComputeAttribute = {
+  compute:
+    | (<T, TReturn = any>(form: T) => TReturn)
+    | {
+        fn: string;
+        args: string[];
+      };
+};
+
 /**
  * Group of controls type definition
  */
@@ -195,14 +205,12 @@ export interface ControlInterface
     Partial<HasExistsConstraint>,
     Partial<HasRequiredIfConstraint>,
     Partial<HasUniqueConstraint>,
-    Partial<HasReadAttribute> {
-  /**
-   * Input container class configuration value
-   */
+    Partial<HasReadAttribute>,
+    Partial<HasComputeAttribute> {
+  /** @description Input container class configuration value */
   containerClass?: string;
-  /**
-   * Added to support equality constraints
-   */
+
+  /** @description Added to support equality constraints */
   equals?: string;
 }
 

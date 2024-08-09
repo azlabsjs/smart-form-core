@@ -2,31 +2,30 @@ import { ControlInterface } from '../compact/types';
 import { DateInput, InputTypes } from '../types';
 import { buildBase } from './base';
 
-/**
- * Date format constant
- */
+/** @description Date format constant */
 const format = { year: 'numeric', month: '2-digit', day: '2-digit' } as any;
 
-/**
- * Today template identifiers constant
- */
+/** @description Today template identifiers constant */
 const todayRef = ['now', 'today', 'TODAY', 'NOW'];
 
+/** @internal */
 type ToSecond = () => number;
+
+/** @internal */
 type HigherOrderToSecond = () => (_date: Date) => number;
+
+/** @internal */
 type ToSecondType = ToSecond | HigherOrderToSecond;
 
 /**
- * Compute the boolean value from the value of the year
+ * @description Compute the boolean value from the value of the year
  * and return true if year is a leap year or false otherwise
  */
 function isLeapYear(year: number) {
   return (0 == year % 4 && 0 != year % 100) || 0 == year % 400;
 }
 
-/**
- * Custom date factory function
- */
+/** @description Custom date factory function */
 function createDateValue(_value: string, _ref: string) {
   const _expression = _value.substring(_ref.length).trim();
   const _today = new Date();
@@ -75,9 +74,7 @@ function createDateValue(_value: string, _ref: string) {
   return _today.toLocaleDateString('en-US', format);
 }
 
-/**
- * Creates an instance of the {@see DateInput} interface
- */
+/** @description Creates an instance of the {@see DateInput} interface */
 export function buildDateInput(source: ControlInterface) {
   const { min, max, minDate, maxDate, required } = source;
   const _min = min ?? minDate;

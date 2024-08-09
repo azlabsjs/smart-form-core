@@ -75,12 +75,10 @@ export type IsMailConstraint = {
   email: boolean;
 };
 
-/**
- * Input constraints API provide a replacement for validation rule API
- */
+/** Input constraints API provide a replacement for validation rule API */
 export type InputConstraint = {
   required: boolean;
-  disabled?: boolean;
+  disabled: boolean;
   unique?: AsyncConstraint<boolean>;
   exists?: AsyncConstraint<boolean>;
   equals?: EqualsConstaint;

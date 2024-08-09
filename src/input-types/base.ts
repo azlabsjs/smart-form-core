@@ -2,9 +2,7 @@ import { ControlInterface } from '../compact';
 import { buildRequiredIfConfig } from '../helpers/builders';
 import { InputConfigInterface, InputTypes } from '../types';
 
-/**
- * @internal
- */
+/** @internal */
 export function buildBase(source: ControlInterface) {
   const {
     required,
@@ -26,6 +24,7 @@ export function buildBase(source: ControlInterface) {
     controlGroupKey,
     requiredIf,
     exists,
+    compute,
   } = source;
   const _requiredIf = requiredIf
     ? buildRequiredIfConfig(requiredIf)
@@ -48,6 +47,7 @@ export function buildBase(source: ControlInterface) {
     disabled: Boolean(disabled),
     readOnly: Boolean(readonly),
     hidden: type === InputTypes.HIDDEN_INPUT,
+    compute,
     constraints: {
       exists: exists
         ? {
@@ -56,7 +56,8 @@ export function buildBase(source: ControlInterface) {
           }
         : undefined,
       required: Boolean(required),
-      disabled: Boolean(disabled ?? readonly),
+      // Case the value of compute property is provided, we mark the input as disabled
+      disabled: compute ? true : Boolean(disabled ?? readonly),
       unique:
         unique && uniqueOn
           ? {

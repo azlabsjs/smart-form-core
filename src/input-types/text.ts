@@ -1,18 +1,13 @@
 import { ControlInterface } from '../compact/types';
 import { InputTypes, TextInput } from '../types';
 import { buildBase } from './base';
-/**
- * @internal
- */
+
+/** @internal */
 function isNotDefined(value: unknown): value is undefined {
   return typeof value === 'undefined' || value === null;
 }
 
-/**
- * Creates an instance of {@see TextInput} interface
- *
- * @param source
- */
+/** @description Creates an instance of {@see TextInput} interface */
 export function buildTextInput(
   source: ControlInterface,
   _type?: 'text' | 'phone' | 'email' | 'password'

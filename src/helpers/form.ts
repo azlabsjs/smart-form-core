@@ -96,12 +96,7 @@ export const sortRawFormControls = (value: FormInterface) => {
   } as FormInterface;
 };
 
-/**
- * Group controls by property of the control interface type
- *
- * @param controls
- * @param property
- */
+/** @description Group controls by property of the control interface type */
 export function groupControlsBy(
   controls: ControlInterface[],
   property: keyof ControlInterface
@@ -116,9 +111,7 @@ export function groupControlsBy(
   }, {} as { [index: string]: any });
 }
 
-/**
- * @internal
- */
+/** @internal */
 export function setControlChildren(value: FormInterface) {
   return (
     groupBy: (

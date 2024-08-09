@@ -266,3 +266,27 @@ export const authorizationGroupsCheckbox = {
   multiple: true,
   options: [],
 };
+
+export const computableInput = {
+  formId: 1,
+  controlName: 'compute',
+  controlIndex: 14,
+  required: true,
+  disabled: false,
+  readonly: false,
+  unique: false,
+  isRepeatable: false,
+  containerClass: 'clr-col-sm-12 clr-col-md-6',
+  id: 14,
+  label: 'COMPUTABLE INPUT',
+  placeholder: '...',
+  type: 'checkbox',
+  classes: 'clr-input',
+  optionsConfig: '2:ADMIN|3:STANDARD|4:OPÉRATEUR',
+  multiple: true,
+  compute: {
+    fn: 'avg',
+    args: ['[stakeholders.*.gpg]'],
+  },
+  options: [],
+};

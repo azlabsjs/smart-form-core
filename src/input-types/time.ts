@@ -2,9 +2,7 @@ import { ControlInterface } from '../compact';
 import { InputTypes, TimeInput } from '../types';
 import { buildBase } from './base';
 
-/**
- * @internal
- */
+/** @internal */
 function isNotDefined(value: unknown): value is undefined {
   return typeof value === 'undefined' || value === null;
 }
