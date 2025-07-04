@@ -1,5 +1,8 @@
 import { OptionsConfig } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnknownType = any;
+
 /**
  * @internal
  * Type definition of API forms structure
@@ -107,7 +110,7 @@ export type HasSelectAttributesType = {
 
   optionsConfig?: string | OptionsConfig;
   modelFilters?: string;
-  options?: { [index: string]: any }[];
+  options?: { [index: string]: UnknownType }[];
   multiple: number | boolean;
 
   //#endregion Option UI cconfiguration attributes
@@ -173,7 +176,7 @@ export type HasNumberAttributesType = {
 export type HasComputeAttribute = {
   compute:
     | {
-        fn: <T, TReturn = any>(form: T) => TReturn;
+        fn: <T, TReturn = UnknownType>(form: T) => TReturn;
         deps: string[];
       }
     | {

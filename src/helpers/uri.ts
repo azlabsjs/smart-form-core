@@ -8,6 +8,7 @@ export function isValidHttpUrl(uri: string) {
   try {
     const url = new URL(uri);
     return url.protocol === 'http:' || url.protocol === 'https:';
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (_) {
     return false;
   }
@@ -47,7 +48,8 @@ export function urlHost(uri: string) {
       return `${`${uri.endsWith('/') ? uri.slice(0, -1) : uri}`}`;
     }
     return uri ?? '';
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (_) {
     return '';
   }
 }

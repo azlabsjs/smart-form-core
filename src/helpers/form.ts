@@ -2,6 +2,9 @@ import { ControlInterface, FormInterface } from '../compact/types';
 import { FormConfigInterface } from '../types';
 import { createInput } from './input-types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnknownType = any;
+
 function sort<T>(
   list: T[],
   path?: string[] | string | ((a: T, b: T) => number),
@@ -20,7 +23,7 @@ function sort<T>(
     return [...list].sort((a, b) => (a > b ? order : order * -1));
   }
 
-  return [...list].sort((a: any, b: any) => {
+  return [...list].sort((a: UnknownType, b: UnknownType) => {
     // We go for each property followed by path
     if (path instanceof Array) {
       path.forEach((property) => {
@@ -96,19 +99,22 @@ export const sortRawFormControls = (value: FormInterface) => {
   } as FormInterface;
 };
 
-/** @description Group controls by property of the control interface type */
+/** @description group controls by property of the control interface type */
 export function groupControlsBy(
   controls: ControlInterface[],
   property: keyof ControlInterface
 ) {
-  return controls.reduce((carry, current) => {
-    const key = (current[property] ?? 'root') as string;
-    if (!carry[key]) {
-      carry[key] = [];
-    }
-    carry[key].push(current);
-    return carry;
-  }, {} as { [index: string]: any });
+  return controls.reduce(
+    (carry, current) => {
+      const key = (current[property] ?? 'root') as string;
+      if (!carry[key]) {
+        carry[key] = [];
+      }
+      carry[key].push(current);
+      return carry;
+    },
+    {} as { [index: string]: UnknownType }
+  );
 }
 
 /** @internal */

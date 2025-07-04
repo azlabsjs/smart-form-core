@@ -11,6 +11,8 @@ import { buildTextAreaInput } from '../input-types/textarea';
 import { buildTimeInput } from '../input-types/time';
 import { InputConfigInterface, InputGroup, InputTypes } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnknownType = any;
 /**
  * @internal
  */
@@ -19,7 +21,7 @@ type ControlType = ControlInterface | ControlGroupInterface;
 /**
  * @internal
  */
-type BuilderType = (model: any) => InputConfigInterface | InputGroup;
+type BuilderType = (model: UnknownType) => InputConfigInterface | InputGroup;
 
 // @internal
 // Creates input types from server side configuration objects

@@ -9,11 +9,14 @@ import {
 } from '../types';
 import { buildBase } from './base';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnknownType = any;
+
 /** @internal */
 type UIPropertiesType = { keyBy: string; groupBy?: string; valueBy: string };
 
 /** @internal */
-function getObjectProperty<T extends { [prop: string]: any }>(
+function getObjectProperty<T extends { [prop: string]: UnknownType }>(
   source: T,
   key: string,
   seperator = '.'
@@ -39,7 +42,7 @@ function getObjectProperty<T extends { [prop: string]: any }>(
           !Array.isArray(current) &&
           typeof current === 'object' &&
           carry[prop]
-            ? carry[prop] ?? undefined
+            ? (carry[prop] ?? undefined)
             : undefined;
       }
       return carry;
@@ -50,11 +53,11 @@ function getObjectProperty<T extends { [prop: string]: any }>(
 }
 
 /** @internal */
-function defaultIfEmpty<T>(str: T | undefined, default$?: any) {
+function defaultIfEmpty<T>(str: T | undefined, d?: T): T {
   if (typeof str === 'string' && str.length === 0) {
-    return default$;
+    return d as T;
   }
-  return str ?? default$;
+  return (str ?? d) as T;
 }
 
 /** @internal */
@@ -121,7 +124,7 @@ function createOptionsConfigFromDefault(
 
 /** @internal */
 export function createOptionsConfig(source: Partial<ControlInterface>) {
-  // Compile for deprecated properties definition
+  // compile for deprecated properties definition
 
   //#region Variables initialization
   const optionsConfig = defaultIfEmpty(
@@ -176,10 +179,10 @@ export function buildSelectableInput(
   } as OptionsInput;
 }
 
-/** @description Map list of values to options input dictionary type declaration */
+/** @description map list of values to options input dictionary type declaration */
 export function mapIntoInputOptions(
   optionsConfig: OptionsConfig,
-  values: Record<string, any>[]
+  values: Record<string, unknown>[]
 ) {
   return values
     ? values.map((current) => {

@@ -108,15 +108,17 @@ function createEvalCall(expression: string | string[], or = false) {
             typeofVal !== 'string' && typeofVal !== 'number'
               ? JSON.stringify(propValue)
               : propValue
-          ) as any;
-          const _b = (typeofVal === 'number' ? Number(_value) : _value) as any;
+          ) as string;
+          const _b = (
+            typeofVal === 'number' ? Number(_value) : _value
+          ) as string;
           const _operator = _op as keyof typeof EXPRESSIONS;
           const _expressionResult = EXPRESSIONS[_operator](_a, _b);
           _result = _negate ? !_expressionResult : _expressionResult;
           break;
         }
       }
-      // When the result evaluates to false, we drop from the context, as it's an and evaluation
+      // when the result evaluates to false, we drop from the context, as it's an and evaluation
       if (
         (or === true && _result === true) ||
         (or === false && _result === false)

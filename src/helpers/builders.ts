@@ -1,6 +1,4 @@
-/**
- * @internal
- */
+/** @internal */
 function getConfigValues(config: string) {
   // Split using | operator if it was used
   if (config.indexOf('|') !== -1) {
@@ -47,7 +45,7 @@ function transform(values: string[]) {
 }
 
 // @internal
-// Used this function to parse and transform requiredIf configuration
+// used this function to parse and transform requiredIf configuration
 // string
 export function buildRequiredIfConfig(config: string) {
   if (config?.indexOf(':') === -1) {
