@@ -10,10 +10,13 @@ import {
 import { InputValidationRule } from './input-rules';
 import { InputOptions } from './options';
 
-/** @description Type declaration of input control which have value computed from other input values */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnknownType = any;
+
+/** @description type declaration of input control which have value computed from other input values */
 export type ComputeConfigType =
   | {
-      fn: <T, TReturn = any>(form: T) => TReturn;
+      fn: <T, TReturn = UnknownType>(form: T) => TReturn;
       deps: string[];
     }
   | {
@@ -80,7 +83,7 @@ export interface InputConfigInterface {
   name: string;
   classes: string;
   placeholder?: string;
-  value?: any;
+  value?: unknown;
   description?: string;
   group?: string | number;
   index?: number;
@@ -125,10 +128,11 @@ export interface InputConfigInterface {
   compute?: ComputeConfigType;
 }
 
-// @internal
-export interface InputRequireIfConfig {
+
+/** @internal */
+export interface InputRequireIfConfig<T = unknown> {
   name: string;
-  values: any[];
+  values: T[];
 }
 
 // @internal

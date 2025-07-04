@@ -1,6 +1,10 @@
 import { ObservableInput, FormInterface } from '../compact';
 import { InputConfigInterface } from './input';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnknownType = any;
+
+/** @internal */
 type FormMethods = 'GET' | 'POST' | 'PUT';
 
 /**
@@ -51,7 +55,7 @@ export interface FormsLoader {
    */
   load(
     endpoint: string,
-    options?: { [index: string]: any }
+    options?: { [index: string]: UnknownType }
   ): ObservableInput<FormInterface[]>;
 }
 
@@ -80,6 +84,6 @@ export interface CacheProvider {
    */
   cache(
     endpoint: string,
-    options?: { [index: string]: any }
+    options?: { [index: string]: UnknownType }
   ): ObservableInput<never> | ObservableInput<FormInterface[]>;
 }

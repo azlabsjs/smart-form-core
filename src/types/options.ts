@@ -1,7 +1,7 @@
 /**
- * @description Abstract representation of a checkbox, radio or combobox option
+ * @description abstract representation of a checkbox, radio or combobox option
  */
-export interface InputOption<T = any> {
+export interface InputOption<T = unknown> {
   value: T;
   name: string;
   type?: string;
@@ -10,12 +10,12 @@ export interface InputOption<T = any> {
 }
 
 /**
- * Exported list like type of input options
+ * exported list like type of input options
  */
-export type InputOptions<T = any> = InputOption<T>[];
+export type InputOptions<T = unknown> = InputOption<T>[];
 
 /**
  * @deprecated use @link {InputOptions}
- * Exported list like type of input options
+ *
  */
 export type InputOptionsInterface = InputOption[];
