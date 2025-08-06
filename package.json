@@ -1,6 +1,6 @@
 {
     "name": "@azlabsjs/smart-form-core",
-    "version": "0.2.30",
+    "version": "0.2.39",
     "license": "MIT",
     "main": "dist/index.js",
     "author": "azandrew-sidoine",
