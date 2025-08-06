@@ -44,9 +44,7 @@ function sort<T>(
   });
 }
 
-/**
- * @internal
- */
+/** @internal */
 function sortBy(
   controls: ControlInterface[],
   property: keyof ControlInterface,
@@ -55,12 +53,7 @@ function sortBy(
   return sort(controls, property, order);
 }
 
-/**
- * Helper function for creating form objects from a server object definition
- *
- * @param instance
- * @returns
- */
+/** helper function for creating form objects from a server object definition */
 export function buildFormSync(instance: FormInterface) {
   if (typeof instance === 'undefined' || instance === null) {
     return undefined;
@@ -80,18 +73,14 @@ export function buildFormSync(instance: FormInterface) {
 
 // # Forms Creators
 
-/**
- * @description Helper method for creating a new dynmaic form
- * @param form Object with the shape of the FormConfigInterface interface
- */
+/** Helper method for creating a new dynmaic form */
 export function createform(form: FormConfigInterface) {
   return { ...form } as FormConfigInterface;
 }
 
 // #Forms Soring function
 
-// @internal
-// Sort form loaded from backend server by control index
+// @internal sort form loaded from backend server by control index
 export const sortRawFormControls = (value: FormInterface) => {
   return {
     ...value,
@@ -99,7 +88,7 @@ export const sortRawFormControls = (value: FormInterface) => {
   } as FormInterface;
 };
 
-/** @description group controls by property of the control interface type */
+/** group controls by property of the control interface type */
 export function groupControlsBy(
   controls: ControlInterface[],
   property: keyof ControlInterface

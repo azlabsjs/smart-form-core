@@ -56,7 +56,7 @@ export function buildBase(source: ControlInterface) {
           }
         : undefined,
       required: Boolean(required),
-      // Case the value of compute property is provided, we mark the input as disabled
+
       disabled: compute ? true : Boolean(disabled ?? readonly),
       unique:
         unique && uniqueOn

@@ -13,20 +13,16 @@ import { InputConfigInterface, InputGroup, InputTypes } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type UnknownType = any;
-/**
- * @internal
- */
+
+/** @internal */
 type ControlType = ControlInterface | ControlGroupInterface;
 
-/**
- * @internal
- */
+/** @internal */
 type BuilderType = (model: UnknownType) => InputConfigInterface | InputGroup;
 
-// @internal
-// Creates input types from server side configuration objects
+// @internal creates input types from server side configuration objects
 export function createInput(model: ControlType) {
-  const _builders: Record<string, BuilderType> = {
+  const builders: Record<string, BuilderType> = {
     [InputTypes.DATE_INPUT]: buildDateInput,
     [InputTypes.SELECT_INPUT]: (model) =>
       buildSelectableInput(model, InputTypes.SELECT_INPUT),
@@ -49,17 +45,15 @@ export function createInput(model: ControlType) {
     [InputTypes.CONTROL_GROUP]: buildInputGroup,
   };
 
-  // We create a builder function variable from the model type or fallback to
-  // buildTextInput if the model type does not exists
-  const _builder =
-    _builders[model.type] ??
+  const fn =
+    builders[model.type] ??
     ((model) => buildTextInput(model, InputTypes.TEXT_INPUT));
 
-  return _builder(model) as InputConfigInterface;
+  return fn(model) as InputConfigInterface;
 }
 
 /**
- * Create an {@see InputGroup} type from API data structure
+ * create an {@see InputGroup} type from API data structure
  *
  * This function serves as bridge for transforming server structured
  * control interface into client supported interface
@@ -70,8 +64,6 @@ export function createInput(model: ControlType) {
  * }); // Instance of InputGroup
  * ```
  *
- * @param source
- * @returns
  */
 export function buildInputGroup(source: ControlGroupInterface) {
   return {

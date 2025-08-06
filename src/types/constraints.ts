@@ -1,20 +1,15 @@
 export type AsyncConstraint<T = boolean> = {
   query?: string;
-  /**
-   * Constraint handler function
-   */
+  /** constraint handler function */
   fn: string | ((control: string, value: unknown) => T | Promise<T>);
-  /**
-   * Provides the list of conditions applied on properties of the return value of the
-   * `fn` function.
-   */
+  /** provides the list of conditions applied on properties of the return value of the `fn` function. */
   conditions?: string[] | ((value: unknown) => boolean);
 };
 
 export type EqualsConstaint = {
   /**
    * Uses the equality function passed as parameter or a strict equality function
-   * by default if only a string value is passed as parameter.
+   * by default if only a string value is passed as parameter
    */
   fn: string;
 };
@@ -25,9 +20,7 @@ export type EqualsConstaint = {
  */
 export type PatternConstraint = {
   pattern: {
-    /**
-     * Pattern string or pattern verifier function
-     */
+    /** Pattern string or pattern verifier function */
     fn: string;
   };
 };

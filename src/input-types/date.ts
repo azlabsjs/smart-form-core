@@ -26,13 +26,13 @@ function isLeapYear(year: number) {
   return (0 == year % 4 && 0 != year % 100) || 0 == year % 400;
 }
 
-/** @description Custom date factory function */
-function createDateValue(_value: string, _ref: string) {
-  const _expression = _value.substring(_ref.length).trim();
-  const _today = new Date();
+/** custom date factory function */
+function createDateValue(v: string, ref: string) {
+  const expr = v.substring(ref.length).trim();
+  const t = new Date();
   const computesecondsPerYr = (_date: Date) =>
     isLeapYear(_date.getFullYear()) ? 366 * 24 * 60 * 60 : 366 * 24 * 60 * 60;
-  const _toSeconds: Record<string, ToSecondType> = {
+  const tosecond: Record<string, ToSecondType> = {
     s: () => 1,
     sec: () => 1,
     secs: () => 1,
@@ -55,59 +55,59 @@ function createDateValue(_value: string, _ref: string) {
     years: () => computesecondsPerYr,
   };
 
-  if (_expression.length !== 0) {
-    const _operator = _expression.substring(0, 1).trim();
+  if (expr.length !== 0) {
+    const _operator = expr.substring(0, 1).trim();
     if (['+', '-'].indexOf(_operator) === -1) {
       throw new Error('Bad custom date format!');
     }
-    const _timeUnitExpr = _expression.substring(1).trim();
-    const _match = _timeUnitExpr.match(/(\d+)/);
+    const timeunitexpr = expr.substring(1).trim();
+    const _match = timeunitexpr.match(/(\d+)/);
     const numeric = _match ? _match[0] : undefined;
-    const _timeUnit = numeric
-      ? _timeUnitExpr.substring(numeric.length).trim()
-      : _timeUnitExpr;
-    const _fn = _toSeconds[_timeUnit] ?? (() => 0);
-    const _fnResult = _fn();
-    const _seconds =
+    const timeunit = numeric
+      ? timeunitexpr.substring(numeric.length).trim()
+      : timeunitexpr;
+    const fn = tosecond[timeunit] ?? (() => 0);
+    const fnresult = fn();
+    const seconds =
       Number(numeric ?? 0) *
-      (typeof _fnResult === 'function' ? _fnResult(_today) : _fnResult);
+      (typeof fnresult === 'function' ? fnresult(t) : fnresult);
     if (_operator === '+') {
-      _today.setSeconds(_today.getSeconds() + _seconds);
+      t.setSeconds(t.getSeconds() + seconds);
     } else {
-      _today.setSeconds(_today.getSeconds() - _seconds);
+      t.setSeconds(t.getSeconds() - seconds);
     }
   }
-  return _today.toLocaleDateString('en-US', format);
+  return t.toLocaleDateString('en-US', format);
 }
 
-/** @description Creates an instance of the {@see DateInput} interface */
+/** creates an instance of the {@see DateInput} interface */
 export function buildDateInput(source: ControlInterface) {
-  const { min, max, minDate, maxDate, required } = source;
-  const _min = min ?? minDate;
-  const _max = max ?? maxDate;
-  const _base = buildBase(source);
-  const minIndex = todayRef.indexOf(String(_min));
-  const maxIndex = todayRef.indexOf(String(_max));
+  const { min: minimum, max: maximum, minDate, maxDate, required } = source;
+  const min = minimum ?? minDate;
+  const max = maximum ?? maxDate;
+  const base = buildBase(source);
+  const minIndex = todayRef.indexOf(String(min));
+  const maxIndex = todayRef.indexOf(String(max));
 
   return {
-    ..._base,
-    // TODO: Remove the rules constraint in version 0.3.x
+    ...base,
+    // TODO: remove the rules constraint in version 0.3.x
     rules: {
       isRequired: Boolean(required),
-      maxDate: Boolean(_min),
-      minDate: Boolean(_max),
+      maxDate: Boolean(min),
+      minDate: Boolean(max),
     },
     type: InputTypes.DATE_INPUT,
     minDate:
       minIndex !== -1
-        ? createDateValue(String(_min), todayRef[minIndex])
-        : _min,
+        ? createDateValue(String(min), todayRef[minIndex])
+        : min,
     maxDate:
       maxIndex !== -1
-        ? createDateValue(String(_max), todayRef[maxIndex])
-        : _max,
+        ? createDateValue(String(max), todayRef[maxIndex])
+        : max,
     currentDate: new Date().toLocaleDateString('en-US', format),
     inputFormat: 'dd/mm/yyyy',
-    constraints: { ...(_base.constraints ?? {}), min: _min, max: _max },
+    constraints: { ...(base.constraints ?? {}), min, max },
   } as DateInput;
 }

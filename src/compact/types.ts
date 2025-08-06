@@ -3,10 +3,7 @@ import { OptionsConfig } from '../types';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type UnknownType = any;
 
-/**
- * @internal
- * Type definition of API forms structure
- */
+/** @internal type definition of API forms structure */
 export interface FormInterface {
   id: number;
   title: string;
@@ -19,7 +16,7 @@ export interface FormInterface {
 }
 
 /**
- * Configuration for inputs with existance constraint
+ * configuration for inputs with existance constraint
  */
 export type HasExistsConstraint = {
   exists:
@@ -185,9 +182,7 @@ export type HasComputeAttribute = {
       };
 };
 
-/**
- * Group of controls type definition
- */
+/**  @description of controls type definition */
 export type ControlGroupType = {
   children: ControlInterface[];
 };
@@ -216,9 +211,7 @@ export interface ControlInterface
   equals?: string;
 }
 
-/**
- * @interal Type definition of OptionInterface
- */
+/** @interal Type definition of OptionInterface */
 export interface OptionInterface {
   id: number;
   table: string;
@@ -228,10 +221,7 @@ export interface OptionInterface {
   displayLabel: string;
 }
 
-/**
- * // @internal
- * @description Type definition for group of controls
- */
+/** @internal Type definition for group of controls */
 export interface ControlGroupInterface extends ControlInterface {
   children: ControlInterface[];
 }

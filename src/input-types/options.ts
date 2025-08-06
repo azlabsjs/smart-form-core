@@ -18,7 +18,7 @@ type UIPropertiesType = { keyBy: string; groupBy?: string; valueBy: string };
 /** @internal */
 function getObjectProperty<T extends { [prop: string]: UnknownType }>(
   source: T,
-  key: string,
+  key?: string,
   seperator = '.'
 ) {
   if (
@@ -30,6 +30,7 @@ function getObjectProperty<T extends { [prop: string]: UnknownType }>(
   ) {
     return source ?? undefined;
   }
+
   if (key.includes(seperator ?? '.')) {
     // Creates an array of inner properties
     const properties = key.split(seperator ?? '.');
@@ -53,7 +54,7 @@ function getObjectProperty<T extends { [prop: string]: UnknownType }>(
 }
 
 /** @internal */
-function defaultIfEmpty<T>(str: T | undefined, d?: T): T {
+function valueOr<T>(str: T | undefined, d?: T): T {
   if (typeof str === 'string' && str.length === 0) {
     return d as T;
   }
@@ -66,12 +67,10 @@ function createOptionsConfigFromDefinitions(
   properties: UIPropertiesType
 ) {
   const components = raw.split('|') || [];
-  //#region Initialize components
-  // By default we use id for item key property and label for their value property
   let { keyBy, groupBy, valueBy } = properties;
   let resource!: string;
   let filters!: string;
-  //#endregion Initialiaze components
+
   for (const component of components) {
     if (component.match(/keyfield:/)) {
       keyBy = component.replace('keyfield:', '');
@@ -94,6 +93,7 @@ function createOptionsConfigFromDefinitions(
       continue;
     }
   }
+
   return {
     params: {
       keyBy,
@@ -126,89 +126,85 @@ function createOptionsConfigFromDefault(
 export function createOptionsConfig(source: Partial<ControlInterface>) {
   // compile for deprecated properties definition
 
-  //#region Variables initialization
-  const optionsConfig = defaultIfEmpty(
+  const config = valueOr(
     source.selectableModel,
-    defaultIfEmpty(
-      source.optionsConfig,
-      defaultIfEmpty(source.selectableValues)
-    )
+    valueOr(source.optionsConfig, valueOr(source.selectableValues))
   );
   const uiProperties = {
-    keyBy: defaultIfEmpty(source?.keyfield, 'id'),
-    groupBy: defaultIfEmpty(source.groupfield),
-    valueBy: defaultIfEmpty(source?.valuefield, 'label'),
+    keyBy: valueOr(source?.keyfield, 'id'),
+    groupBy: valueOr(source.groupfield),
+    valueBy: valueOr(source?.valuefield, 'label'),
   };
-  //#endregion Variables initialization
 
-  if (typeof optionsConfig === 'object' && optionsConfig !== null) {
-    return optionsConfig as OptionsConfig;
+  if (typeof config === 'object' && config !== null) {
+    return config as OptionsConfig;
   }
-  if (typeof optionsConfig === 'undefined' || optionsConfig === null) {
+  if (typeof config === 'undefined' || config === null) {
     return undefined;
   }
-  // Case an HTTP url is configured as option config definition
-  if (isValidHttpUrl(optionsConfig)) {
-    return createOptionsConfigFromDefault(optionsConfig, uiProperties);
+
+  if (isValidHttpUrl(config)) {
+    return createOptionsConfigFromDefault(config, uiProperties);
   }
-  // Case option configuration is configured on a model based configuration
-  if (optionsConfig.match(/table:/) && optionsConfig.match(/keyfield:/)) {
-    return createOptionsConfigFromDefinitions(optionsConfig, uiProperties);
+
+  if (config.match(/table:/) && config.match(/keyfield:/)) {
+    return createOptionsConfigFromDefinitions(config, uiProperties);
   }
-  // Default case
-  return createOptionsConfigFromDefault(optionsConfig, uiProperties);
+
+  return createOptionsConfigFromDefault(config, uiProperties);
 }
 
-/**  @internal Creates an instance of {@see OptionsInputConfigInterface} interface */
+/**  @internal creates an instance of {@see OptionsInputConfigInterface} interface */
 export function buildSelectableInput(
   source: ControlInterface,
   type: 'radio' | 'checkbox' | 'select'
 ) {
   const { options, multiple, required } = source;
-  const _options = options ?? [];
-  const optionsConfig = createOptionsConfig(source);
+  const o = options ?? [];
+  const config = createOptionsConfig(source);
   const _base = buildBase(source);
   return {
     ..._base,
-    // TODO: Remove the rules constraint in version 0.3.x
+    // TODO: remove the rules constraint in version 0.3.x
     rules: { isRequired: Boolean(required) },
     multiple: Boolean(multiple),
     type,
-    optionsConfig: _options.length > 0 ? undefined : optionsConfig,
-    options: _options,
+    optionsConfig: o.length > 0 ? undefined : config,
+    options: o,
   } as OptionsInput;
 }
 
 /** @description map list of values to options input dictionary type declaration */
 export function mapIntoInputOptions(
-  optionsConfig: OptionsConfig,
+  config: OptionsConfig,
   values: Record<string, unknown>[]
 ) {
+  const { params } = config;
+  const { keyBy, valueBy, groupBy } = params ?? {
+    keyBy: 'id',
+    valueBy: 'label',
+    groupBy: 'id',
+  };
+
   return values
     ? values.map((current) => {
         return {
-          value: getObjectProperty(current, optionsConfig.params?.keyBy || ''),
-          description: getObjectProperty(
-            current,
-            optionsConfig.params?.valueBy || ''
-          ),
-          name: getObjectProperty(current, optionsConfig.params?.valueBy || ''),
+          value: getObjectProperty(current, keyBy),
+          description: getObjectProperty(current, valueBy),
+          name: getObjectProperty(current, valueBy),
           type:
-            optionsConfig.params?.groupBy &&
-            optionsConfig.params?.keyBy !== optionsConfig.params?.groupBy &&
-            optionsConfig.params?.valueBy !== optionsConfig.params?.groupBy
-              ? current[optionsConfig.params?.groupBy]
+            groupBy && keyBy !== groupBy && valueBy !== groupBy
+              ? current[groupBy]
               : undefined,
         } as InputOption;
       })
     : [];
 }
 
-/** @description Project string values to option input dictionary type declaration */
-export function mapStringListToInputOptions(values: string[] | string) {
-  const _values =
-    typeof values === 'string' ? values.split('|') : (values as string[]);
-  return _values?.map((current) => {
+/** @description project string values to option input dictionary type declaration */
+export function mapStringListToInputOptions(p: string[] | string) {
+  const values = typeof p === 'string' ? p.split('|') : (Array.isArray(p) ? p : []);
+  return values.map((current) => {
     if (current.indexOf(':') !== -1) {
       const state = current.split(':');
       return {

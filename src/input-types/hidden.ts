@@ -18,9 +18,9 @@ type ArgType = BaseControlType &
 
 /** @description Creates an instance of {@see InputConfigInterface} interface */
 export function buildHiddenInput(source: ArgType) {
-  const _base = buildBase(source as ControlInterface);
+  const base = buildBase(source as ControlInterface);
   return {
-    ..._base,
+    ...base,
     // TODO: Remove the rules constraint in version 0.3.x
     type: InputTypes.HIDDEN_INPUT,
     rules: { isRequired: Boolean(source.required) },

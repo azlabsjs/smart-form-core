@@ -7,13 +7,13 @@ function isNotDefined(value: unknown): value is undefined {
   return typeof value === 'undefined' || value === null;
 }
 
-/** @description Creates an instance {@see NumberInput} interface */
+/** creates an instance {@see NumberInput} interface */
 export function buildNumberInput(source: ControlInterface) {
   const { min, max } = source;
-  const _base = buildBase(source);
+  const base = buildBase(source);
   return {
-    ..._base,
-    // TODO: Remove the rules constraint in version 0.3.x
+    ...base,
+    // TODO: remove the rules constraint in version 0.3.x
     rules: {
       isRequired: Boolean(source.required),
       max: Boolean(max),
@@ -23,7 +23,7 @@ export function buildNumberInput(source: ControlInterface) {
     max: isNotDefined(max) ? undefined : +max,
     type: InputTypes.NUMBER_INPUT,
     constraints: {
-      ...(_base.constraints ?? {}),
+      ...(base.constraints ?? {}),
       min: isNotDefined(min) ? undefined : +min,
       max: isNotDefined(max) ? undefined : +max,
     },

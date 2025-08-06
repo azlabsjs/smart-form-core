@@ -7,22 +7,22 @@ function isNotDefined(value: unknown): value is undefined {
   return typeof value === 'undefined' || value === null;
 }
 
-/** @description Creates an instance of the {@see TextAreaInput} interface */
+/** creates an instance of the {@see TextAreaInput} interface */
 export function buildTextAreaInput(source: ControlInterface) {
-  const { max, maxLength, rows, columns, required } = source;
-  const _max = max ?? maxLength;
-  const _base = buildBase(source);
+  const { max: maximum, maxLength, rows, columns, required } = source;
+  const max = maximum ?? maxLength;
+  const base = buildBase(source);
   return {
-    ..._base,
-    // TODO: Remove the rules constraint in version 0.3.x
+    ...base,
+    // TODO: remove the rules constraint in version 0.3.x
     rules: { isRequired: Boolean(required) },
     rows: rows,
     cols: columns,
-    maxLength: isNotDefined(_max) ? undefined : +_max,
+    maxLength: isNotDefined(max) ? undefined : +max,
     type: InputTypes.TEXTAREA_INPUT,
     constraints: {
-      ...(_base.constraints ?? {}),
-      max: isNotDefined(_max) ? undefined : +_max,
+      ...(base.constraints ?? {}),
+      max: isNotDefined(max) ? undefined : +max,
     },
   } as TextAreaInput;
 }
