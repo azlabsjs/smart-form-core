@@ -8,9 +8,9 @@ export interface InputValidationRule {
   maxDate?: boolean;
   minDate?: boolean;
   email?: boolean;
+  pattern?: boolean;
   /** @deprecated */
   notUnique?: boolean;
-  pattern?: boolean;
   /** @deprecated */
   same?: boolean;
   /** @deprecated */

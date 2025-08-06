@@ -138,16 +138,30 @@ export interface InputConfigInterface {
 }
 
 // @internal
+type RefetchTriggerType = {
+  input: string;
+  event?: 'change' | 'blur';
+};
+
+// @internal
+type RefetchConfigType = {
+  trigger: string | RefetchTriggerType;
+  query?: string;
+};
+
+// @internal
 export interface OptionsInput extends InputConfigInterface {
   /** @deprecated will be replaced in future release with `fetch` */
   optionsConfig?: OptionsConfig;
-  options: InputOptions;
+
   multiple?: boolean;
   events?: Partial<SelectEventConfig>;
+  refetch?: RefetchConfigType[];
+  options: InputOptions;
 }
 
 /** @deprecated use `OptionsInput instead` */
-export type OptionsInputConfigInterface =  OptionsInput;
+export type OptionsInputConfigInterface = OptionsInput;
 
 // @internal
 export interface InputRequireIfConfig<T = unknown> {
