@@ -1,14 +1,14 @@
 import { ControlGroupInterface, ControlInterface } from '../compact';
 import { buildRequiredIfConfig } from '../helpers/builders';
-import { buildBase } from '../input-types/base';
-import { buildDateInput } from '../input-types/date';
-import { buildFileInput } from '../input-types/file';
-import { buildHiddenInput } from '../input-types/hidden';
-import { buildNumberInput } from '../input-types/number';
-import { buildSelectableInput } from '../input-types/options';
-import { buildTextInput } from '../input-types/text';
-import { buildTextAreaInput } from '../input-types/textarea';
-import { buildTimeInput } from '../input-types/time';
+import { buildBase } from '../inputs/base';
+import { buildDateInput } from '../inputs/date';
+import { buildFileInput } from '../inputs/file';
+import { buildHiddenInput } from '../inputs/hidden';
+import { buildNumberInput } from '../inputs/number';
+import { buildSelectableInput } from '../inputs/options';
+import { buildTextInput } from '../inputs/text';
+import { buildTextAreaInput } from '../inputs/textarea';
+import { buildTimeInput } from '../inputs/time';
 import { InputConfigInterface, InputGroup, InputTypes } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

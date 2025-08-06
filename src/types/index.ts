@@ -20,6 +20,7 @@ export { InputOption, InputOptions, InputOptionsInterface } from './options';
 // Input interface
 export {
   OptionsInputConfigInterface,
+  OptionsInput,
   InputConfigInterface,
   InputRequireIfConfig,
   OptionsConfigSource,

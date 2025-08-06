@@ -5,7 +5,7 @@ import {
   OptionsConfig,
   OptionsConfigParams,
   OptionsConfigSource,
-  OptionsInputConfigInterface as OptionsInput,
+  OptionsInput,
 } from '../types';
 import { buildBase } from './base';
 
@@ -154,7 +154,7 @@ export function createOptionsConfig(source: Partial<ControlInterface>) {
   return createOptionsConfigFromDefault(config, uiProperties);
 }
 
-/**  @internal creates an instance of {@see OptionsInputConfigInterface} interface */
+/**  @internal creates an instance of {@see OptionsInput} interface */
 export function buildSelectableInput(
   source: ControlInterface,
   type: 'radio' | 'checkbox' | 'select'
@@ -203,7 +203,8 @@ export function mapIntoInputOptions(
 
 /** @description project string values to option input dictionary type declaration */
 export function mapStringListToInputOptions(p: string[] | string) {
-  const values = typeof p === 'string' ? p.split('|') : (Array.isArray(p) ? p : []);
+  const values =
+    typeof p === 'string' ? p.split('|') : Array.isArray(p) ? p : [];
   return values.map((current) => {
     if (current.indexOf(':') !== -1) {
       const state = current.split(':');

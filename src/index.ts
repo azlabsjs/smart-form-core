@@ -27,7 +27,7 @@ export {
 export {
   mapIntoInputOptions,
   mapStringListToInputOptions,
-} from './input-types/options';
+} from './inputs/options';
 
 export {
   CacheProvider,
@@ -49,6 +49,7 @@ export {
   OptionsConfig,
   OptionsConfigParams,
   OptionsInputConfigInterface,
+  OptionsInput,
   TextAreaInput,
   TextInput,
   TimeInput,

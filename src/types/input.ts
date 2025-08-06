@@ -138,13 +138,16 @@ export interface InputConfigInterface {
 }
 
 // @internal
-export interface OptionsInputConfigInterface extends InputConfigInterface {
+export interface OptionsInput extends InputConfigInterface {
   /** @deprecated will be replaced in future release with `fetch` */
   optionsConfig?: OptionsConfig;
   options: InputOptions;
   multiple?: boolean;
   events?: Partial<SelectEventConfig>;
 }
+
+/** @deprecated use `OptionsInput instead` */
+export type OptionsInputConfigInterface =  OptionsInput;
 
 // @internal
 export interface InputRequireIfConfig<T = unknown> {

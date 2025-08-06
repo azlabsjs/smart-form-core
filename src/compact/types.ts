@@ -3,7 +3,7 @@ import { OptionsConfig } from '../types';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type UnknownType = any;
 
-/** @internal type definition of API forms structure */
+/** @deprecated type definition of API forms structure */
 export interface FormInterface {
   id: number;
   title: string;
@@ -16,7 +16,7 @@ export interface FormInterface {
 }
 
 /**
- * configuration for inputs with existance constraint
+ * @deprecated configuration for inputs with existance constraint
  */
 export type HasExistsConstraint = {
   exists:
@@ -28,14 +28,14 @@ export type HasExistsConstraint = {
 };
 
 /**
- * Configuration for input with required if constraint
+ * @deprecated configuration for input with required if constraint
  */
 export type HasRequiredIfConstraint = {
   requiredIf: string;
 };
 
 /**
- * Configuration for input with unique constraints
+ * @deprecated configuration for input with unique constraints
  */
 export type HasUniqueConstraint = {
   uniqueOn:
@@ -47,14 +47,14 @@ export type HasUniqueConstraint = {
 };
 
 /**
- * Control that belongs to a group type definition
+ * #deprecated control that belongs to a group type definition
  */
 export type BelongsToControlGroupType = {
   controlGroupKey?: string | number;
 };
 
 /**
- * Control having attributes type definition
+ * @deprecated control having attributes type definition
  */
 export type HasAttributesType = {
   required: number | boolean;
@@ -73,7 +73,7 @@ export type HasAttributesType = {
 };
 
 /**
- * Basic control type definition
+ * @deprecated basic control type definition
  */
 export type BaseControlType = {
   id: number;
@@ -83,7 +83,7 @@ export type BaseControlType = {
 };
 
 /**
- * Date control type definitions
+ * @deprecated date control type definitions
  */
 export type HasDateAttributesType = {
   //#region Date input properties
@@ -93,7 +93,7 @@ export type HasDateAttributesType = {
 };
 
 /**
- * Option/Combobox control type definition
+ * @deprecated option/combobox control type definition
  */
 export type HasSelectAttributesType = {
   //#region Options inputs properties
@@ -120,7 +120,7 @@ export type HasSelectAttributesType = {
 };
 
 /**
- * Upload control a.k.a file input type definition
+ * @deprecated upload control a.k.a file input type definition
  */
 export type HasUploadAttributesType = {
   //#region File input properties
@@ -139,7 +139,7 @@ export type HasReadAttribute = {
 };
 
 /**
- * Text control type definition
+ * @deprecated text control type definition
  */
 export type HasTextAttributesType = {
   //#region Text inputs properties
@@ -150,7 +150,7 @@ export type HasTextAttributesType = {
 };
 
 /**
- * Multi Text control type definition
+ * @deprecated multi Text control type definition
  */
 export type HasMultiTextAttributeType = {
   //#region Textarea inputs properties
@@ -160,7 +160,7 @@ export type HasMultiTextAttributeType = {
 };
 
 /**
- * Number control type definition
+ * @deprecated number control type definition
  */
 export type HasNumberAttributesType = {
   //#region Number & Time input properties
@@ -169,7 +169,7 @@ export type HasNumberAttributesType = {
   //#endregion Number & Time input properties
 };
 
-/** @description Computed input type declaration */
+/** @deprecated computed input type declaration */
 export type HasComputeAttribute = {
   compute:
     | {
@@ -182,12 +182,12 @@ export type HasComputeAttribute = {
       };
 };
 
-/**  @description of controls type definition */
+/**  @deprecated group of controls type definition */
 export type ControlGroupType = {
   children: ControlInterface[];
 };
 
-/** @internal Type definition of API forms inputs/controls structure */
+/** @deprecated Type definition of API forms inputs/controls structure */
 export interface ControlInterface
   extends BaseControlType,
     Partial<HasAttributesType>,
@@ -211,7 +211,7 @@ export interface ControlInterface
   equals?: string;
 }
 
-/** @interal Type definition of OptionInterface */
+/** @deprecated Type definition of OptionInterface */
 export interface OptionInterface {
   id: number;
   table: string;
@@ -221,7 +221,7 @@ export interface OptionInterface {
   displayLabel: string;
 }
 
-/** @internal Type definition for group of controls */
+/** @deprecated type definition for group of controls */
 export interface ControlGroupInterface extends ControlInterface {
   children: ControlInterface[];
 }

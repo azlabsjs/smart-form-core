@@ -6,7 +6,7 @@ import {
   buildTextAreaInput,
   buildTextInput,
   buildTimeInput,
-} from '../src/input-types';
+} from '../src/inputs';
 
 describe('Constraints builder tests', () => {
   it('should add default constraint if configuration provided', () => {
