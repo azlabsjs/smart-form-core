@@ -1,3 +1,4 @@
+import { Subscribable } from '../compact';
 import {
   DateConstraint,
   InputConstraint,
@@ -41,9 +42,31 @@ export type OptionsConfigParams = {
   filters?: string;
 };
 
+// @internal
+type RefetchTriggerType = {
+  input: string;
+  event?: 'change' | 'blur';
+};
+
+// @internal
+type RefetchConfigType = {
+  trigger: string | RefetchTriggerType;
+  query?: string;
+};
+
 export type OptionsConfig = {
   source: OptionsConfigSource;
   params?: OptionsConfigParams;
+  refetch?: RefetchConfigType[];
+};
+
+// type declaration of an instance of an options config with `refetch` property being an
+// observable which emit each time options needs to be refetched
+export type ObservableOptionsConfig<T = { [k: string]: unknown }> = Omit<
+  OptionsConfig,
+  'refetch'
+> & {
+  refetch: Subscribable<T>;
 };
 
 // @internal
@@ -134,29 +157,16 @@ export interface InputConfigInterface {
    */
   compute?: ComputeConfigType;
 
+  /** list of input event listeners */
   events?: Partial<EventConfig>;
 }
 
 // @internal
-type RefetchTriggerType = {
-  input: string;
-  event?: 'change' | 'blur';
-};
-
-// @internal
-type RefetchConfigType = {
-  trigger: string | RefetchTriggerType;
-  query?: string;
-};
-
-// @internal
 export interface OptionsInput extends InputConfigInterface {
   /** @deprecated will be replaced in future release with `fetch` */
-  optionsConfig?: OptionsConfig;
-
+  optionsConfig?: OptionsConfig | ObservableOptionsConfig;
   multiple?: boolean;
   events?: Partial<SelectEventConfig>;
-  refetch?: RefetchConfigType[];
   options: InputOptions;
 }
 

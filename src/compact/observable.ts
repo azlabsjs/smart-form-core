@@ -25,8 +25,11 @@ type Observer<T> = {
 };
 
 // @internal
-type Subscribable<T> = {
-  subscribe(observer: Partial<Observer<T>>): Unsubscribable;
+type NextFunction<T> = (value: T) => void
+
+// @internal
+export type Subscribable<T> = {
+  subscribe(observer: Partial<Observer<T>>| NextFunction<T>): Unsubscribable;
 };
 
 /** an object that implements the `Symbol.observable` interface. */
