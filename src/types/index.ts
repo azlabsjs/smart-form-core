@@ -1,12 +1,12 @@
 export { InputTypes } from './input-types';
 
-// Input rules interfaces
+// input rules interfaces
 export { InputValidationRule } from './input-rules';
 
-// Options provider client
+// options provider client
 export { InputOptionsClient } from './client';
 
-// Form interface
+// exported form API type declarations
 export {
   FormConfigInterface,
   FormsClient,
@@ -17,12 +17,11 @@ export {
 //
 export { InputOption, InputOptions, InputOptionsInterface } from './options';
 
-// Input interface
+// exported input API type declarations
 export {
   OptionsInputConfigInterface,
   OptionsInput,
   InputConfigInterface,
-  InputRequireIfConfig,
   OptionsConfigSource,
   OptionsConfigParams,
   OptionsConfig,
@@ -33,8 +32,11 @@ export {
   TextInput,
   TextAreaInput,
   TimeInput,
+  ObservableOptionsConfig
 } from './input';
 
+
+// exported constraint API type declarations
 export {
   InputConstraint,
   NumberConstraint,
@@ -43,5 +45,12 @@ export {
   EqualsConstaint,
   IsMailConstraint,
   TimeConstraint,
-  AsyncConstraint
+  AsyncConstraint,
+  Conditional,
+  /** @deprecated */
+  Conditional as InputRequireIfConfig,
+  RequiredConstraint,
+  RequiredIfConstraint,
+  DisabledConstraint,
+  DisabledIfConstraint,
 } from './constraints';

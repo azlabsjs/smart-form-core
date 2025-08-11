@@ -2,6 +2,7 @@ import { ControlInterface } from '../compact';
 import { isValidHttpUrl } from '../helpers/uri';
 import {
   InputOption,
+  ObservableOptionsConfig,
   OptionsConfig,
   OptionsConfigParams,
   OptionsConfigSource,
@@ -176,7 +177,7 @@ export function buildSelectableInput(
 
 /** @description map list of values to options input dictionary type declaration */
 export function mapIntoInputOptions(
-  config: OptionsConfig,
+  config: OptionsConfig | ObservableOptionsConfig,
   values: Record<string, unknown>[]
 ) {
   const { params } = config;

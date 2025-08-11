@@ -61,18 +61,44 @@ export type DateConstraint = {
 };
 
 /**
- * Constraint which if present on the input requires input to be validated
+ * constraint which if present on the input requires input to be validated
  * against an email rule
  */
 export type IsMailConstraint = {
   email: boolean;
 };
 
-/** Input constraints API provide a replacement for validation rule API */
-export type InputConstraint = {
-  required: boolean;
-  disabled: boolean;
+// @internal
+export interface Conditional<T = unknown> {
+  name: string;
+  values: T[];
+}
+
+export type BaseContraint = {
   unique?: AsyncConstraint<boolean>;
   exists?: AsyncConstraint<boolean>;
   equals?: EqualsConstaint;
 };
+
+// @internal
+export type RequiredConstraint = {
+  required: boolean;
+};
+
+export type RequiredIfConstraint = {
+  requiredIf: Conditional;
+};
+
+// @internal
+export type DisabledConstraint = {
+  disabled: boolean;
+};
+
+export type DisabledIfConstraint = {
+  disabledIf: Conditional;
+};
+
+/** input constraints API provide a replacement for validation rule API */
+export type InputConstraint = BaseContraint &
+  Partial<RequiredConstraint | RequiredIfConstraint> &
+  Partial<DisabledConstraint | DisabledIfConstraint>;

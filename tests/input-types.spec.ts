@@ -99,7 +99,11 @@ describe('Test input types builder functions', () => {
   it('should build mark input as disabled if compte property is provided', () => {
     const input = buildNumberInput(computableInput);
     expect(input.type).toEqual(InputTypes.NUMBER_INPUT);
-    expect(input.constraints?.disabled).toEqual(true);
+    expect(
+      !!input.constraints &&
+        'disabled' in input.constraints &&
+        input.constraints.disabled
+    ).toEqual(true);
     expect((input.compute as { fn: string; args: string[] }).fn).toEqual('avg');
     expect((input.compute as { fn: string; args: string[] }).args).toEqual([
       '[stakeholders.*.gpg]',

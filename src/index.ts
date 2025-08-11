@@ -21,7 +21,7 @@ export {
   createUniqueConstraint,
   createExistsConstraint,
   createPatternConstraint,
-  createEqualsConstraint
+  createEqualsConstraint,
 } from './helpers';
 
 export {
@@ -53,5 +53,9 @@ export {
   TextAreaInput,
   TextInput,
   TimeInput,
-  AsyncConstraint
+  AsyncConstraint,
+  RequiredConstraint,
+  RequiredIfConstraint,
+  DisabledConstraint,
+  DisabledIfConstraint,
 } from './types';

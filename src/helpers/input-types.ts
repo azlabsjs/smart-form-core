@@ -1,5 +1,5 @@
 import { ControlGroupInterface, ControlInterface } from '../compact';
-import { buildRequiredIfConfig } from '../helpers/builders';
+import { buildConditional } from './builders';
 import { buildBase } from '../inputs/base';
 import { buildDateInput } from '../inputs/date';
 import { buildFileInput } from '../inputs/file';
@@ -66,9 +66,11 @@ export function createInput(model: ControlType) {
  *
  */
 export function buildInputGroup(source: ControlGroupInterface) {
+  const { requiredIf, disabledIf } = source;
   return {
     ...buildBase(source),
-    requiredIf: buildRequiredIfConfig(source.requiredIf ?? ''),
+    requiredIf: requiredIf ? buildConditional(requiredIf) : undefined,
+    disabledIf: disabledIf ? buildConditional(disabledIf) : undefined,
     rules: {
       isRequired: Boolean(source.required),
       pattern: Boolean(source.pattern),

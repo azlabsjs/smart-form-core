@@ -1,5 +1,8 @@
-// @internal
-export { buildRequiredIfConfig } from './builders';
+export {
+  buildConditional,
+  /** @deprecated */
+  buildConditional as buildRequiredIfConfig,
+} from './builders';
 export {
   buildFormSync,
   createform,
@@ -7,16 +10,12 @@ export {
   setControlChildren,
   sortRawFormControls,
 } from './form';
-// @internal
 export { createInput } from './input-types';
-
 export { customToResourceURL, isCustomURL, isValidHttpUrl } from './uri';
-
 export { createLogicalAnd, createLogicalOr } from './eval';
-
 export {
   createUniqueConstraint,
   createExistsConstraint,
   createPatternConstraint,
-  createEqualsConstraint
+  createEqualsConstraint,
 } from './constraints';

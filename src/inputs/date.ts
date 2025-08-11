@@ -19,7 +19,7 @@ type HigherOrderToSecond = () => (_date: Date) => number;
 type ToSecondType = ToSecond | HigherOrderToSecond;
 
 /**
- * @description Compute the boolean value from the value of the year
+ * @description compute the boolean value from the value of the year
  * and return true if year is a leap year or false otherwise
  */
 function isLeapYear(year: number) {
@@ -82,12 +82,18 @@ function createDateValue(v: string, ref: string) {
 
 /** creates an instance of the {@see DateInput} interface */
 export function buildDateInput(source: ControlInterface) {
-  const { min: minimum, max: maximum, minDate, maxDate, required } = source;
-  const min = minimum ?? minDate;
-  const max = maximum ?? maxDate;
   const base = buildBase(source);
+
+  const { min: minimum, max: maximum, minDate, maxDate, required } = source;
+  let min = minimum ?? minDate;
+  let max = maximum ?? maxDate;
   const minIndex = todayRef.indexOf(String(min));
   const maxIndex = todayRef.indexOf(String(max));
+
+  min =
+    minIndex !== -1 ? createDateValue(String(min), todayRef[minIndex]) : min;
+  max =
+    maxIndex !== -1 ? createDateValue(String(max), todayRef[maxIndex]) : max;
 
   return {
     ...base,
@@ -98,14 +104,8 @@ export function buildDateInput(source: ControlInterface) {
       minDate: Boolean(max),
     },
     type: InputTypes.DATE_INPUT,
-    minDate:
-      minIndex !== -1
-        ? createDateValue(String(min), todayRef[minIndex])
-        : min,
-    maxDate:
-      maxIndex !== -1
-        ? createDateValue(String(max), todayRef[maxIndex])
-        : max,
+    minDate: min,
+    maxDate: max,
     currentDate: new Date().toLocaleDateString('en-US', format),
     inputFormat: 'dd/mm/yyyy',
     constraints: { ...(base.constraints ?? {}), min, max },

@@ -1,23 +1,23 @@
 import { buildFormSync } from '../src';
-import { buildRequiredIfConfig } from '../src/helpers/builders';
+import { buildConditional } from '../src/helpers';
 import { buildSelectableInput } from '../src/inputs';
 import { userSelect } from './inputs';
 
 describe('Test helper global functions', () => {
   it('should returns an object containing a formControlName and values as property', () => {
-    const result = buildRequiredIfConfig('has_password:true,1');
+    const result = buildConditional('has_password:true,1');
     expect(result?.name).toEqual('has_password');
     expect(result?.values).toEqual([true, '1']);
   });
 
   it('should returns an object containing a formControlName and values as property if | operator is used', () => {
-    const result = buildRequiredIfConfig('has_password:true|1');
+    const result = buildConditional('has_password:true|1');
     expect(result?.name).toEqual('has_password');
     expect(result?.values).toEqual([true, '1']);
   });
 
   it('should return undefined for empty string', () => {
-    const result = buildRequiredIfConfig('');
+    const result = buildConditional('');
     expect(result).toEqual(undefined);
   });
 

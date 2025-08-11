@@ -1,5 +1,6 @@
 import { Subscribable } from '../compact';
 import {
+  Conditional,
   DateConstraint,
   InputConstraint,
   IsMailConstraint,
@@ -146,10 +147,16 @@ export interface InputConfigInterface {
   constraints?: Partial<InputConstraint>;
 
   /**
-   * this configuration hide or show the input on the UI base on
-   * another input value
+   * @deprecated this configuration hide or show the input on the UI base on another input value
+   * **Note** use constraints API configuration instead
    */
-  requiredIf?: InputRequireIfConfig;
+  requiredIf?: Conditional;
+
+  /**
+   * @deprecated this configuration disable the input on the UI base on another input value
+   * **Note** use constraints API configuration instead
+   */
+  disabledIf?: Conditional;
 
   /**
    * Use compute property to provide an automatic
@@ -172,12 +179,6 @@ export interface OptionsInput extends InputConfigInterface {
 
 /** @deprecated use `OptionsInput instead` */
 export type OptionsInputConfigInterface = OptionsInput;
-
-// @internal
-export interface InputRequireIfConfig<T = unknown> {
-  name: string;
-  values: T[];
-}
 
 // @internal
 export interface InputGroup extends InputConfigInterface {

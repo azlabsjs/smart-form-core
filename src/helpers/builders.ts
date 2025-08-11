@@ -42,7 +42,7 @@ function transform(values: string[]) {
 }
 
 // @internal used this function to parse and transform requiredIf configuration string
-export function buildRequiredIfConfig(config: string) {
+export function buildConditional(config: string) {
   if (config?.indexOf(':') === -1) {
     return undefined;
   }

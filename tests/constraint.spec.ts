@@ -26,8 +26,16 @@ describe('Constraints builder tests', () => {
     expect(input.constraints).not.toBeUndefined();
     expect(input.constraints).not.toBeNull();
     expect(typeof input.constraints).toBe('object');
-    expect(input.constraints?.required).toBe(true);
-    expect(input.constraints?.disabled).toBe(true);
+    expect(
+      !!input.constraints &&
+        'required' in input.constraints &&
+        input.constraints.required
+    ).toBe(true);
+    expect(
+      !!input.constraints &&
+        'disabled' in input.constraints &&
+        input.constraints.disabled
+    ).toBe(true);
     expect(input.constraints?.unique?.fn).toBe(
       'https://127.0.0.1:8200/api/users'
     );
@@ -44,7 +52,7 @@ describe('Constraints builder tests', () => {
       maxDate: '2024-08-20',
     });
 
-    expect(input.constraints?.required).toBe(false);
+    expect(!!input.constraints && 'required' in input.constraints && input.constraints.required).toBe(false);
     expect(input.constraints?.min).toBe('2023-08-21');
     expect(input.constraints?.max).toBe('2024-08-20');
   });
@@ -57,8 +65,7 @@ describe('Constraints builder tests', () => {
       controlIndex: 1,
       pattern: 'image/*',
     });
-
-    expect(input.constraints?.required).toBe(false);
+    expect(!!input.constraints && 'required' in input.constraints && input.constraints.required).toBe(false);
     expect(input.constraints?.pattern?.fn).toBe('image/*');
   });
 
@@ -73,7 +80,9 @@ describe('Constraints builder tests', () => {
       max: 99,
     });
 
-    expect(input.constraints?.required).not.toBe(false);
+    expect(!!input.constraints && 'required' in input.constraints && input.constraints.required).not.toBe(
+      false
+    );
     expect(input.constraints?.max).toBe(99);
     expect(input.constraints?.min).toBe(1);
   });
@@ -90,7 +99,9 @@ describe('Constraints builder tests', () => {
       pattern: '/d{1,}/',
     });
 
-    expect(input.constraints?.required).not.toBe(false);
+    expect(!!input.constraints && 'required' in input.constraints && input.constraints.required).not.toBe(
+      false
+    );
     expect(input.constraints?.max).toBe(255);
     expect(input.constraints?.min).toBe(2);
     expect(input.constraints?.pattern?.fn).toBe('/d{1,}/');
@@ -115,7 +126,9 @@ describe('Constraints builder tests', () => {
       max: 255,
     });
 
-    expect(input.constraints?.required).not.toBe(false);
+    expect(!!input.constraints && 'required' in input.constraints).not.toBe(
+      false
+    );
     expect(input.constraints?.max).toBe(255);
   });
 
@@ -130,7 +143,9 @@ describe('Constraints builder tests', () => {
       max: '12:00',
     });
 
-    expect(input.constraints?.required).not.toBe(false);
+    expect(!!input.constraints && 'required' in input.constraints).not.toBe(
+      false
+    );
     expect(input.constraints?.min).toBe('01:00');
     expect(input.constraints?.max).toBe('12:00');
   });

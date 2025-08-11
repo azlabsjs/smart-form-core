@@ -35,6 +35,13 @@ export type HasRequiredIfConstraint = {
 };
 
 /**
+ * @deprecated configuration for input with disabled if constraint
+ */
+export type HasDisabledIfConstraint = {
+  disabledIf: string;
+};
+
+/**
  * @deprecated configuration for input with unique constraints
  */
 export type HasUniqueConstraint = {
@@ -187,7 +194,7 @@ export type ControlGroupType = {
   children: ControlInterface[];
 };
 
-/** @deprecated Type definition of API forms inputs/controls structure */
+/** @deprecated type definition of API forms inputs/controls structure */
 export interface ControlInterface
   extends BaseControlType,
     Partial<HasAttributesType>,
@@ -203,8 +210,9 @@ export interface ControlInterface
     Partial<HasRequiredIfConstraint>,
     Partial<HasUniqueConstraint>,
     Partial<HasReadAttribute>,
-    Partial<HasComputeAttribute> {
-  /** @description Input container class configuration value */
+    Partial<HasComputeAttribute>,
+    Partial<HasDisabledIfConstraint> {
+  /** @description input container class configuration value */
   containerClass?: string;
 
   /** @description Added to support equality constraints */
