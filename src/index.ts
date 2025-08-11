@@ -58,4 +58,5 @@ export {
   RequiredIfConstraint,
   DisabledConstraint,
   DisabledIfConstraint,
+  Conditional
 } from './types';
