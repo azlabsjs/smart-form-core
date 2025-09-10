@@ -35,6 +35,7 @@ export function buildBase(source: ControlInterface) {
       ? {
           fn: typeof exists === 'string' ? exists : exists['url'],
           conditions: typeof exists === 'string' ? [] : exists['conditions'],
+          error: typeof exists === 'string' ? undefined : exists['error'],
         }
       : undefined,
     unique:
@@ -43,6 +44,7 @@ export function buildBase(source: ControlInterface) {
             fn: typeof uniqueOn === 'string' ? uniqueOn : uniqueOn['url'],
             conditions:
               typeof uniqueOn === 'string' ? [] : uniqueOn['conditions'],
+            error: typeof uniqueOn === 'string' ? undefined : uniqueOn['error'],
           }
         : undefined,
     equals: equals ? { fn: equals } : undefined,

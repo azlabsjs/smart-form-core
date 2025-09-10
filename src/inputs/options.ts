@@ -163,9 +163,9 @@ export function buildSelectableInput(
   const { options, multiple, required } = source;
   const o = options ?? [];
   const config = createOptionsConfig(source);
-  const _base = buildBase(source);
+  const base = buildBase(source);
   return {
-    ..._base,
+    ...base,
     // TODO: remove the rules constraint in version 0.3.x
     rules: { isRequired: Boolean(required) },
     multiple: Boolean(multiple),

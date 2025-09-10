@@ -1,9 +1,14 @@
 export type AsyncConstraint<T = boolean> = {
   query?: string;
+
   /** constraint handler function */
   fn: string | ((control: string, value: unknown) => T | Promise<T>);
+
   /** provides the list of conditions applied on properties of the return value of the `fn` function. */
   conditions?: string[] | ((value: unknown) => boolean);
+
+  /** error message to be displayed to user whenever validation fails */
+  error?: string
 };
 
 export type EqualsConstaint = {
@@ -20,7 +25,7 @@ export type EqualsConstaint = {
  */
 export type PatternConstraint = {
   pattern: {
-    /** Pattern string or pattern verifier function */
+    /** pattern string or pattern verifier function */
     fn: string;
   };
 };
@@ -30,11 +35,11 @@ export type PatternConstraint = {
  */
 export type TextLengthConstraint = {
   /**
-   * Checks maximum length of the text value
+   * check maximum length of the text value
    */
   max?: number;
   /**
-   * Check minimum length of the text value
+   * check minimum length of the text value
    */
   min?: number;
 };

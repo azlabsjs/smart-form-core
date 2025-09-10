@@ -122,7 +122,7 @@ export interface InputConfigInterface {
   description?: string;
   group?: string | number;
   index?: number;
-  isRepeatable: boolean;
+  isRepeatable?: boolean;
   containerClass: string;
 
   /** @deprecated */

@@ -24,6 +24,7 @@ export type HasExistsConstraint = {
     | {
         url: string;
         conditions?: string | string[];
+        error?: string
       };
 };
 
@@ -50,6 +51,7 @@ export type HasUniqueConstraint = {
     | {
         url: string;
         conditions?: string | string[];
+        error?: string
       };
 };
 
@@ -70,13 +72,13 @@ export type HasAttributesType = {
   unique: number | boolean;
   controlIndex: number;
 
-  //#region Optional properties
+  //#region optional properties
   classes?: string;
   label?: string;
   isRepeatable?: number | boolean;
   description?: string;
   placeholder?: string;
-  //#region Optional properties
+  //#region
 };
 
 /**
@@ -93,48 +95,46 @@ export type BaseControlType = {
  * @deprecated date control type definitions
  */
 export type HasDateAttributesType = {
-  //#region Date input properties
+  //#region date input properties
   minDate: string;
   maxDate: string;
-  //#endregion Date input properties
+  //#endregion
 };
 
 /**
  * @deprecated option/combobox control type definition
  */
 export type HasSelectAttributesType = {
-  //#region Options inputs properties
-
   //#region deprecated properties
   /** @deprecated */
   selectableValues?: string;
   /** @deprecated */
   selectableModel?: string;
-  //#endregion deprecated properties
+  //#endregion
 
   optionsConfig?: string | OptionsConfig;
   modelFilters?: string;
   options?: { [index: string]: UnknownType }[];
   multiple: number | boolean;
 
-  //#endregion Option UI cconfiguration attributes
+  //#endregion option UI cconfiguration attributes
   keyfield?: string;
   valuefield?: string;
   groupfield?: string;
-  //#endregion Option UI cconfiguration attributes
+  //#endregion
 
-  //#endregion Options inputs properties
+  //#endregion
 };
 
 /**
  * @deprecated upload control a.k.a file input type definition
  */
 export type HasUploadAttributesType = {
-  //#region File input properties
+  //#region file input properties
   uploadURL: string;
   autoupload: boolean;
   uploadAs: string;
-  //#endregion File input properties
+  //#endregion
 };
 
 /**
@@ -149,31 +149,31 @@ export type HasReadAttribute = {
  * @deprecated text control type definition
  */
 export type HasTextAttributesType = {
-  //#region Text inputs properties
+  //#region text inputs properties
   pattern?: string;
   maxLength: number | string;
   minLength: number | string;
-  //#endregion Text inputs properties
+  //#endregion
 };
 
 /**
  * @deprecated multi Text control type definition
  */
 export type HasMultiTextAttributeType = {
-  //#region Textarea inputs properties
+  //#region textarea inputs properties
   rows: number;
   columns: number;
-  //#endregion Textarea input properties
+  //#endregion
 };
 
 /**
  * @deprecated number control type definition
  */
 export type HasNumberAttributesType = {
-  //#region Number & Time input properties
+  //#region number & time input properties
   min: number | string;
   max: number | string;
-  //#endregion Number & Time input properties
+  //#endregion
 };
 
 /** @deprecated computed input type declaration */
