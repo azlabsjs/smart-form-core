@@ -166,15 +166,27 @@ export interface InputConfigInterface {
 
   /** list of input event listeners */
   events?: Partial<EventConfig>;
+
+  /** debugging flag: can be used by implementation libraries to add debugging code */
+  debug?: boolean;
 }
 
 // @internal
 export interface OptionsInput extends InputConfigInterface {
   /** @deprecated will be replaced in future release with `fetch` */
   optionsConfig?: OptionsConfig | ObservableOptionsConfig;
+
+  /** allows or prevent multiple selection on the input element */
   multiple?: boolean;
+
+  /** dictionnary of events to listen for on the input */
   events?: Partial<SelectEventConfig>;
+
+  /** list of preconfigured input opptions */
   options: InputOptions;
+
+  /** triggers autoselection of an element, usually the first element in the list of options */
+  autoselect?: boolean;
 }
 
 /** @deprecated use `OptionsInput instead` */
