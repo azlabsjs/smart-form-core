@@ -30,8 +30,7 @@ function isLeapYear(year: number) {
 function createDateValue(v: string, ref: string) {
   const expr = v.substring(ref.length).trim();
   const t = new Date();
-  const computesecondsPerYr = (_date: Date) =>
-    isLeapYear(_date.getFullYear()) ? 366 * 24 * 60 * 60 : 366 * 24 * 60 * 60;
+  const computesecondsPerYr = (_date: Date) => isLeapYear(_date.getFullYear()) ? 366 * 24 * 60 * 60 : 366 * 24 * 60 * 60;
   const tosecond: Record<string, ToSecondType> = {
     s: () => 1,
     sec: () => 1,
@@ -63,14 +62,11 @@ function createDateValue(v: string, ref: string) {
     const timeunitexpr = expr.substring(1).trim();
     const _match = timeunitexpr.match(/(\d+)/);
     const numeric = _match ? _match[0] : undefined;
-    const timeunit = numeric
-      ? timeunitexpr.substring(numeric.length).trim()
-      : timeunitexpr;
+    const timeunit = numeric ? timeunitexpr.substring(numeric.length).trim() : timeunitexpr;
     const fn = tosecond[timeunit] ?? (() => 0);
     const fnresult = fn();
-    const seconds =
-      Number(numeric ?? 0) *
-      (typeof fnresult === 'function' ? fnresult(t) : fnresult);
+    const seconds = Number(numeric ?? 0) * (typeof fnresult === 'function' ? fnresult(t) : fnresult);
+
     if (_operator === '+') {
       t.setSeconds(t.getSeconds() + seconds);
     } else {
@@ -83,17 +79,14 @@ function createDateValue(v: string, ref: string) {
 /** creates an instance of the {@see DateInput} interface */
 export function buildDateInput(source: ControlInterface) {
   const base = buildBase(source);
-
   const { min: minimum, max: maximum, minDate, maxDate, required } = source;
   let min = minimum ?? minDate;
   let max = maximum ?? maxDate;
   const minIndex = todayRef.indexOf(String(min));
   const maxIndex = todayRef.indexOf(String(max));
 
-  min =
-    minIndex !== -1 ? createDateValue(String(min), todayRef[minIndex]) : min;
-  max =
-    maxIndex !== -1 ? createDateValue(String(max), todayRef[maxIndex]) : max;
+  min = minIndex !== -1 ? createDateValue(String(min), todayRef[minIndex]) : min;
+  max = maxIndex !== -1 ? createDateValue(String(max), todayRef[maxIndex]) : max;
 
   return {
     ...base,

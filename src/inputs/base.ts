@@ -30,23 +30,21 @@ export function buildBase(source: ControlInterface) {
   const _requiredIf = requiredIf ? buildConditional(requiredIf) : undefined;
   const _disabledIf = disabledIf ? buildConditional(disabledIf) : undefined;
 
+
   const constraints = {
-    exists: exists
-      ? {
-          fn: typeof exists === 'string' ? exists : exists['url'],
-          conditions: typeof exists === 'string' ? [] : exists['conditions'],
-          error: typeof exists === 'string' ? undefined : exists['error'],
-        }
-      : undefined,
+    exists: exists ? {
+      fn: typeof exists === 'string' ? exists : exists['url'],
+      conditions: typeof exists === 'string' ? [] : exists['conditions'],
+      error: typeof exists === 'string' ? undefined : exists['error'],
+      pipe: typeof exists === 'string' ? undefined : (typeof exists === 'object' && exists !== null ? exists.pipe : undefined)
+    } : undefined,
     unique:
-      unique && uniqueOn
-        ? {
-            fn: typeof uniqueOn === 'string' ? uniqueOn : uniqueOn['url'],
-            conditions:
-              typeof uniqueOn === 'string' ? [] : uniqueOn['conditions'],
-            error: typeof uniqueOn === 'string' ? undefined : uniqueOn['error'],
-          }
-        : undefined,
+      unique && uniqueOn ? {
+        fn: typeof uniqueOn === 'string' ? uniqueOn : uniqueOn['url'],
+        conditions: typeof uniqueOn === 'string' ? [] : uniqueOn['conditions'],
+        error: typeof uniqueOn === 'string' ? undefined : uniqueOn['error'],
+        pipe: typeof uniqueOn === 'string' ? null : (typeof uniqueOn === 'object' && uniqueOn !== null ? uniqueOn.pipe : undefined),
+      } : undefined,
     equals: equals ? { fn: equals } : undefined,
   } as Record<string, unknown>;
 

@@ -10,11 +10,7 @@ import { InputConfigInterface, InputTypes } from '../types';
 import { buildBase } from './base';
 
 /** @internal */
-type ArgType = BaseControlType &
-  Partial<HasExistsConstraint> &
-  Partial<HasUniqueConstraint> &
-  Partial<HasRequiredIfConstraint> &
-  Partial<HasAttributesType>;
+type ArgType = BaseControlType & Partial<HasExistsConstraint> & Partial<HasUniqueConstraint> & Partial<HasRequiredIfConstraint> & Partial<HasAttributesType>;
 
 /** @description Creates an instance of {@see InputConfigInterface} interface */
 export function buildHiddenInput(source: ArgType) {
