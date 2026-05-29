@@ -1,4 +1,6 @@
+import { Subscribable } from '../compact';
 import {
+  Conditional,
   DateConstraint,
   InputConstraint,
   IsMailConstraint,
@@ -10,10 +12,13 @@ import {
 import { InputValidationRule } from './input-rules';
 import { InputOptions } from './options';
 
-/** @description Type declaration of input control which have value computed from other input values */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnknownType = any;
+
+/** @description type declaration of input control which have value computed from other input values */
 export type ComputeConfigType =
   | {
-      fn: <T, TReturn = any>(form: T) => TReturn;
+      fn: <T, TReturn = UnknownType>(form: T) => TReturn;
       deps: string[];
     }
   | {
@@ -24,6 +29,7 @@ export type ComputeConfigType =
 // @internal
 // Internal type definition of an options config source object
 export type OptionsConfigSource = {
+  /** @deprecated will be replace in future release with `uri` */
   resource: string;
   raw: string;
 };
@@ -37,9 +43,31 @@ export type OptionsConfigParams = {
   filters?: string;
 };
 
+// @internal
+type RefetchTriggerType = {
+  input: string;
+  event?: 'change' | 'blur';
+};
+
+// @internal
+type RefetchConfigType = {
+  trigger: string | RefetchTriggerType;
+  query?: string;
+};
+
 export type OptionsConfig = {
   source: OptionsConfigSource;
   params?: OptionsConfigParams;
+  refetch?: RefetchConfigType[];
+};
+
+// type declaration of an instance of an options config with `refetch` property being an
+// observable which emit each time options needs to be refetched
+export type ObservableOptionsConfig<T = { [k: string]: unknown }> = Omit<
+  OptionsConfig,
+  'refetch'
+> & {
+  refetch: Subscribable<T>;
 };
 
 // @internal
@@ -55,24 +83,34 @@ type NumberInputConstraint = InputConstraint & NumberConstraint;
 type DateInputConstraint = InputConstraint & DateConstraint;
 
 // @internal
-type FileInputConstraint = InputConstraint & PatternConstraint;
+type FileInputConstraint = InputConstraint &
+  PatternConstraint &
+  NumberConstraint;
 
 // @internal
 type TimeInputConstraint = InputConstraint & TimeConstraint;
 
 // @internal
-export interface OptionsInputConfigInterface extends InputConfigInterface {
-  optionsConfig?: OptionsConfig;
-  options: InputOptions;
-  multiple?: boolean;
-}
+type EventConfig = {
+  change: <T = unknown>(value: T) => void;
+  focus: () => void;
+  keydown: (e: KeyboardEvent) => void;
+  keyup: (e: KeyboardEvent) => void;
+  keypress: (e: KeyboardEvent) => void;
+  blur: (e: KeyboardEvent) => void;
+};
+
+// @internal
+type SelectEventConfig = EventConfig & {
+  removed: <T = unknown>(value: T) => void;
+  selected: <T = unknown>(value: T) => void;
+};
 
 /**
- * @description Abstract representation on an input for plarform specific
- * representation during build type
+ * @description abstract representation on an input for plarform specific representation during build type
  *
  * **Note**
- * This interface is subject to change because the package is under active development
+ * this interface is subject to change because the package is under active development
  */
 export interface InputConfigInterface {
   label: string;
@@ -80,76 +118,98 @@ export interface InputConfigInterface {
   name: string;
   classes: string;
   placeholder?: string;
-  value?: any;
+  value?: unknown;
   description?: string;
   group?: string | number;
   index?: number;
-  isRepeatable: boolean;
+  isRepeatable?: boolean;
   containerClass: string;
 
-  /**
-   * @deprecated
-   */
+  /** @deprecated */
   hidden?: boolean;
 
-  /**
-   * @deprecated
-   */
+  /** @deprecated */
   disabled?: boolean;
 
-  /**
-   * @deprecated
-   */
+  /** @deprecated */
   readOnly?: boolean;
 
-  /**
-   * @deprecated
-   */
+  /** @deprecated */
   unique?: string;
 
-  /**
-   * @deprecated
-   */
+  /** @deprecated */
   rules?: InputValidationRule;
 
   /**
-   * Constraint API provides a replacement alternative to
+   * constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
   constraints?: Partial<InputConstraint>;
 
-  /** @description This configuration hide or show the input on the UI base on another input value */
-  requiredIf?: InputRequireIfConfig;
+  /**
+   * @deprecated this configuration hide or show the input on the UI base on another input value
+   * **Note** use constraints API configuration instead
+   */
+  requiredIf?: Conditional;
 
-  /** @description Use compute property to provide an automatic computation on the input value. This might make input disabled by default */
+  /**
+   * @deprecated this configuration disable the input on the UI base on another input value
+   * **Note** use constraints API configuration instead
+   */
+  disabledIf?: Conditional;
+
+  /**
+   * Use compute property to provide an automatic
+   * computation on the input value. This might make input disabled by default
+   */
   compute?: ComputeConfigType;
+
+  /** list of input event listeners */
+  events?: Partial<EventConfig>;
+
+  /** debugging flag: can be used by implementation libraries to add debugging code */
+  debug?: boolean;
 }
 
 // @internal
-export interface InputRequireIfConfig {
-  name: string;
-  values: any[];
+export interface OptionsInput extends InputConfigInterface {
+  /** @deprecated will be replaced in future release with `fetch` */
+  optionsConfig?: OptionsConfig | ObservableOptionsConfig;
+
+  /** allows or prevent multiple selection on the input element */
+  multiple?: boolean;
+
+  /** dictionnary of events to listen for on the input */
+  events?: Partial<SelectEventConfig>;
+
+  /** list of preconfigured input opptions */
+  options: InputOptions;
+
+  /** triggers autoselection of an element, usually the first element in the list of options */
+  autoselect?: boolean;
 }
+
+/** @deprecated use `OptionsInput instead` */
+export type OptionsInputConfigInterface = OptionsInput;
 
 // @internal
 export interface InputGroup extends InputConfigInterface {
+  /** @deprecated will be removed in future release with `inputs` property */
   children: InputConfigInterface[];
 }
 
 // @internal
 export interface DateInput extends InputConfigInterface {
-  /**
-   * @deprecated
-   */
+  /** @deprecated */
   minDate: string;
-  /**
-   * @deprecated
-   */
+
+  /** @deprecated */
   maxDate: string;
   currentDate: string;
   inputFormat?: string;
+
   /**
-   * Constraint API provides a replacement alternative to
+   * constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
   constraints?: Partial<DateInputConstraint>;
@@ -162,38 +222,37 @@ export interface FileInput extends InputConfigInterface {
   maxFileSize: number;
   autoupload?: boolean;
   uploadAs?: string;
+
   /**
-   * Property is added to allow input value reader to either
+   * property is added to allow input value reader to either
    * read `id` property of the resolved object or entire object
    *
-   * By default the implementation will read the id property if
+   * by default the implementation will read the id property if
    * it exists on the object or resolve the entire object if id is
    * not defined.
    */
   read?: 'id' | 'object' | 'url';
+
   /**
-   * @deprecated
-   */
-  pattern?: string;
-  /**
-   * Constraint API provides a replacement alternative to
+   * constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
   constraints?: Partial<FileInputConstraint>;
+
+  /** @deprecated */
+  pattern?: string;
 }
 
 // @internal
 export interface NumberInput extends InputConfigInterface {
-  /**
-   * @deprecated
-   */
+  /** @deprecated */
   min: number;
-  /**
-   * @deprecated
-   */
+
+  /** @deprecated */
   max?: number;
+
   /**
-   * Constraint API provides a replacement alternative to
+   * constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
   constraints?: Partial<NumberInputConstraint>;
@@ -201,20 +260,17 @@ export interface NumberInput extends InputConfigInterface {
 
 // @internal
 export interface TextInput extends InputConfigInterface {
-  /**
-   * @deprecated
-   */
+  /** @deprecated */
   maxLength?: number;
-  /**
-   * @deprecated
-   */
+
+  /** @deprecated */
   pattern?: string;
-  /**
-   * @deprecated
-   */
+
+  /** @deprecated */
   minLength?: number;
+
   /**
-   * Constraint API provides a replacement alternative to
+   * constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
   constraints?: Partial<TextInputConstraint>;
@@ -224,12 +280,12 @@ export interface TextInput extends InputConfigInterface {
 export interface TextAreaInput extends InputConfigInterface {
   cols: number;
   rows: number;
-  /**
-   * @deprecated
-   */
+
+  /** @deprecated */
   maxLength: number;
+
   /**
-   * Constraint API provides a replacement alternative to
+   * constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
   constraints?: Partial<InputConstraint & TextLengthConstraint>;
@@ -237,16 +293,14 @@ export interface TextAreaInput extends InputConfigInterface {
 
 // @internal
 export interface TimeInput extends InputConfigInterface {
-  /**
-   * @deprecated
-   */
+  /** @deprecated */
   min: string;
-  /**
-   * @deprecated
-   */
+
+  /** @deprecated */
   max?: string;
+
   /**
-   * Constraint API provides a replacement alternative to
+   * constraint API provides a replacement alternative to
    * validation API and limit the number of properties required by input config object
    */
   constraints?: Partial<TimeInputConstraint>;

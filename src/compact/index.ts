@@ -7,4 +7,4 @@ export {
 } from './types';
 
 //
-export { ObservableInput } from './observable';
+export { ObservableInput, Subscribable } from './observable';

@@ -1,0 +1,5 @@
+# Todos
+
+
+- Drop support for `table:...` configuration for option input config []
+- Drop support for old control interface type and compat APIs []

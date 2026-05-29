@@ -1,9 +1,9 @@
 import { OptionsConfig } from '../types';
 
-/**
- * @internal
- * Type definition of API forms structure
- */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnknownType = any;
+
+/** @deprecated type definition of API forms structure */
 export interface FormInterface {
   id: number;
   title: string;
@@ -16,35 +16,42 @@ export interface FormInterface {
 }
 
 /**
- * Configuration for inputs with existance constraint
+ * @deprecated configuration for inputs with existance constraint
  */
 export type HasExistsConstraint = {
-  exists: string | { url: string; conditions?: string | string[]; pipe?: (value: unknown) => unknown; };
+  exists: string | { url: string; conditions?: string | string[]; error?: string, pipe?: (value: unknown) => unknown; };
 };
 
 /**
- * Configuration for input with required if constraint
+ * @deprecated configuration for input with required if constraint
  */
 export type HasRequiredIfConstraint = {
   requiredIf: string;
 };
 
 /**
- * Configuration for input with unique constraints
+ * @deprecated configuration for input with disabled if constraint
  */
-export type HasUniqueConstraint = {
-  uniqueOn: string | { url: string; conditions?: string | string[]; pipe?: (value: unknown) => unknown; };
+export type HasDisabledIfConstraint = {
+  disabledIf: string;
 };
 
 /**
- * Control that belongs to a group type definition
+ * @deprecated configuration for input with unique constraints
+ */
+export type HasUniqueConstraint = {
+  uniqueOn: string | { url: string; conditions?: string | string[]; error?: string, pipe?: (value: unknown) => unknown; };
+};
+
+/**
+ * #deprecated control that belongs to a group type definition
  */
 export type BelongsToControlGroupType = {
   controlGroupKey?: string | number;
 };
 
 /**
- * Control having attributes type definition
+ * @deprecated control having attributes type definition
  */
 export type HasAttributesType = {
   required: number | boolean;
@@ -53,17 +60,17 @@ export type HasAttributesType = {
   unique: number | boolean;
   controlIndex: number;
 
-  //#region Optional properties
+  //#region optional properties
   classes?: string;
   label?: string;
   isRepeatable?: number | boolean;
   description?: string;
   placeholder?: string;
-  //#region Optional properties
+  //#region
 };
 
 /**
- * Basic control type definition
+ * @deprecated basic control type definition
  */
 export type BaseControlType = {
   id: number;
@@ -73,51 +80,49 @@ export type BaseControlType = {
 };
 
 /**
- * Date control type definitions
+ * @deprecated date control type definitions
  */
 export type HasDateAttributesType = {
-  //#region Date input properties
+  //#region date input properties
   minDate: string;
   maxDate: string;
-  //#endregion Date input properties
+  //#endregion
 };
 
 /**
- * Option/Combobox control type definition
+ * @deprecated option/combobox control type definition
  */
 export type HasSelectAttributesType = {
-  //#region Options inputs properties
-
   //#region deprecated properties
   /** @deprecated */
   selectableValues?: string;
   /** @deprecated */
   selectableModel?: string;
-  //#endregion deprecated properties
+  //#endregion
 
   optionsConfig?: string | OptionsConfig;
   modelFilters?: string;
-  options?: { [index: string]: any }[];
+  options?: { [index: string]: UnknownType }[];
   multiple: number | boolean;
 
-  //#endregion Option UI cconfiguration attributes
+  //#endregion option UI cconfiguration attributes
   keyfield?: string;
   valuefield?: string;
   groupfield?: string;
-  //#endregion Option UI cconfiguration attributes
+  //#endregion
 
-  //#endregion Options inputs properties
+  //#endregion
 };
 
 /**
- * Upload control a.k.a file input type definition
+ * @deprecated upload control a.k.a file input type definition
  */
 export type HasUploadAttributesType = {
-  //#region File input properties
+  //#region file input properties
   uploadURL: string;
   autoupload: boolean;
   uploadAs: string;
-  //#endregion File input properties
+  //#endregion
 };
 
 /**
@@ -129,83 +134,80 @@ export type HasReadAttribute = {
 };
 
 /**
- * Text control type definition
+ * @deprecated text control type definition
  */
 export type HasTextAttributesType = {
-  //#region Text inputs properties
+  //#region text inputs properties
   pattern?: string;
   maxLength: number | string;
   minLength: number | string;
-  //#endregion Text inputs properties
+  //#endregion
 };
 
 /**
- * Multi Text control type definition
+ * @deprecated multi Text control type definition
  */
 export type HasMultiTextAttributeType = {
-  //#region Textarea inputs properties
+  //#region textarea inputs properties
   rows: number;
   columns: number;
-  //#endregion Textarea input properties
+  //#endregion
 };
 
 /**
- * Number control type definition
+ * @deprecated number control type definition
  */
 export type HasNumberAttributesType = {
-  //#region Number & Time input properties
+  //#region number & time input properties
   min: number | string;
   max: number | string;
-  //#endregion Number & Time input properties
+  //#endregion
 };
 
-/** @description Computed input type declaration */
+/** @deprecated computed input type declaration */
 export type HasComputeAttribute = {
   compute:
-  | {
-    fn: <T, TReturn = any>(form: T) => TReturn;
-    deps: string[];
-  }
-  | {
-    fn: string;
-    args: string[];
-  };
+    | {
+        fn: <T, TReturn = UnknownType>(form: T) => TReturn;
+        deps: string[];
+      }
+    | {
+        fn: string;
+        args: string[];
+      };
 };
 
-/**
- * Group of controls type definition
- */
+/**  @deprecated group of controls type definition */
 export type ControlGroupType = {
   children: ControlInterface[];
 };
 
-/** @internal Type definition of API forms inputs/controls structure */
+/** @deprecated type definition of API forms inputs/controls structure */
 export interface ControlInterface
   extends BaseControlType,
-  Partial<HasAttributesType>,
-  Partial<HasDateAttributesType>,
-  Partial<HasSelectAttributesType>,
-  Partial<HasUploadAttributesType>,
-  Partial<HasTextAttributesType>,
-  Partial<HasMultiTextAttributeType>,
-  Partial<HasNumberAttributesType>,
-  Partial<ControlGroupType>,
-  Partial<BelongsToControlGroupType>,
-  Partial<HasExistsConstraint>,
-  Partial<HasRequiredIfConstraint>,
-  Partial<HasUniqueConstraint>,
-  Partial<HasReadAttribute>,
-  Partial<HasComputeAttribute> {
-  /** @description Input container class configuration value */
+    Partial<HasAttributesType>,
+    Partial<HasDateAttributesType>,
+    Partial<HasSelectAttributesType>,
+    Partial<HasUploadAttributesType>,
+    Partial<HasTextAttributesType>,
+    Partial<HasMultiTextAttributeType>,
+    Partial<HasNumberAttributesType>,
+    Partial<ControlGroupType>,
+    Partial<BelongsToControlGroupType>,
+    Partial<HasExistsConstraint>,
+    Partial<HasRequiredIfConstraint>,
+    Partial<HasUniqueConstraint>,
+    Partial<HasReadAttribute>,
+    Partial<HasComputeAttribute>,
+    Partial<HasDisabledIfConstraint> {
+  /** @description input container class configuration value */
   containerClass?: string;
 
   /** @description Added to support equality constraints */
   equals?: string;
 }
 
-/**
- * @interal Type definition of OptionInterface
- */
+/** @deprecated Type definition of OptionInterface */
 export interface OptionInterface {
   id: number;
   table: string;
@@ -215,10 +217,7 @@ export interface OptionInterface {
   displayLabel: string;
 }
 
-/**
- * // @internal
- * @description Type definition for group of controls
- */
+/** @deprecated type definition for group of controls */
 export interface ControlGroupInterface extends ControlInterface {
   children: ControlInterface[];
 }

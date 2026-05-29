@@ -14,10 +14,10 @@ export function buildFileInput(source: ControlInterface) {
     max,
     read,
   } = source;
-  const _base = buildBase(source);
+  const base = buildBase(source);
   return {
-    ..._base,
-    // TODO: Remove the rules constraint in version 0.3.x
+    ...base,
+    // TODO: remove the rules constraint in version 0.3.x
     rules: { isRequired: Boolean(required) },
     multiple: Boolean(multiple),
     read: read ?? 'id',
@@ -27,6 +27,6 @@ export function buildFileInput(source: ControlInterface) {
     autoupload: autoupload || false,
     uploadAs: uploadAs ?? 'file',
     type: InputTypes.FILE_INPUT,
-    constraints: { ...(_base.constraints ?? {}), pattern: pattern ? { fn: pattern } : undefined },
+    constraints: { ...(base.constraints ?? {}), pattern: pattern ? { fn: pattern } : undefined },
   } as FileInput;
 }

@@ -2,6 +2,9 @@ import { ControlInterface, FormInterface } from '../compact/types';
 import { FormConfigInterface } from '../types';
 import { createInput } from './input-types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnknownType = any;
+
 function sort<T>(list: T[], path?: string[] | string | ((a: T, b: T) => number), order = 1) {
   order = order ?? 1;
   // Check if is not null
@@ -16,7 +19,7 @@ function sort<T>(list: T[], path?: string[] | string | ((a: T, b: T) => number),
     return [...list].sort((a, b) => (a > b ? order : order * -1));
   }
 
-  return [...list].sort((a: any, b: any) => {
+  return [...list].sort((a: UnknownType, b: UnknownType) => {
     // We go for each property followed by path
     if (path instanceof Array) {
       path.forEach((property) => {
@@ -37,23 +40,12 @@ function sort<T>(list: T[], path?: string[] | string | ((a: T, b: T) => number),
   });
 }
 
-/**
- * @internal
- */
-function sortBy(
-  controls: ControlInterface[],
-  property: keyof ControlInterface,
-  order = 1
-) {
+/** @internal */
+function sortBy(controls: ControlInterface[], property: keyof ControlInterface, order = 1) {
   return sort(controls, property, order);
 }
 
-/**
- * Helper function for creating form objects from a server object definition
- *
- * @param instance
- * @returns
- */
+/** helper function for creating form objects from a server object definition */
 export function buildFormSync(instance: FormInterface) {
   if (typeof instance === 'undefined' || instance === null) {
     return undefined;
@@ -70,18 +62,14 @@ export function buildFormSync(instance: FormInterface) {
 
 // # Forms Creators
 
-/**
- * @description Helper method for creating a new dynmaic form
- * @param form Object with the shape of the FormConfigInterface interface
- */
+/** Helper method for creating a new dynmaic form */
 export function createform(form: FormConfigInterface) {
   return { ...form } as FormConfigInterface;
 }
 
 // #Forms Soring function
 
-// @internal
-// Sort form loaded from backend server by control index
+// @internal sort form loaded from backend server by control index
 export const sortRawFormControls = (value: FormInterface) => {
   return {
     ...value,
@@ -89,16 +77,19 @@ export const sortRawFormControls = (value: FormInterface) => {
   } as FormInterface;
 };
 
-/** @description group controls by property of the control interface type */
+/** group controls by property of the control interface type */
 export function groupControlsBy(controls: ControlInterface[], property: keyof ControlInterface) {
-  return controls.reduce((carry, current) => {
-    const key = (current[property] ?? 'root') as string;
-    if (!carry[key]) {
-      carry[key] = [];
-    }
-    carry[key].push(current);
-    return carry;
-  }, {} as { [index: string]: any });
+  return controls.reduce(
+    (carry, current) => {
+      const key = (current[property] ?? 'root') as string;
+      if (!carry[key]) {
+        carry[key] = [];
+      }
+      carry[key].push(current);
+      return carry;
+    },
+    {} as { [index: string]: UnknownType }
+  );
 }
 
 /** @internal */

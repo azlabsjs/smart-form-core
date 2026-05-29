@@ -1,8 +1,4 @@
-
-
-/**
- * @deprecated
- */
+/** @deprecated */
 export interface InputValidationRule {
   isRequired: boolean;
   maxLength?: boolean;
@@ -12,18 +8,11 @@ export interface InputValidationRule {
   maxDate?: boolean;
   minDate?: boolean;
   email?: boolean;
-
-  /**
-   * @deprecated
-   */
-  notUnique?: boolean;
   pattern?: boolean;
-  /**
-   * @deprecated
-   */
+  /** @deprecated */
+  notUnique?: boolean;
+  /** @deprecated */
   same?: boolean;
-  /**
-   * @deprecated
-   */
+  /** @deprecated */
   invalidFormat?: boolean;
 }

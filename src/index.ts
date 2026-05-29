@@ -5,7 +5,7 @@ export {
   FormInterface,
   ObservableInput,
 } from './compact';
-// Form helpers
+
 export {
   buildFormSync,
   createform,
@@ -21,14 +21,14 @@ export {
   createUniqueConstraint,
   createExistsConstraint,
   createPatternConstraint,
-  createEqualsConstraint
+  createEqualsConstraint,
 } from './helpers';
-// Options helpers
+
 export {
   mapIntoInputOptions,
   mapStringListToInputOptions,
-} from './input-types/options';
-// Types exports
+} from './inputs/options';
+
 export {
   CacheProvider,
   DateInput,
@@ -49,8 +49,14 @@ export {
   OptionsConfig,
   OptionsConfigParams,
   OptionsInputConfigInterface,
+  OptionsInput,
   TextAreaInput,
   TextInput,
   TimeInput,
-  AsyncConstraint
+  AsyncConstraint,
+  RequiredConstraint,
+  RequiredIfConstraint,
+  DisabledConstraint,
+  DisabledIfConstraint,
+  Conditional
 } from './types';

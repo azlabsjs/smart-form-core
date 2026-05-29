@@ -1,10 +1,12 @@
-import { buildBase } from '../src/input-types/base';
-import { buildDateInput } from '../src/input-types/date';
-import { buildFileInput } from '../src/input-types/file';
-import { buildHiddenInput } from '../src/input-types/hidden';
-import { buildNumberInput } from '../src/input-types/number';
-import { buildTextInput } from '../src/input-types/text';
-import { buildTimeInput } from '../src/input-types/time';
+import {
+  buildBase,
+  buildDateInput,
+  buildFileInput,
+  buildHiddenInput,
+  buildNumberInput,
+  buildTextInput,
+  buildTimeInput,
+} from '../src/inputs';
 import { InputTypes } from '../src/types';
 import {
   birthDate,
@@ -97,8 +99,14 @@ describe('Test input types builder functions', () => {
   it('should build mark input as disabled if compte property is provided', () => {
     const input = buildNumberInput(computableInput);
     expect(input.type).toEqual(InputTypes.NUMBER_INPUT);
-    expect(input.constraints?.disabled).toEqual(true);
-    expect((input.compute as {fn: string, args: string[]}).fn).toEqual('avg');
-    expect((input.compute as {fn: string, args: string[]}).args).toEqual(['[stakeholders.*.gpg]']);
+    expect(
+      !!input.constraints &&
+        'disabled' in input.constraints &&
+        input.constraints.disabled
+    ).toEqual(true);
+    expect((input.compute as { fn: string; args: string[] }).fn).toEqual('avg');
+    expect((input.compute as { fn: string; args: string[] }).args).toEqual([
+      '[stakeholders.*.gpg]',
+    ]);
   });
 });

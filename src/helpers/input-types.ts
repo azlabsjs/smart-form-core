@@ -1,30 +1,28 @@
 import { ControlGroupInterface, ControlInterface } from '../compact';
-import { buildRequiredIfConfig } from '../helpers/builders';
-import { buildBase } from '../input-types/base';
-import { buildDateInput } from '../input-types/date';
-import { buildFileInput } from '../input-types/file';
-import { buildHiddenInput } from '../input-types/hidden';
-import { buildNumberInput } from '../input-types/number';
-import { buildSelectableInput } from '../input-types/options';
-import { buildTextInput } from '../input-types/text';
-import { buildTextAreaInput } from '../input-types/textarea';
-import { buildTimeInput } from '../input-types/time';
+import { buildConditional } from './builders';
+import { buildBase } from '../inputs/base';
+import { buildDateInput } from '../inputs/date';
+import { buildFileInput } from '../inputs/file';
+import { buildHiddenInput } from '../inputs/hidden';
+import { buildNumberInput } from '../inputs/number';
+import { buildSelectableInput } from '../inputs/options';
+import { buildTextInput } from '../inputs/text';
+import { buildTextAreaInput } from '../inputs/textarea';
+import { buildTimeInput } from '../inputs/time';
 import { InputConfigInterface, InputGroup, InputTypes } from '../types';
 
-/**
- * @internal
- */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnknownType = any;
+
+/** @internal */
 type ControlType = ControlInterface | ControlGroupInterface;
 
-/**
- * @internal
- */
-type BuilderType = (model: any) => InputConfigInterface | InputGroup;
+/** @internal */
+type BuilderType = (model: UnknownType) => InputConfigInterface | InputGroup;
 
-// @internal
-// Creates input types from server side configuration objects
+// @internal creates input types from server side configuration objects
 export function createInput(model: ControlType) {
-  const _builders: Record<string, BuilderType> = {
+  const builders: Record<string, BuilderType> = {
     [InputTypes.DATE_INPUT]: buildDateInput,
     [InputTypes.SELECT_INPUT]: (model) =>
       buildSelectableInput(model, InputTypes.SELECT_INPUT),
@@ -47,17 +45,15 @@ export function createInput(model: ControlType) {
     [InputTypes.CONTROL_GROUP]: buildInputGroup,
   };
 
-  // We create a builder function variable from the model type or fallback to
-  // buildTextInput if the model type does not exists
-  const _builder =
-    _builders[model.type] ??
+  const fn =
+    builders[model.type] ??
     ((model) => buildTextInput(model, InputTypes.TEXT_INPUT));
 
-  return _builder(model) as InputConfigInterface;
+  return fn(model) as InputConfigInterface;
 }
 
 /**
- * Create an {@see InputGroup} type from API data structure
+ * create an {@see InputGroup} type from API data structure
  *
  * This function serves as bridge for transforming server structured
  * control interface into client supported interface
@@ -68,13 +64,13 @@ export function createInput(model: ControlType) {
  * }); // Instance of InputGroup
  * ```
  *
- * @param source
- * @returns
  */
 export function buildInputGroup(source: ControlGroupInterface) {
+  const { requiredIf, disabledIf } = source;
   return {
     ...buildBase(source),
-    requiredIf: buildRequiredIfConfig(source.requiredIf ?? ''),
+    requiredIf: requiredIf ? buildConditional(requiredIf) : undefined,
+    disabledIf: disabledIf ? buildConditional(disabledIf) : undefined,
     rules: {
       isRequired: Boolean(source.required),
       pattern: Boolean(source.pattern),

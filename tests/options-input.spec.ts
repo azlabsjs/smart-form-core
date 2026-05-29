@@ -3,7 +3,7 @@ import {
   createOptionsConfig,
   mapIntoInputOptions,
   mapStringListToInputOptions,
-} from '../src/input-types/options';
+} from '../src/inputs';
 import { OptionsConfig } from '../src/types';
 import { userSelect } from './inputs';
 
