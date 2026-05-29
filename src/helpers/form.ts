@@ -2,11 +2,7 @@ import { ControlInterface, FormInterface } from '../compact/types';
 import { FormConfigInterface } from '../types';
 import { createInput } from './input-types';
 
-function sort<T>(
-  list: T[],
-  path?: string[] | string | ((a: T, b: T) => number),
-  order = 1
-) {
+function sort<T>(list: T[], path?: string[] | string | ((a: T, b: T) => number), order = 1) {
   order = order ?? 1;
   // Check if is not null
   if (typeof list === 'undefined' || list === null) {
@@ -68,10 +64,7 @@ export function buildFormSync(instance: FormInterface) {
     title,
     description,
     endpointURL: url,
-    controlConfigs:
-      Array.isArray(controls) && controls?.length !== 0
-        ? sort(controls.map(createInput), 'index', 1)
-        : [],
+    controlConfigs: Array.isArray(controls) && controls?.length !== 0 ? sort(controls.map(createInput), 'index', 1) : [],
   };
 }
 
@@ -96,11 +89,8 @@ export const sortRawFormControls = (value: FormInterface) => {
   } as FormInterface;
 };
 
-/** @description Group controls by property of the control interface type */
-export function groupControlsBy(
-  controls: ControlInterface[],
-  property: keyof ControlInterface
-) {
+/** @description group controls by property of the control interface type */
+export function groupControlsBy(controls: ControlInterface[], property: keyof ControlInterface) {
   return controls.reduce((carry, current) => {
     const key = (current[property] ?? 'root') as string;
     if (!carry[key]) {
@@ -113,29 +103,14 @@ export function groupControlsBy(
 
 /** @internal */
 export function setControlChildren(value: FormInterface) {
-  return (
-    groupBy: (
-      values: ControlInterface[],
-      property: keyof ControlInterface
-    ) => { [index: string]: ControlInterface[] }
-  ) => {
+  return (groupBy: (values: ControlInterface[], property: keyof ControlInterface) => { [index: string]: ControlInterface[] }) => {
     const controls = groupBy(value.controls, 'controlGroupKey');
-    const values = sortBy(controls['root'] ?? [], 'controlIndex').map(
-      (current) => {
-        return {
-          ...current,
-          children: sortBy(
-            Array.from(
-              new Set([
-                ...(current.children ?? []),
-                ...(controls[current['id']] ?? []),
-              ])
-            ),
-            'controlIndex'
-          ),
-        };
-      }
-    );
+    const values = sortBy(controls['root'] ?? [], 'controlIndex').map((current) => {
+      return {
+        ...current,
+        children: sortBy(Array.from(new Set([...(current.children ?? []), ...(controls[current['id']] ?? [])])), 'controlIndex'),
+      };
+    });
     return { ...value, controls: values };
   };
 }

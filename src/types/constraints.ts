@@ -1,13 +1,13 @@
 export type AsyncConstraint<T = boolean> = {
   query?: string;
-  /**
-   * Constraint handler function
-   */
+
+  /** pipe the value though a closure before `fn` is called on the value. It allows developper to mutable the state of the value before the constraint is executed on the value */
+  pipe?: (value: unknown) => unknown;
+
+  /** constraint handler function */
   fn: string | ((control: string, value: unknown) => T | Promise<T>);
-  /**
-   * Provides the list of conditions applied on properties of the return value of the
-   * `fn` function.
-   */
+
+  /** provides a list or a condition function applied on properties of the return value of the `fn` function. */
   conditions?: string[] | ((value: unknown) => boolean);
 };
 

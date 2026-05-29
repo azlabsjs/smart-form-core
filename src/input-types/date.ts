@@ -61,15 +61,11 @@ function createDateValue(_value: string, _ref: string) {
       const _timeUnitExpr = _expression.substring(1).trim();
       const _match = _timeUnitExpr.match(/(\d+)/);
       const numeric = _match ? _match[0] : undefined;
-      const _timeUnit = numeric
-          ? _timeUnitExpr.substring(numeric.length).trim()
-          : _timeUnitExpr;
+      const _timeUnit = numeric ? _timeUnitExpr.substring(numeric.length).trim() : _timeUnitExpr;
       const _fn = _toSeconds[_timeUnit] ?? (() => 0);
       const _fnResult = _fn();
       const _seconds = Number(numeric ?? 0) * (typeof _fnResult === 'function' ? _fnResult(_today) : _fnResult);
-      _operator === '+'
-          ? _today.setSeconds(_today.getSeconds() + _seconds)
-          : _today.setSeconds(_today.getSeconds() - _seconds);
+      _operator === '+' ? _today.setSeconds(_today.getSeconds() + _seconds) : _today.setSeconds(_today.getSeconds() - _seconds);
   }
   return _today.toLocaleDateString('en-US', format);
 }
@@ -92,14 +88,8 @@ export function buildDateInput(source: ControlInterface) {
       minDate: Boolean(_max),
     },
     type: InputTypes.DATE_INPUT,
-    minDate:
-      minIndex !== -1
-        ? createDateValue(String(_min), todayRef[minIndex])
-        : _min,
-    maxDate:
-      maxIndex !== -1
-        ? createDateValue(String(_max), todayRef[maxIndex])
-        : _max,
+    minDate: minIndex !== -1 ? createDateValue(String(_min), todayRef[minIndex]) : _min,
+    maxDate: maxIndex !== -1 ? createDateValue(String(_max), todayRef[maxIndex]) : _max,
     currentDate: new Date().toLocaleDateString('en-US', format),
     inputFormat: 'dd/mm/yyyy',
     constraints: { ...(_base.constraints ?? {}), min: _min, max: _max },

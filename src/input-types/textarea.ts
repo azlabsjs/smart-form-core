@@ -20,9 +20,6 @@ export function buildTextAreaInput(source: ControlInterface) {
     cols: columns,
     maxLength: isNotDefined(_max) ? undefined : +_max,
     type: InputTypes.TEXTAREA_INPUT,
-    constraints: {
-      ...(_base.constraints ?? {}),
-      max: isNotDefined(_max) ? undefined : +_max,
-    },
+    constraints: { ...(_base.constraints ?? {}), max: isNotDefined(_max) ? undefined : +_max },
   } as TextAreaInput;
 }

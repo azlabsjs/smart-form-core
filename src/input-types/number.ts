@@ -22,10 +22,6 @@ export function buildNumberInput(source: ControlInterface) {
     min: isNotDefined(min) ? undefined : +min,
     max: isNotDefined(max) ? undefined : +max,
     type: InputTypes.NUMBER_INPUT,
-    constraints: {
-      ...(_base.constraints ?? {}),
-      min: isNotDefined(min) ? undefined : +min,
-      max: isNotDefined(max) ? undefined : +max,
-    },
+    constraints: { ...(_base.constraints ?? {}), min: isNotDefined(min) ? undefined : +min, max: isNotDefined(max) ? undefined : +max },
   } as NumberInput;
 }

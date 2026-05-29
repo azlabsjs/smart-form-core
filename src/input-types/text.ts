@@ -7,13 +7,12 @@ function isNotDefined(value: unknown): value is undefined {
   return typeof value === 'undefined' || value === null;
 }
 
-/** @description Creates an instance of {@see TextInput} interface */
+/** @description create an instance of {@see TextInput} interface */
 export function buildTextInput(
   source: ControlInterface,
   _type?: 'text' | 'phone' | 'email' | 'password'
 ) {
-  const { min, max, minLength, maxLength, pattern, required, unique, type } =
-    source;
+  const { min, max, minLength, maxLength, pattern, required, unique, type } = source;
   const _min = min ?? minLength;
   const _max = max ?? maxLength;
   const _base = buildBase(source);
@@ -34,12 +33,6 @@ export function buildTextInput(
     minLength: isNotDefined(_min) ? undefined : +_min,
     maxLength: isNotDefined(_max) ? undefined : +_max,
     type: _type,
-    constraints: {
-      ...(_base.constraints ?? {}),
-      pattern: pattern ? { fn: pattern } : undefined,
-      email: _type === InputTypes.EMAIL_INPUT,
-      min: isNotDefined(_min) ? undefined : +_min,
-      max: isNotDefined(_max) ? undefined : +_max,
-    },
+    constraints: { ...(_base.constraints ?? {}), pattern: pattern ? { fn: pattern } : undefined, email: _type === InputTypes.EMAIL_INPUT, min: isNotDefined(_min) ? undefined : +_min, max: isNotDefined(_max) ? undefined : +_max },
   } as TextInput;
 }

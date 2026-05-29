@@ -21,10 +21,6 @@ export function buildTimeInput(source: ControlInterface) {
     min: isNotDefined(min) ? undefined : min,
     max: isNotDefined(max) ? undefined : max,
     type: InputTypes.TIME_INPUT,
-    constraints: {
-      ...(_base.constraints ?? {}),
-      min: isNotDefined(min) ? undefined : min,
-      max: isNotDefined(max) ? undefined : max,
-    },
+    constraints: { ...(_base.constraints ?? {}), min: isNotDefined(min) ? undefined : min, max: isNotDefined(max) ? undefined : max },
   } as TimeInput;
 }

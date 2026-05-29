@@ -19,12 +19,7 @@ export interface FormInterface {
  * Configuration for inputs with existance constraint
  */
 export type HasExistsConstraint = {
-  exists:
-    | string
-    | {
-        url: string;
-        conditions?: string | string[];
-      };
+  exists: string | { url: string; conditions?: string | string[]; pipe?: (value: unknown) => unknown; };
 };
 
 /**
@@ -38,12 +33,7 @@ export type HasRequiredIfConstraint = {
  * Configuration for input with unique constraints
  */
 export type HasUniqueConstraint = {
-  uniqueOn:
-    | string
-    | {
-        url: string;
-        conditions?: string | string[];
-      };
+  uniqueOn: string | { url: string; conditions?: string | string[]; pipe?: (value: unknown) => unknown; };
 };
 
 /**
@@ -172,14 +162,14 @@ export type HasNumberAttributesType = {
 /** @description Computed input type declaration */
 export type HasComputeAttribute = {
   compute:
-    | {
-        fn: <T, TReturn = any>(form: T) => TReturn;
-        deps: string[];
-      }
-    | {
-        fn: string;
-        args: string[];
-      };
+  | {
+    fn: <T, TReturn = any>(form: T) => TReturn;
+    deps: string[];
+  }
+  | {
+    fn: string;
+    args: string[];
+  };
 };
 
 /**
@@ -192,20 +182,20 @@ export type ControlGroupType = {
 /** @internal Type definition of API forms inputs/controls structure */
 export interface ControlInterface
   extends BaseControlType,
-    Partial<HasAttributesType>,
-    Partial<HasDateAttributesType>,
-    Partial<HasSelectAttributesType>,
-    Partial<HasUploadAttributesType>,
-    Partial<HasTextAttributesType>,
-    Partial<HasMultiTextAttributeType>,
-    Partial<HasNumberAttributesType>,
-    Partial<ControlGroupType>,
-    Partial<BelongsToControlGroupType>,
-    Partial<HasExistsConstraint>,
-    Partial<HasRequiredIfConstraint>,
-    Partial<HasUniqueConstraint>,
-    Partial<HasReadAttribute>,
-    Partial<HasComputeAttribute> {
+  Partial<HasAttributesType>,
+  Partial<HasDateAttributesType>,
+  Partial<HasSelectAttributesType>,
+  Partial<HasUploadAttributesType>,
+  Partial<HasTextAttributesType>,
+  Partial<HasMultiTextAttributeType>,
+  Partial<HasNumberAttributesType>,
+  Partial<ControlGroupType>,
+  Partial<BelongsToControlGroupType>,
+  Partial<HasExistsConstraint>,
+  Partial<HasRequiredIfConstraint>,
+  Partial<HasUniqueConstraint>,
+  Partial<HasReadAttribute>,
+  Partial<HasComputeAttribute> {
   /** @description Input container class configuration value */
   containerClass?: string;
 

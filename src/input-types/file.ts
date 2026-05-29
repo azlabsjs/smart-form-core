@@ -27,9 +27,6 @@ export function buildFileInput(source: ControlInterface) {
     autoupload: autoupload || false,
     uploadAs: uploadAs ?? 'file',
     type: InputTypes.FILE_INPUT,
-    constraints: {
-      ...(_base.constraints ?? {}),
-      pattern: pattern ? { fn: pattern } : undefined,
-    },
+    constraints: { ...(_base.constraints ?? {}), pattern: pattern ? { fn: pattern } : undefined },
   } as FileInput;
 }

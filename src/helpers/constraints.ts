@@ -1,19 +1,14 @@
 import { createLogicalAnd } from './eval';
 
-/**
- * Checks if value equals `undefined` or null
- */
+/** @internal checks if value equals `undefined` or null */
 function isNotDefined(value: unknown) {
   return typeof value === 'undefined' || value === null;
 }
 
+// @internal
 type ConditionType = string[] | ((value: unknown) => boolean);
 
-/**
- * Checks if a given value is a promise value
- *
- * @internal
- */
+/** @internal checks if a given value is a promise value */
 function isPromise<T>(value: unknown): value is Promise<T> {
   return (
     typeof value === 'object' &&
@@ -26,6 +21,7 @@ function mapInto<T = unknown>(value: T, _callback: (value: any) => boolean) {
   if (!Array.isArray(value)) {
     return _callback(value);
   }
+
   let _result = true;
   for (const _v of value) {
     if (false === _callback(_v)) {
@@ -36,84 +32,44 @@ function mapInto<T = unknown>(value: T, _callback: (value: any) => boolean) {
   return _result;
 }
 
-/**
- * Creates an exists result validator which calls a condition evaluation function
- */
+/** creates an exists result validator which calls a condition evaluation function */
 export function createExistsConstraint(conditions?: ConditionType) {
-  return async <T = Record<string, unknown>>(
-    value: T | Promise<T> | (() => T) | (() => Promise<T>)
-  ) => {
-    const _fn = conditions
-      ? typeof conditions === 'function'
-        ? conditions
-        : createLogicalAnd(conditions)
-      : (_value: unknown) => typeof _value !== 'undefined' && _value !== null;
+  return async <T = Record<string, unknown>>(value: T | Promise<T> | (() => T) | (() => Promise<T>)) => {
+    const fn = conditions ? typeof conditions === 'function' ? conditions : createLogicalAnd(conditions) : (_value: unknown) => typeof _value !== 'undefined' && _value !== null;
+    const result = typeof value === 'function' ? (value as (...args: any) => T | Promise<T>)() : (value as T | Promise<T>);
+    const _value = isPromise(result) ? result : new Promise<T>((_resolve) => _resolve(result));
 
-    // Evaluate the value resolver if it's a function
-    const _result =
-      typeof value === 'function'
-        ? (value as (...args: any) => T | Promise<T>)()
-        : (value as T | Promise<T>);
-
-    // Await the the promise resolve
-    const _value = isPromise(_result)
-      ? _result
-      : new Promise<T>((_resolve) => _resolve(_result));
-    //
-    return mapInto(await _value, _fn);
+    return mapInto(await _value, fn);
   };
 }
 
-/**
- * Creates an unique result validator which calls a condition evaluation function
- */
+/** creates an unique result validator which calls a condition evaluation function */
 export function createUniqueConstraint(conditions?: ConditionType) {
-  return async <T = Record<string, unknown>>(
-    value: T | Promise<T> | (() => T) | (() => Promise<T>)
-  ) => {
-    const _fn = conditions
-      ? typeof conditions === 'function'
-        ? conditions
-        : createLogicalAnd(conditions)
-      : (_value: unknown) => typeof _value !== 'undefined' && _value !== null;
+  return async <T = Record<string, unknown>>(value: T | Promise<T> | (() => T) | (() => Promise<T>)) => {
+    const _fn = conditions ? typeof conditions === 'function' ? conditions : createLogicalAnd(conditions) : (_value: unknown) => typeof _value !== 'undefined' && _value !== null;
+    const _result = typeof value === 'function' ? (value as (...args: any) => T | Promise<T>)() : (value as T | Promise<T>);
+    const _value = isPromise(_result) ? _result : new Promise<T>((_resolve) => _resolve(_result));
 
-    // Evaluate the value resolver if it's a function
-    const _result =
-      typeof value === 'function'
-        ? (value as (...args: any) => T | Promise<T>)()
-        : (value as T | Promise<T>);
-
-    // Await the the promise resolve
-    const _value = isPromise(_result)
-      ? _result
-      : new Promise<T>((_resolve) => _resolve(_result));
-    //
     return !mapInto(await _value, _fn);
   };
 }
 
-/**
- * Pattern constraint factory
- */
+/** Pattern constraint factory */
 export function createPatternConstraint(pattern: string) {
   return <T = unknown>(value: T) => {
     return null !== String(value).match(new RegExp(pattern));
   };
 }
 
-/**
- * Equality constraint factory
- */
+/** equality constraint factory */
 export function createEqualsConstraint(equals?: (a: any, b: any) => boolean) {
   return (a: unknown, b: unknown) => {
     if (isNotDefined(a) && isNotDefined(b)) {
       return true;
     }
-    const _equals = equals
-      ? equals
-      : (_a: any, _b: any) => {
-          return _a === _b;
-        };
+
+    const _equals = equals ? equals : (_a: any, _b: any) => { return _a === _b; };
+
     return _equals(a, b);
   };
 }
