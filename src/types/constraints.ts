@@ -63,9 +63,13 @@ export type NumberConstraint = {
   min?: number;
 };
 
+/** @interanl */
+type DateFormat = 'YYYY-MM-DD' | 'YYYY/MM/DD' | 'DD/MM/YYYY' | 'DD-MM-YYYY' | 'MM/DD/YYYY' | 'MM-DD-YYYY';
 export type DateConstraint = {
   min?: string | Date;
   max?: string | Date;
+  /** output format specifier for the date input value */
+  format?:  DateFormat | ((value:  unknown) => DateFormat) ;
 };
 
 /**
