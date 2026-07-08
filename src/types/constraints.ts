@@ -11,7 +11,7 @@ export type AsyncConstraint<T = boolean> = {
   conditions?: string[] | ((value: unknown) => boolean);
 
   /** error message to be displayed to user whenever validation fails */
-  error?: string
+  error?: string;
 };
 
 export type EqualsConstaint = {
@@ -64,12 +64,18 @@ export type NumberConstraint = {
 };
 
 /** @interanl */
-type DateFormat = 'YYYY-MM-DD' | 'YYYY/MM/DD' | 'DD/MM/YYYY' | 'DD-MM-YYYY' | 'MM/DD/YYYY' | 'MM-DD-YYYY';
+type DateFormat =
+  | 'YYYY-MM-DD'
+  | 'YYYY/MM/DD'
+  | 'DD/MM/YYYY'
+  | 'DD-MM-YYYY'
+  | 'MM/DD/YYYY'
+  | 'MM-DD-YYYY';
 export type DateConstraint = {
   min?: string | Date;
   max?: string | Date;
   /** output format specifier for the date input value */
-  format?:  DateFormat | ((value:  unknown) => DateFormat) ;
+  format?: DateFormat | ((value: unknown) => DateFormat);
 };
 
 /**
@@ -83,7 +89,20 @@ export type IsMailConstraint = {
 // @internal
 export interface Conditional<T = unknown> {
   name: string;
-  values: T[];
+  /** @deprecated property name will be replaced with `fn` in future release instead of `values` */
+  values:
+    | T[]
+    | T
+    | (<
+        TValue = unknown,
+        TParent extends { get: (n: string) => unknown } = {
+          get: (n: string) => unknown;
+        },
+      >(
+        value: TValue,
+        name: string,
+        formgroup: TParent
+      ) => boolean);
 }
 
 export type BaseContraint = {
