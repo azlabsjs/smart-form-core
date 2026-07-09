@@ -1,7 +1,7 @@
 export type AsyncConstraint<T = boolean> = {
   query?: string;
 
-  /** pipe the value though a closure before `fn` is called on the value. It allows developper to mutable the state of the value before the constraint is executed on the value */
+  /** pipe the value though a closure before `fn` is called on the value. it allows developper to mutable the state of the value before the constraint is executed on the value */
   pipe?: (value: unknown) => unknown;
 
   /** constraint handler function */
@@ -16,14 +16,14 @@ export type AsyncConstraint<T = boolean> = {
 
 export type EqualsConstaint = {
   /**
-   * Uses the equality function passed as parameter or a strict equality function
+   * uses the equality function passed as parameter or a strict equality function
    * by default if only a string value is passed as parameter
    */
   fn: string;
 };
 
 /**
- * Pattern constraint type declaration. It will replace the default boolean value
+ * pattern constraint type declaration. It will replace the default boolean value
  * from version 3 release
  */
 export type PatternConstraint = {
@@ -64,16 +64,13 @@ export type NumberConstraint = {
 };
 
 /** @interanl */
-type DateFormat =
-  | 'YYYY-MM-DD'
-  | 'YYYY/MM/DD'
-  | 'DD/MM/YYYY'
-  | 'DD-MM-YYYY'
-  | 'MM/DD/YYYY'
-  | 'MM-DD-YYYY';
+type DateFormat = 'YYYY-MM-DD' | 'YYYY/MM/DD' | 'DD/MM/YYYY' | 'DD-MM-YYYY' | 'MM/DD/YYYY' | 'MM-DD-YYYY';
+
+/** date input constraints */
 export type DateConstraint = {
   min?: string | Date;
   max?: string | Date;
+
   /** output format specifier for the date input value */
   format?: DateFormat | ((value: unknown) => DateFormat);
 };
@@ -87,10 +84,10 @@ export type IsMailConstraint = {
 };
 
 // @internal
-export interface Conditional<T = unknown> {
+export type Conditional<T = unknown> = {
   name: string;
   /** @deprecated property name will be replaced with `fn` in future release instead of `values` */
-  values:
+  values?:
     | T[]
     | T
     | (<
@@ -116,8 +113,8 @@ export type RequiredConstraint = {
   required: boolean;
 };
 
-export type RequiredIfConstraint = {
-  requiredIf: Conditional;
+export type RequiredIfConstraint<T extends Conditional = Conditional> = {
+  requiredIf: T | T[];
 };
 
 // @internal
@@ -125,11 +122,9 @@ export type DisabledConstraint = {
   disabled: boolean;
 };
 
-export type DisabledIfConstraint = {
-  disabledIf: Conditional;
+export type DisabledIfConstraint<T extends Conditional = Conditional> = {
+  disabledIf: T | T[];
 };
 
 /** input constraints API provide a replacement for validation rule API */
-export type InputConstraint = BaseContraint &
-  Partial<RequiredConstraint | RequiredIfConstraint> &
-  Partial<DisabledConstraint | DisabledIfConstraint>;
+export type InputConstraint = BaseContraint & Partial<RequiredConstraint | RequiredIfConstraint> & Partial<DisabledConstraint | DisabledIfConstraint>;
