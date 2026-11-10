@@ -7,8 +7,4 @@ export interface InputOption<T = unknown> {
   description?: string;
 }
 
-/** exported list like type of input options  */
 export type InputOptions<T = unknown> = InputOption<T>[];
-
-/** @deprecated use @link {InputOptions} */
-export type InputOptionsInterface = InputOption[];

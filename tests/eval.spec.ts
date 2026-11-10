@@ -1,6 +1,6 @@
 import { createLogicalAnd, createLogicalOr } from '../src';
 
-describe('Evaluation implementation test', () => {
+describe('logic test', () => {
   it('should test createLogicalAnd returns true if none of the expressions returns false', () => {
     const _object = {
       age: 32,

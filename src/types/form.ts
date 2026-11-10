@@ -1,4 +1,4 @@
-import { ObservableInput, FormInterface } from '../compact';
+import { ObservableInput } from './compact';
 import { InputConfigInterface } from './input';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,15 +14,12 @@ type FormMethods = 'GET' | 'POST' | 'PUT';
  *
  */
 export type FormConfigInterface = {
-  id: number | string;
-  title: string;
+  id?: number | string;
+  title?: string;
   description?: string;
   endpointURL?: string;
   method?: FormMethods;
-  /** @deprecated will be replaced in future release with `context` property */
-  appcontext?: string;
-  /** @deprecated will be replaced in future release with `inputs` property */
-  controlConfigs: InputConfigInterface[];
+  inputs: InputConfigInterface[];
 };
 
 /**
@@ -50,24 +47,5 @@ export interface FormsLoader {
    * @param endpoint
    * @param options
    */
-  load(
-    endpoint: string,
-    options?: { [index: string]: UnknownType }
-  ): ObservableInput<FormInterface[]>;
-}
-
-/**
- * forms cache provider. For form object query efficiency, object are loaded
- * and managed by the cache provider
- */
-export interface CacheProvider {
-  get(id: string | number): ObservableInput<FormInterface>;
-
-  getList(values: (string | number)[]): ObservableInput<FormInterface[]>;
-
-  /** provides predefined dynamic forms loader implementation */
-  cache(
-    endpoint: string,
-    options?: { [index: string]: UnknownType }
-  ): ObservableInput<never> | ObservableInput<FormInterface[]>;
+  load(endpoint: string, options?: { [index: string]: UnknownType }): ObservableInput<FormConfigInterface[]>;
 }

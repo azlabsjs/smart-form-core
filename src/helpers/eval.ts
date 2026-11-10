@@ -85,27 +85,24 @@ function createEvalCall(expression: string | string[], or = false) {
       const prop = expr.substring(0, index).replace(/(\})|(\{)/, '');
       let cond = expr.substring(index + 1);
       let negate = false;
+
       if (cond.trim().startsWith('.not')) {
         negate = true;
         const exceptnot = cond.substring('.not'.length + 1).trim();
         cond = exceptnot.substring(0, exceptnot.length - 1);
         cond = cond.startsWith('.') ? cond : `.${cond}`;
       }
+
       if (!cond.startsWith('.')) {
-        throw new Error(
-          'expression error, condition syntax is invalid. Expect: .operator(value) where operator in [=,>,<,>=,<=,lt,gt,lte,gte,eq,regex]'
-        );
+        throw new Error('expression error, condition syntax is invalid. Expect: .operator(value) where operator in [=,>,<,>=,<=,lt,gt,lte,gte,eq,regex]');
       }
+
       for (const op of Object.keys(EXPRESSIONS)) {
         if (cond.startsWith(`${op}(`)) {
           const propValue = getValueFn(memory, prop);
           const v = cond.replace(new RegExp(`(${op}\\()|(\\))`, 'g'), '');
           const typeofVal = typeof propValue;
-          const _a = (
-            typeofVal !== 'string' && typeofVal !== 'number'
-              ? JSON.stringify(propValue)
-              : propValue
-          ) as string;
+          const _a = (typeofVal !== 'string' && typeofVal !== 'number' ? JSON.stringify(propValue) : propValue) as string;
           const _b = (typeofVal === 'number' ? Number(v) : v) as string;
           const _operator = op as keyof typeof EXPRESSIONS;
           const _expressionResult = EXPRESSIONS[_operator](_a, _b);
@@ -113,11 +110,8 @@ function createEvalCall(expression: string | string[], or = false) {
           break;
         }
       }
-      // when the result evaluates to false, we drop from the context, as it's an and evaluation
-      if (
-        (or === true && result === true) ||
-        (or === false && result === false)
-      ) {
+
+      if ((or === true && result === true) || (or === false && result === false)) {
         break;
       }
     }

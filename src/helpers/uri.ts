@@ -34,13 +34,13 @@ export function isCustomURL(uri: string) {
 }
 
 /**
- * Query for the host part of a resource URI
+ * read host part of a resource URI
  * 
  * @internal
  *
  * @param uri
  */
-export function urlHost(uri: string) {
+function origin(uri: string) {
   try {
     if (uri) {
       const url = new URL(uri);
@@ -71,5 +71,5 @@ export function urlHost(uri: string) {
 export function customToResourceURL(uri: string, host: string) {
   let path = uri.replace(/^uri:\//, '').replace(/^url:\//, '');
   path = path[0] === '/' ? path.substring(1) : path;
-  return `${urlHost(host)}/${path}`;
+  return `${origin(host)}/${path}`;
 }

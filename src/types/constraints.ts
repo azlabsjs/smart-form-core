@@ -27,10 +27,7 @@ export type EqualsConstaint = {
  * from version 3 release
  */
 export type PatternConstraint = {
-  pattern: {
-    /** pattern string or pattern verifier function */
-    fn: string;
-  };
+  pattern: { /** pattern string or pattern verifier function */ fn: string; };
 };
 
 /**
@@ -90,16 +87,7 @@ export type Conditional<T = unknown> = {
   values?:
     | T[]
     | T
-    | (<
-        TValue = unknown,
-        TParent extends { get: (n: string) => unknown } = {
-          get: (n: string) => unknown;
-        },
-      >(
-        value: TValue,
-        name: string,
-        formgroup: TParent
-      ) => boolean);
+    | (<TValue = unknown, TParent extends { get: (n: string) => unknown } = { get: (n: string) => unknown; }>(value: TValue, name: string, formgroup: TParent) => boolean);
 }
 
 export type BaseContraint = {
@@ -113,18 +101,12 @@ export type RequiredConstraint = {
   required: boolean;
 };
 
-export type RequiredIfConstraint<T extends Conditional = Conditional> = {
-  requiredIf: T | T[];
-};
+export type RequiredIfConstraint<T extends Conditional = Conditional> = { requiredIf: T | T[]; };
 
 // @internal
-export type DisabledConstraint = {
-  disabled: boolean;
-};
+export type DisabledConstraint = { disabled: boolean; };
 
-export type DisabledIfConstraint<T extends Conditional = Conditional> = {
-  disabledIf: T | T[];
-};
+export type DisabledIfConstraint<T extends Conditional = Conditional> = { disabledIf: T | T[]; };
 
 /** input constraints API provide a replacement for validation rule API */
 export type InputConstraint = BaseContraint & Partial<RequiredConstraint | RequiredIfConstraint> & Partial<DisabledConstraint | DisabledIfConstraint>;

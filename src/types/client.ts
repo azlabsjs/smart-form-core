@@ -1,4 +1,4 @@
-import { ObservableInput } from '../compact';
+import { ObservableInput } from './compact';
 import { OptionsConfig } from './input';
 import { InputOptions } from './options';
 

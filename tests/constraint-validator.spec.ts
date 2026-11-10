@@ -1,7 +1,4 @@
-import {
-  createExistsConstraint,
-  createUniqueConstraint,
-} from '../src';
+import { createExistsConstraint, createUniqueConstraint } from '../src';
 
 const _object = {
   age: 32,

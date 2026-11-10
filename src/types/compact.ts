@@ -42,10 +42,4 @@ type AsyncIterable<T> = {
   [Symbol.asyncIterator](): AsyncIterator<T>;
 };
 
-export type ObservableInput<T> =
-  | Subscribable<T>
-  | InteropObservable<T>
-  | AsyncIterable<T>
-  | PromiseLike<T>
-  | ArrayLike<T>
-  | Iterable<T>;
+export type ObservableInput<T> = Subscribable<T> | InteropObservable<T> | AsyncIterable<T> | PromiseLike<T> | ArrayLike<T> | Iterable<T>;
