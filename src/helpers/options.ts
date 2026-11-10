@@ -5,13 +5,7 @@ type UnknownType = any;
 
 /** @internal */
 function getObjectProperty<T extends { [prop: string]: UnknownType }>(source: T, key?: string, seperator = '.') {
-  if (
-    key === '' ||
-    typeof key === 'undefined' ||
-    key === null ||
-    typeof source === 'undefined' ||
-    source === null
-  ) {
+  if (key === '' || typeof key === 'undefined' || key === null || typeof source === 'undefined' || source === null) {
     return source ?? undefined;
   }
 

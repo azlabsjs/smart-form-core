@@ -17,7 +17,7 @@ export type ComputeConfigType =
   };
 
 // @internal
-// internal type definition of an options config source object
+/** @deprecated internal type definition of an options config source object */
 export type OptionsConfigSource = { uri: string; };
 
 // @internal
@@ -42,7 +42,7 @@ type RefetchConfigType = {
 };
 
 export type OptionsConfig = {
-  source: OptionsConfigSource | string;
+  source: string;
   params?: OptionsConfigParams;
   refetch?: RefetchConfigType[];
 };
