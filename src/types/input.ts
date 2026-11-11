@@ -94,17 +94,40 @@ type SelectEventConfig = EventConfig & {
  * this interface is subject to change because the package is under active development
  */
 export interface InputConfigInterface {
+
+  /** input label attribute */
   label: string;
+
+  /** input type attribute */
   type: string;
+
+
+  /** input name attribute */
   name: string;
-  classes: string;
+
+  /** css classes to apply to input when rendering */
+  classes?: string;
+
+  /** input placeholder attribute configuration */
   placeholder?: string;
+
+  /** input default value declaration */
   value?: unknown;
+
+  /** input description */
   description?: string;
+
+  /** @deprecated group id to which input belongs to */
   group?: string | number;
+
+  /** index position of the input when redering ui */
   index?: number;
+
+  /** @deprecated might be replaced with `{repeatable}` in future releases. allows input to support list or scalar values */
   isRepeatable?: boolean;
-  containerClass: string;
+
+  /** container element class declaration */
+  containerClass?: string;
 
   /**
    * constraint API provides a replacement alternative to
