@@ -47,5 +47,5 @@ export interface FormsLoader {
    * @param endpoint
    * @param options
    */
-  load(endpoint: string, options?: { [index: string]: UnknownType }): ObservableInput<FormConfigInterface[]>;
+  load(options?: { [index: string]: UnknownType }): ObservableInput<FormConfigInterface[]>;
 }
