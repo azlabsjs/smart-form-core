@@ -172,7 +172,11 @@ export interface InputGroup extends InputConfigInterface {
 
 // @internal
 export interface DateInput extends InputConfigInterface {
-  currentDate: string;
+  /** current date property value */
+  currentDate?: string;
+
+
+  /** output format of the date input */
   inputFormat?: string;
 
   /**

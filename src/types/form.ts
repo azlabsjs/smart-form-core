@@ -17,7 +17,7 @@ export type FormConfigInterface = {
   id?: number | string;
   title?: string;
   description?: string;
-  endpointURL?: string;
+  url?: string;
   method?: FormMethods;
   inputs: InputConfigInterface[];
 };
