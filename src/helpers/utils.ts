@@ -52,32 +52,32 @@ export function isInputGroup(input: InputConfigInterface): input is InputGroup {
 
 /** checks if provided object is an instance of `{InputConfigInterface}` type  */
 export function isInputConfig(value: unknown): value is InputConfigInterface {
-    return typeof value === 'object' && value !== null && 'label' in value && typeof value['label'] === 'string' && 'type' in value && value['type'] === 'string' && 'name' in value && typeof value['name'] === 'string';
+  return typeof value === 'object' && value !== null && 'label' in value && typeof value['label'] === 'string' && 'type' in value && typeof value['type'] === 'string' && 'name' in value && typeof value['name'] === 'string';
 }
 
 
 /** checks if provided object is an instance of `{FormConfigInterface}` type  */
 export function isFormConfig(value: unknown): value is FormConfigInterface {
 
-    if (typeof value !== 'object' || value === null) {
-        return false;
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  if (!('inputs' in value)) {
+    return false;
+  }
+
+  const { inputs } = value;
+
+  if (!Array.isArray(inputs)) {
+    return false;
+  }
+
+  for (const input of inputs) {
+    if (!isInputConfig(input)) {
+      return false;
     }
+  }
 
-    if (!('inputs' in value)) {
-        return false;
-    }
-
-    const { inputs } = value;
-
-    if (!Array.isArray(inputs)) {
-        return false;
-    }
-
-    for (const input of inputs) {
-        if (!isInputConfig(input)) {
-            return false;
-        }
-    }
-
-    return true;
+  return true;
 }
