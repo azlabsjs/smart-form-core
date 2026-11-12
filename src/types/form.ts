@@ -23,17 +23,15 @@ export type FormConfigInterface = {
 };
 
 /**
- * @description Form client type definition. Implementation class must provide
- * functionality to load the form using form id from a given data source
+ * @deprecated Form client type definition. Implementation class must provide functionality to load the form using form id from a given data source
  */
 export interface FormsClient {
-  /**
-   * @description get form definitions using the user provided id
-   */
+
+  /** @description get form definitions using the user provided id */
   get(id: string | number): ObservableInput<FormConfigInterface>;
 
   /**
-   * @description get form definitions using the list of user provided ids
+   * @deprecated get form definitions using the list of user provided ids
    */
   getAll(id: (string | number)[]): ObservableInput<FormConfigInterface[]>;
 }
@@ -41,11 +39,7 @@ export interface FormsClient {
 /** provide implementation for preloading application form into developper defined cache */
 export interface FormsLoader {
   /*
-   * provides an abstraction for loading dynamic form definitions
-   * from an asset configuration file, a remote server
-   *
-   * @param endpoint
-   * @param options
+   * provides an abstraction for loading dynamic form definitions from an asset configuration file, a remote server
    */
-  load(options?: { [index: string]: UnknownType }): ObservableInput<FormConfigInterface[]>;
+  load(options?: { [index: string]: UnknownType }): Promise<FormConfigInterface[]>;
 }
